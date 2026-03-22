@@ -1,7 +1,5 @@
-import { prismaClient } from "@/lib/prisma";
-import { Meeting } from "@/types";
-
-
+import {prismaClient} from "@/lib/prisma";
+import {Meeting} from "@/types";
 
 export const getMeetings = async (filters: any, userId: number): Promise<Meeting[]> => {
     return await prismaClient.meeting.findMany({
@@ -20,6 +18,26 @@ export const getMeetings = async (filters: any, userId: number): Promise<Meeting
         },
         orderBy: {
             startHour: "asc"
+        }
+    });
+};
+
+export const getMeeting = async (meetingId: number, userId: number) => {
+    return await prismaClient.meeting.findUnique({
+        where: {
+            id: meetingId,
+            project: {
+                client: {
+                    freelanceId: userId
+                }
+            }
+        },
+        include: {
+            project: {
+                include: {
+                    client: true
+                }
+            }
         }
     });
 };

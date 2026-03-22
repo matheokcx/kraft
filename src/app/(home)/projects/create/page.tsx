@@ -1,6 +1,6 @@
 import {createProject} from "@/app/(home)/projects/action";
 import styles from "./project-create-page.module.css";
-import Input, {InputProps} from "@/components/UI/Input";
+import Input, {InputProps} from "@/components/UI/Input/Input";
 import {Client} from "@/types";
 import {getAllUserClients} from "@/services/clientService";
 import {getServerSession} from "next-auth/next";

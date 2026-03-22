@@ -2,7 +2,7 @@ import {createClient} from "@/app/(home)/clients/action";
 import styles from "./client-create-page.module.css";
 import {ClientStatus, GENDER} from "@/generated/prisma";
 import Separator from "@/components/UI/Separator";
-import Input from "@/components/UI/Input";
+import Input from "@/components/UI/Input/Input";
 import {getTranslations} from "next-intl/server";
 import {
     BriefcaseIcon,
@@ -15,7 +15,7 @@ import {
     ThermometerIcon
 } from "@phosphor-icons/react/ssr";
 import LinksList from "@/components/UI/LinksList";
-import BackButton from "@/components/UI/Buttons/BackButton";
+import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import SelectField from "@/components/UI/SelectField/SelectField";
 
 const ClientCreatePage = async () => {

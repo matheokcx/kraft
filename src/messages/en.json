@@ -90,5 +90,11 @@
   "LEAD": "Lead",
   "SIGNED": "Signed",
   "LOST": "Lost",
-  "ARCHIVED": "Archived"
+  "ARCHIVED": "Archived",
+  "close": "Close",
+  "date": "Date",
+  "time": "Time",
+  "project": "Project",
+  "client": "Client",
+  "noDescription": "No description"
 }
