@@ -9,7 +9,7 @@ import {statusColors} from "@/lib/statusColors";
 import {Envelope, GenderFemale, GenderMale, PencilIcon, Phone, TrashIcon} from "@phosphor-icons/react/ssr";
 import Separator from "@/components/UI/Separator";
 import Avatar from "@/components/UI/Avatar/Avatar";
-import BackButton from "@/components/UI/Buttons/BackButton";
+import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import {getClientNotes} from "@/services/clientNoteService";
 import ClientNotesSection from "@/components/Layout/Client/ClientNotesSection";
 import {getTranslations} from "next-intl/server";
@@ -58,7 +58,7 @@ const ClientDetailsPage = async ({params}: {params: Promise<{id: string}>}) => {
                     <div>
                         <h2>{client.firstName} {client.lastName}</h2>
                         <p>{client.job}</p>
-                        <Chip text={t(`clients.status.${client.status}`)} color={statusColors[client.status as ClientStatus]} />
+                        <Chip text={t(client.status)} color={statusColors[client.status as ClientStatus]} />
                     </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "4px"}}>

@@ -19,12 +19,6 @@
   },
   "clients": {
     "clients": "Clients",
-    "status": {
-      "LEAD": "Lead",
-      "SIGNED": "Signed",
-      "LOST": "Lost",
-      "ARCHIVED": "Archived"
-    },
     "listPage": {
       "title": "List of your clients:"
     },
@@ -51,12 +45,6 @@
     },
     "detailsPage": {
       "associateMeetings": "Associate meetings"
-    },
-    "difficulties": {
-      "EASY": "Easy",
-      "MEDIUM": "Medium",
-      "HARD": "Hard",
-      "EXPERT": "Expert"
     }
   },
   "meetings": {
@@ -94,5 +82,19 @@
   "totalGain": "Total gain",
   "startDate": "Start date",
   "endDate": "End date",
-  "cover": "Cover"
+  "cover": "Cover",
+  "EASY": "Easy",
+  "MEDIUM": "Medium",
+  "HARD": "Hard",
+  "EXPERT": "Expert",
+  "LEAD": "Lead",
+  "SIGNED": "Signed",
+  "LOST": "Lost",
+  "ARCHIVED": "Archived",
+  "close": "Close",
+  "date": "Date",
+  "time": "Time",
+  "project": "Project",
+  "client": "Client",
+  "noDescription": "No description"
 }

@@ -8,8 +8,8 @@ const Separator = ({widthPercent = 50} : SeparatorProps) => {
             <hr style={{
                 borderWidth: "2px",
                 width: `${widthPercent}%`,
-                color: "hsla(0, 0%, 70%, 50%)",
-                marginBlock: "20px",
+                color: "hsla(0, 0%, 70%, 40%)",
+                marginBlock: "12px",
                 borderRadius: "12px"
             }}/>
         </>

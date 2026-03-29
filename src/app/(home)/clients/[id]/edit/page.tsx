@@ -1,12 +1,12 @@
 import {updateClient} from "@/app/(home)/clients/action";
 import {prismaClient} from "@/lib/prisma";
-import Input from "@/components/UI/Input";
+import Input from "@/components/UI/Input/Input";
 import {getTranslations} from "next-intl/server";
 import styles from "./edit-client-page.module.css";
 import Separator from "@/components/UI/Separator";
 import {ClientStatus, GENDER} from "@/generated/prisma";
 import {Gender} from "@/types";
-import BackButton from "@/components/UI/Buttons/BackButton";
+import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import {
     BriefcaseIcon,
     CakeIcon,
@@ -96,7 +96,7 @@ const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => 
                         <select name="status" id="status" defaultValue={client.status}>
                             {Object.values(ClientStatus).map((status: ClientStatus) => (
                                 <option key={status} value={status}>
-                                    {t(`clients.status.${status}`)}
+                                    {t(status)}
                                 </option>
                             ))}
                         </select>
@@ -110,7 +110,7 @@ const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => 
                                placeholder="alex.dubois@example.com"
                                required={false}
                                icon={<EnvelopeIcon size={24} />}
-                               defaultValue={client.mail}
+                               defaultValue={client.mail ?? undefined}
                         />
                         <Input type="tel"
                                name="phone"
@@ -118,7 +118,7 @@ const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => 
                                placeholder="0707070707"
                                required={false}
                                icon={<PhoneIcon size={24} />}
-                               defaultValue={client.phone}
+                               defaultValue={client.phone ?? undefined}
                         />
                     </div>
                     <button className={styles.valideFormButton} type="submit">{t('edit')}</button>

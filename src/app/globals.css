@@ -87,7 +87,8 @@ button {
   border-radius: 10px;
   padding-inline: 20px;
   padding-block: 7px;
-  border: 2px solid hsl(0, 0%, 40%)
+  border: 2px solid hsl(0, 0%, 30%);
+  transition: 1s;
 }
 
 button:disabled {
@@ -96,6 +97,7 @@ button:disabled {
 
 button:hover {
   cursor: pointer;
+  border: 2px solid hsl(0, 0%, 40%)
 }
 
 input,
@@ -116,6 +118,25 @@ hr {
   border-style: solid;
   color: var(--secondary-text);
 }
+
+.fc-event-main {
+  overflow: hidden;
+  min-width: 0;
+}
+
+.fc-daygrid-event {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fc-daygrid-day-frame {
+  overflow: hidden;
+}
+
+.fc-daygrid-event-harness-abs {
+  right: 0 !important;
+}
+
 
 @media (prefers-color-scheme: dark) {
   html {

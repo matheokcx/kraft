@@ -1,0 +1,14 @@
+.selectDiv {
+    display: grid;
+    gap: 10px;
+}
+
+.selectDiv select {
+   width: 100%;
+}
+
+.selectLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

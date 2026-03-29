@@ -25,7 +25,7 @@ import Avatar from "@/components/UI/Avatar/Avatar";
 import {getMeetings} from "@/services/meetingService";
 import {getFilesByProject} from "@/services/fileService";
 import FileCard from "@/components/UI/Cards/File/FileCard";
-import BackButton from "@/components/UI/Buttons/BackButton";
+import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import {getTranslations} from "next-intl/server";
 import {removeProject} from "@/app/(home)/projects/action";
 import Link from "next/link";
@@ -108,7 +108,7 @@ const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
                             </div>
                             <div className={styles.earnedMoneyLine}>
                                 <div>{getDifficultyIcon(project.difficulty)}</div>
-                                <p>{t(`projects.difficulties.${project.difficulty}`)}</p>
+                                <p>{t(project.difficulty)}</p>
                             </div>
                         </div>
                     </div>

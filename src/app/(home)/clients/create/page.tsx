@@ -1,9 +1,8 @@
 import {createClient} from "@/app/(home)/clients/action";
 import styles from "./client-create-page.module.css";
 import {ClientStatus, GENDER} from "@/generated/prisma";
-import {Gender} from "@/types";
 import Separator from "@/components/UI/Separator";
-import Input from "@/components/UI/Input";
+import Input from "@/components/UI/Input/Input";
 import {getTranslations} from "next-intl/server";
 import {
     BriefcaseIcon,
@@ -16,7 +15,8 @@ import {
     ThermometerIcon
 } from "@phosphor-icons/react/ssr";
 import LinksList from "@/components/UI/LinksList";
-import BackButton from "@/components/UI/Buttons/BackButton";
+import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
+import SelectField from "@/components/UI/SelectField/SelectField";
 
 const ClientCreatePage = async () => {
     const t = await getTranslations();
@@ -46,18 +46,13 @@ const ClientCreatePage = async () => {
                     </div>
 
                     <div className={styles.inputsLine}>
+
                         <div className={styles.selectDiv} style={{width: "50%"}}>
-                            <label htmlFor="gender">
-                                <GenderIntersexIcon size={24} />
-                                Sex*
-                            </label>
-                            <select name="gender" id="gender" required>
-                                {Object.values(GENDER).map((gender: Gender) => (
-                                    <option key={gender} value={gender}>
-                                        {t(gender)}
-                                    </option>
-                                ))}
-                            </select>
+                            <SelectField name="gender"
+                                         label="Sex*"
+                                         values={Object.values(GENDER)}
+                                         icon={<GenderIntersexIcon size={24} />}
+                            />
                         </div>
                         <Input type="date"
                                name="birthdate"
@@ -73,19 +68,12 @@ const ClientCreatePage = async () => {
                            placeholder="CEO"
                            icon={<BriefcaseIcon size={24} />}
                     />
-                    <div className={styles.selectDiv}>
-                        <label htmlFor="status">
-                            <ThermometerIcon size={24} />
-                            {t("status")}
-                        </label>
-                        <select name="status" id="status">
-                            {Object.values(ClientStatus).map((status: ClientStatus) => (
-                                <option key={status} value={status}>
-                                    {t(`clients.status.${status}`)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+
+                    <SelectField name="status"
+                                 label={t("status")}
+                                 values={Object.values(ClientStatus)}
+                                 icon={<ThermometerIcon size={24} />}
+                    />
 
 
                     <div className={styles.inputsLine}>

@@ -1,7 +1,7 @@
 import {getProject} from "@/services/projectService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
-import Input, {InputProps} from "@/components/UI/Input";
+import Input, {InputProps} from "@/components/UI/Input/Input";
 import {updateProject} from "@/app/(home)/projects/action";
 import styles from "./edit-project-page.module.css";
 import {Client, Project} from "@/types";
@@ -28,7 +28,7 @@ const EditProjectPage = async ({ params }: { params: Promise<{ id: string}>}) =>
 
     const inputs: InputProps[] = [
         {type: "hidden", name: "projectId", label: "projectId", defaultValue: id},
-        {type: "hidden", name: "parentProjectId", label: "parentProjectId", defaultValue: project.parentProjectId},
+        {type: "hidden", name: "parentProjectId", label: "parentProjectId", defaultValue: project.parentProjectId ?? undefined},
         {type: "text", name: "title", label: "Titre", defaultValue: project.title},
         {type: "text", name: "description", label: "Description", defaultValue: project.description},
         {type: "number", name: "cost", label: "Gains", defaultValue: project.cost},
@@ -49,12 +49,12 @@ const EditProjectPage = async ({ params }: { params: Promise<{ id: string}>}) =>
             ))}
 
             <select name="clientId" defaultValue={project.clientId}>
-                {userClients.map((client: Client) => <option key={client.firstName} value={client.id}>{client.firstName} {client.lastName}</option>)}
+                {userClients.map((client: Client, index: number) => <option key={`${client.firstName}-${index}`} value={client.id}>{client.firstName} {client.lastName}</option>)}
             </select>
 
             <select name="difficulty" defaultValue={project.difficulty}>
                 {(Object.keys(ProjectDifficulty) as Array<keyof typeof ProjectDifficulty>).map((key) => (
-                    <option key={key} value={key}>{t(`projects.difficulties.${key}`)}</option>
+                    <option key={key} value={key}>{t(key)}</option>
                 ))}
             </select>
             
