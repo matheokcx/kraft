@@ -54,7 +54,6 @@ export const createClient = async (inputs: FormData): Promise<void> => {
         const isValid = clientSchema.safeParse(formDataObject);
 
         if(isValid.success) {
-            console.log(isValid.data);
             const newClient: Client = await addClient(isValid.data, Number(session.user.id))
 
             if(newClient) {
@@ -75,8 +74,6 @@ export const updateClient = async (data: FormData): Promise<void> => {
 
     const formDataObject = Object.fromEntries(data);
     const isValid = clientSchema.safeParse(formDataObject);
-
-    console.log("test", data)
 
     if(session?.user?.id){
         if(isValid.success){

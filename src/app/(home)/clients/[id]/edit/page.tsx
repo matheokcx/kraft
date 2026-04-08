@@ -18,13 +18,22 @@ import {
     ThermometerIcon
 } from "@phosphor-icons/react/ssr";
 import LinksList from "@/components/UI/LinksList";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/auth";
 
 const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => {
     const { id } = await params;
     const t = await getTranslations();
+    const session = await getServerSession(authOptions);
+
+    if(!session?.user){
+        return <p>Vous devez être connecté</p>;
+    }
+
     const client = await prismaClient.client.findUnique({
         where: {
-            id: Number(id)
+            id: Number(id),
+            freelanceId: Number(session.user.id)
         }
     })
 
