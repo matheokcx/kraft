@@ -42,20 +42,14 @@ export const getMeeting = async (meetingId: number, userId: number) => {
     });
 };
 
-type MeetingInformations = {
-    title: string;
-    startHour: string;
-    endHour: string;
-    projectId: number;
-    description?: string;
-};
-
-export const addMeeting = async (body: MeetingInformations): Promise<Meeting> => {
+export const addMeeting = async (body: any): Promise<Meeting> => {
     return await prismaClient.meeting.create({
         data: {
-            ...body,
-            startHour: new Date(body.startHour),
-            endHour: new Date(body.endHour)
+            title: body.title,
+            projectId: body.projectId,
+            startHour: new Date(body.startDate),
+            endHour: new Date(body.endDate),
+            description: body.description ? body.description : null
         }
     });
 };
