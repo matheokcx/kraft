@@ -7,6 +7,7 @@ import {redirect} from "next/dist/client/components/redirect";
 import {z} from "zod";
 import {ProjectDifficulty} from "@/generated/prisma";
 import {toast} from "@/utils/utils";
+import {FileStorageService} from "@/services/fileStorageService";
 
 const projectSchema = z.object({
     title: z.string()
@@ -23,8 +24,8 @@ const projectSchema = z.object({
     endDate: z.coerce.date(),
     cover: z.union([
         z.file()
-            .mime(["image/png", "image/jpeg", "image/webp"])
-            .max(5_000_000),
+            .mime(FileStorageService.supportedMimeTypes.images)
+            .max(FileStorageService.maxFileSize),
         z.file().refine((file) => file.size === 0).transform(() => null)
     ])
 });

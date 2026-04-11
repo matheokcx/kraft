@@ -2,6 +2,7 @@ import {prismaClient} from "@/lib/prisma";
 import {Client} from "@/types";
 import path from "path";
 import {unlink, writeFile} from "fs/promises";
+import {FileStorageService} from "@/services/fileStorageService";
 
 export const getAllUserClients = async (filters: any, userId: number): Promise<Client[]> => {
     return await prismaClient.client.findMany({
@@ -31,14 +32,8 @@ export const addClient = async (clientInfos: any, userId: number): Promise<Clien
     const profilePicture: File | null = clientInfos.image;
     const clientImageUpload: boolean = profilePicture !== null && profilePicture.size > 0;
 
-    if(profilePicture && profilePicture.size > 0){
-        const bytes = await profilePicture.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        const uploadDirectoryPath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files");
-        const newFilePath: string = path.join(uploadDirectoryPath, `client_image_${today}_${profilePicture.name}`);
-
-        await writeFile(newFilePath, buffer);
+    if(profilePicture){
+        await FileStorageService.uploadFile(profilePicture, today);
     }
 
     return await prismaClient.client.create({

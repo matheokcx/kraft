@@ -2,6 +2,7 @@ import {prismaClient} from "@/lib/prisma";
 import {Project} from "@/types";
 import path from "path";
 import {unlink, writeFile} from "fs/promises";
+import {FileStorageService} from "@/services/fileStorageService";
 
 export const getAllUserProjects = async (filters: any, userId: number, onlyProcessingProjects: boolean): Promise<Project[]> => {
     return await prismaClient.project.findMany({
@@ -39,14 +40,8 @@ export const addProject = async (projectInformations: any, clientId: number): Pr
     const coverFile: File | null = projectInformations.cover;
     const today: number = Date.now();
 
-    if(coverFile && coverFile.size > 0){
-        const bytes = await coverFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        const uploadDirectoryPath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files");
-        const newFilePath: string = path.join(uploadDirectoryPath, `project_cover_${today}_${coverFile.name}`);
-
-        await writeFile(newFilePath, buffer);
+    if(coverFile){
+        FileStorageService.uploadFile(coverFile, today)
     }
 
     return await prismaClient.project.create({

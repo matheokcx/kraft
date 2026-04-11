@@ -7,6 +7,7 @@ import {redirect} from "next/dist/client/components/redirect";
 import z from "zod";
 import {toast} from "@/utils/utils";
 import {Client} from "@/types";
+import {FileStorageService} from "@/services/fileStorageService";
 
 const clientSchema = z.object({
     firstName: z.string()
@@ -32,8 +33,8 @@ const clientSchema = z.object({
     ]).nullable(),
     image: z.union([
         z.file()
-            .mime(["image/png", "image/jpeg", "image/webp"])
-            .max(5_000_000),
+            .mime(FileStorageService.supportedMimeTypes.images)
+            .max(FileStorageService.maxFileSize),
         z.file().refine((file) => file.size === 0).transform(() => null),
     ]),
     links: z.array(z.string().url().or(z.literal("")))
