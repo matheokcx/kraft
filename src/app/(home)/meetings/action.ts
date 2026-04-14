@@ -1,10 +1,13 @@
 "use server"
 import z from "zod";
-import {Client, Meeting} from "@/types";
+import {Client, Meeting, Project} from "@/types";
 import {addClient} from "@/services/clientService";
 import {redirect} from "next/dist/client/components/redirect";
 import {toast} from "@/utils/utils";
-import {addMeeting} from "@/services/meetingService";
+import {addMeeting, deleteMeeting} from "@/services/meetingService";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/auth";
+import {getProject} from "@/services/projectService";
 
 const meetingSchema = z.object({
     title: z.string()
@@ -26,18 +29,31 @@ export const createMeeting = async (inputs: FormData): Promise<void> => {
         ...Object.fromEntries(inputs),
         links: inputs.getAll("links")
     };
+    const session = await getServerSession(authOptions);
     const isValid = meetingSchema.safeParse(formDataObject);
 
-    if(isValid.success) {
+    if(session?.user?.id && isValid.success) {
+        const project: Project | null = await getProject(isValid.data.projectId, Number(session?.user?.id));
+
+        if(!project){
+            await toast("Ce n'est pas l'un de vos projets");
+        }
+
         const newMeeting: Meeting = await addMeeting(isValid.data);
 
-        if(newMeeting) {
-            redirect(`/meetings/${newMeeting.id}`);
-        }
-    }
-    else {
-        for(const error of isValid.error.issues){
+        redirect(`/meetings/${newMeeting.id}`);
+    } else if(isValid.error) {
+        for (const error of isValid.error.issues) {
             await toast(error.message);
         }
+    }
+};
+
+export const removeMeeting = async (meetingId: number): Promise<void> => {
+    const session = await getServerSession(authOptions);
+
+    if(session?.user?.id) {
+        await deleteMeeting(meetingId, Number(session?.user?.id));
+        redirect(`/meetings`);
     }
 };

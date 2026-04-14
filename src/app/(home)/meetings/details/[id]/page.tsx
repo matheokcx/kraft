@@ -17,8 +17,6 @@ const MeetingDetailModal = async ({params}: {params: Promise<{id: string}>}) => 
         return null;
     }
 
-    console.log("meeting", meeting);
-
     return (
         <div style={{width: "100%", height: "100%"}}>
             <h1>{meeting.title}</h1>
