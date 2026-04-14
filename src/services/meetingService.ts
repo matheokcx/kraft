@@ -54,8 +54,8 @@ export const addMeeting = async (body: any): Promise<Meeting> => {
     });
 };
 
-export const deleteMeeting = async (meetingId: number, userId: number): Promise<Meeting> => {
-    return await prismaClient.meeting.delete({
+export const deleteMeeting = async (meetingId: number, userId: number): Promise<void> => {
+    await prismaClient.meeting.delete({
         where: {
             id: meetingId,
             project: {
