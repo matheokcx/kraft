@@ -54,6 +54,34 @@ export const addMeeting = async (body: any): Promise<Meeting> => {
     });
 };
 
+type MeetingInfos = {
+    title: string;
+    description?: string;
+    startDate: Date;
+    endDate: Date;
+    projectId: number;
+};
+
+export const editMeeting = async (data: MeetingInfos, meetingId: number, userId: number): Promise<Meeting> => {
+    return await prismaClient.meeting.update({
+        data: {
+            title: data.title,
+            description: data.description ? data.description : null,
+            startHour: new Date(data.startDate),
+            endHour: new Date(data.endDate),
+            projectId: data.projectId
+        },
+        where: {
+            id: meetingId,
+            project: {
+                client: {
+                    freelanceId: userId
+                }
+            }
+        }
+    });
+};
+
 export const deleteMeeting = async (meetingId: number, userId: number): Promise<void> => {
     await prismaClient.meeting.delete({
         where: {

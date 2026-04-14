@@ -38,6 +38,21 @@ export const createClientNote = async (data: ClientNoteInfos): Promise<ClientNot
     });
 };
 
+export const editClientNote = async (data: ClientNoteInfos, clientNoteId: number, userId: number): Promise<ClientNote> => {
+    return await prismaClient.clientNote.update({
+        data: {
+            text: data.text,
+            clientId: data.clientId
+        },
+        where: {
+            id: clientNoteId,
+            client: {
+                freelanceId: userId
+            }
+        }
+    });
+};
+
 export const deleteClientNote = async (clientNoteId: number, userId: number): Promise<void> => {
     await prismaClient.clientNote.delete({
         where: {
