@@ -116,7 +116,7 @@ const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
                         {client && (
                             <div className={styles.projectRelationPart}>
                                 <Avatar firstName={client.firstName} lastName={client.lastName} image={client.image} />
-                                <h3>{client.firstName} {client.firstName}</h3>
+                                <h3>{client.firstName} {client.lastName}</h3>
                                 <p>{client.job}</p>
                                 <div className={styles.clientContactsPart}>
                                     {client.mail && (

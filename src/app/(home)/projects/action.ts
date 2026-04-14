@@ -1,13 +1,14 @@
 "use server"
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
-import {Project} from "@/types";
+import {Client, Project} from "@/types";
 import {addProject, deleteProject, editProject} from "@/services/projectService";
 import {redirect} from "next/dist/client/components/redirect";
 import {z} from "zod";
 import {ProjectDifficulty} from "@/generated/prisma";
 import {toast} from "@/utils/utils";
 import {FileStorageService} from "@/services/fileStorageService";
+import {getClient} from "@/services/clientService";
 
 const projectSchema = z.object({
     title: z.string()
@@ -33,22 +34,23 @@ const projectSchema = z.object({
 export const createProject = async (data: FormData): Promise<void> => {
     const session = await getServerSession(authOptions);
     const clientId: number = Number(data.get("clientId"));
+    const formDataObject = Object.fromEntries(data);
+    const isValid = projectSchema.safeParse(formDataObject);
 
-    if(session?.user?.id){
-        const formDataObject = Object.fromEntries(data);
-        const isValid = projectSchema.safeParse(formDataObject);
+    if(session?.user?.id && isValid.success) {
+        const client: Client | null = await getClient(isValid.data.clientId, Number(session.user.id));
 
-        if(isValid.success) {
-            const newProject: Project = await addProject(isValid.data, clientId);
-
-            if(newProject){
-                redirect(`/projects/${newProject.id}`);
-            }
+        if(!client){
+            await toast("Ce n'est pas votre client");
+            return;
         }
-        else{
-            for(const error of isValid.error.issues){
-                await toast(error.message);
-            }
+
+        const newProject: Project = await addProject(isValid.data, clientId);
+        redirect(`/projects/${newProject.id}`);
+    }
+    else if(isValid.error){
+        for(const error of isValid.error.issues){
+            await toast(error.message);
         }
     }
 };

@@ -35,7 +35,7 @@ const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => 
             id: Number(id),
             freelanceId: Number(session.user.id)
         }
-    })
+    });
 
     if(!client) {
         return <p>Ce client n'a pas été trouvé</p>;
@@ -142,9 +142,16 @@ const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => 
                             <LinkIcon size={24} />
                             Lien(s) associé(s)
                         </label>
-                        <LinksList />
+                        <LinksList existinglinks={client.links} />
                     </div>
                 </div>
+
+                <Input type="hidden"
+                       label="clientId"
+                       name="clientId"
+                       required={true}
+                       defaultValue={client.id}
+                />
             </form>
         </section>
     );

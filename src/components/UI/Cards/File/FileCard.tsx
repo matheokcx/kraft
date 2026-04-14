@@ -4,14 +4,12 @@ import { File } from "@/types"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-
-
 type FileCardProps = {
     file: File;
 };
 
 const FileCard = ({ file }: FileCardProps) => {
-    const imageExtensions: string[] = ["image/jpeg", "image/png", "image/webp", "image/svg"];
+    const imageExtensions: string[] = ["jpeg", "png", "webp", "svg"];
     const router = useRouter();
     const imageStyle = {
         width: "100%",

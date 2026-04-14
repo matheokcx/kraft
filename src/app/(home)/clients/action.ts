@@ -73,7 +73,10 @@ export const updateClient = async (data: FormData): Promise<void> => {
     const session = await getServerSession(authOptions);
     const clientId: number = Number(data.get("clientId") as string);
 
-    const formDataObject = Object.fromEntries(data);
+    const formDataObject = {
+        ...Object.fromEntries(data),
+        links: data.getAll("links")
+    };
     const isValid = clientSchema.safeParse(formDataObject);
 
     if(session?.user?.id){

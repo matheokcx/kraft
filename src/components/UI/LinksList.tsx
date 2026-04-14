@@ -2,8 +2,12 @@
 import {useState} from "react";
 import {PlusIcon} from "@phosphor-icons/react";
 
-const LinksList = () => {
-    const [links, setLinks] = useState<string[]>([""]);
+type LinksListProps = {
+    existinglinks?: string[];
+};
+
+const LinksList = ({existinglinks = [""]}: LinksListProps) => {
+    const [links, setLinks] = useState<string[]>(existinglinks);
 
     return (
         <div style={{maxHeight: "300px", overflowY: "auto", display: "grid", gap: "20px"}}>

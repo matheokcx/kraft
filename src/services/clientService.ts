@@ -46,7 +46,7 @@ export const addClient = async (clientInfos: any, userId: number): Promise<Clien
             birthdate: clientInfos.birthdate ? new Date(clientInfos.birthdate) : null,
             mail: clientInfos.mail ?? null,
             phone: clientInfos.phone ?? null,
-            image: (profilePicture && clientImageUpload) ? `/files/client_image_${today}_${profilePicture.name}` : null,
+            image: (profilePicture && clientImageUpload) ? `/files/${profilePicture.name}_${today}` : null,
             gender: clientInfos.gender,
             freelanceId: userId
         }
@@ -82,13 +82,12 @@ export const editClient = async (clientInfos: any, clientId: number, userId: num
             lastName: clientInfos.lastName,
             job: clientInfos.job,
             status: clientInfos.status,
-            links: [],
+            links: clientInfos.links,
             birthdate: clientInfos.birthdate ? new Date(clientInfos.birthdate) : null,
             mail: clientInfos.mail,
             phone: clientInfos.phone,
             ...(imagePath !== undefined && { image: imagePath }),
-            gender: clientInfos.gender,
-            freelanceId: userId
+            gender: clientInfos.gender
         },
         where: {
             id: clientId,
