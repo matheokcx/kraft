@@ -29,6 +29,7 @@ import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import {getTranslations} from "next-intl/server";
 import {removeProject} from "@/app/(home)/projects/action";
 import Link from "next/link";
+import MeetingReduceCard from "@/components/UI/Cards/Meeting/MeetingReduceCard";
 
 const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
     const session = await getServerSession(authOptions);
@@ -136,14 +137,16 @@ const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
                         )}
                         <div className={styles.projectRelationPart}>
                             <h2>{t('projects.detailsPage.associateMeetings')}</h2>
-                            {/*{projectMeetings.map((meeting: Meeting, index: number) => (*/}
-                            {/*    <MeetingReduceCard key={index} meetingTitle={meeting.title} weekDay={meeting.startHour} />*/}
-                            {/*))}*/}
+                            {projectMeetings.map((meeting: Meeting, index: number) => (
+                                <MeetingReduceCard key={index} meeting={meeting} />
+                            ))}
                         </div>
                     </div>
-                    <div className={styles.projectFilesSection}>
-                        {files.map((file: File) => <FileCard key={file.id} file={file} />)}
-                    </div>
+                    {files.length > 0 && (
+                        <div className={styles.projectFilesSection}>
+                            {files.map((file: File) => <FileCard key={file.id} file={file}/>)}
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

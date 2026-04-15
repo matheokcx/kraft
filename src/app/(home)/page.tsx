@@ -36,7 +36,7 @@ const HomePage = async () => {
 
     const comingMeetings = new Map<string, Meeting[]>();
     nextThreeDays.forEach((dateStr: string) => {
-        comingMeetings.set(dateStr, meetings.filter((meeting: Meeting) => meeting.startHour.toISOString().startsWith(dateStr)).slice(0, 3));
+        comingMeetings.set(dateStr, meetings.filter((meeting: Meeting) => meeting.startHour.toISOString().startsWith(dateStr)).slice(0, 2));
     });
 
     return (

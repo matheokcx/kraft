@@ -1,10 +1,18 @@
 import {prismaClient} from "@/lib/prisma";
-import {Client} from "@/types";
+import {Client, Gender} from "@/types";
 import path from "path";
 import {unlink, writeFile} from "fs/promises";
 import {FileStorageService} from "@/services/fileStorageService";
+import {ClientStatus} from "@/generated/prisma";
 
-export const getAllUserClients = async (filters: any, userId: number): Promise<Client[]> => {
+type ClientFilters = {
+    job?: string;
+    status?: ClientStatus;
+    birthDate?: Date;
+    gender?: Gender;
+};
+
+export const getAllUserClients = async (filters: ClientFilters, userId: number): Promise<Client[]> => {
     return await prismaClient.client.findMany({
         where: {
             ...filters,
@@ -27,7 +35,20 @@ export const getClient = async (clientId: number, userId: number): Promise<Clien
     });
 };
 
-export const addClient = async (clientInfos: any, userId: number): Promise<Client> => {
+type ClientInfos = {
+    firstName: string;
+    lastName: string;
+    job: string;
+    status: ClientStatus;
+    links: string[];
+    image: File | null;
+    gender: Gender;
+    birthdate?: string;
+    mail?: string;
+    phone?: string;
+};
+
+export const addClient = async (clientInfos: ClientInfos, userId: number): Promise<Client> => {
     const today: number = Date.now();
     const profilePicture: File | null = clientInfos.image;
     const clientImageUpload: boolean = profilePicture !== null && profilePicture.size > 0;
@@ -53,9 +74,9 @@ export const addClient = async (clientInfos: any, userId: number): Promise<Clien
     });
 };
 
-export const editClient = async (clientInfos: any, clientId: number, userId: number): Promise<Client> => {
+export const editClient = async (clientInfos: ClientInfos, clientId: number, userId: number): Promise<Client> => {
     const today: number = Date.now();
-    const profilePicture: File | undefined = clientInfos.image;
+    const profilePicture: File | null = clientInfos.image;
     let imagePath: string | null | undefined;
 
     if(profilePicture && profilePicture.size > 0){
@@ -66,14 +87,9 @@ export const editClient = async (clientInfos: any, clientId: number, userId: num
             await unlink(oldFilePath);
         }
 
-        const bytes = await profilePicture.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        const uploadDirectoryPath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files");
-        const newFilePath: string = path.join(uploadDirectoryPath, `client_image_${today}_${profilePicture.name}`);
-
-        await writeFile(newFilePath, buffer);
-        imagePath = `/files/project_cover_${today}_${profilePicture.name}`;
+        if(profilePicture){
+            await FileStorageService.uploadFile(profilePicture, today);
+        }
     }
 
     return await prismaClient.client.update({
