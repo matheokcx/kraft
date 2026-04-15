@@ -34,9 +34,9 @@ const HomePage = async () => {
     });
     const meetings: Meeting[] = await getMeetings({startHour: new Date(formattedTodayDate)}, Number(session.user.id));
 
-    const comingMeetings: (Meeting | null)[] = nextThreeDays.map((dateStr: string) => {
-        const meetingFound: Meeting | undefined = meetings.find((meeting: Meeting) => meeting.startHour.toISOString().startsWith(dateStr));
-        return meetingFound || null;
+    const comingMeetings = new Map<string, Meeting[]>();
+    nextThreeDays.forEach((dateStr: string) => {
+        comingMeetings.set(dateStr, meetings.filter((meeting: Meeting) => meeting.startHour.toISOString().startsWith(dateStr)).slice(0, 3));
     });
 
     return (

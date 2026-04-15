@@ -1,29 +1,20 @@
 import styles from "./meetingReduceCard.module.css"
-import {getWeekDay} from "@/utils/utils";
 import {useTranslations} from "next-intl";
-
-
+import {Meeting} from "@/types";
 
 type MeetingReduceCardProps = {
-    weekDay: Date;
-    meetingTitle?: string;
+    meeting: Meeting;
 };
 
-const MeetingReduceCard = ({weekDay, meetingTitle}: MeetingReduceCardProps) => {
+const MeetingReduceCard = ({meeting}: MeetingReduceCardProps) => {
     const t = useTranslations();
-    const isToday: boolean = weekDay.getDay() === (new Date()).getDay();
-    const style = {
-        color: isToday ? "var(--main-text" : "var(--secondary-text)",
-        fontWeight: isToday ? 700 : 400,
-    };
 
     return (
         <div className={styles.meetingReduceCard}>
-            <label style={style}>{t(`daysOfWeek.${getWeekDay(weekDay.getDay())}`)}</label>
             {
-                meetingTitle ? (
+                meeting ? (
                     <div className={styles.meetingBlock}>
-                        <p>{meetingTitle}</p>
+                        <p>{meeting.title}</p>
                     </div>
                 ) : (
                     <div className={styles.noMeetingBlock}>
