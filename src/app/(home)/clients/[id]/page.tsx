@@ -1,4 +1,4 @@
-import {getClient} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
 import {Client, ClientNote} from "@/types";
@@ -27,7 +27,7 @@ const ClientDetailsPage = async ({params}: {params: Promise<{id: string}>}) => {
         return <p>Vous n'êtes pas connecté ...</p>
     }
 
-    const client: Client | null = await getClient(Number(id), Number(session.user.id));
+    const client: Client | null = await ClientService.getClient(Number(id), Number(session.user.id));
 
     if(!client){
         return <p>Client non trouvé ...</p>

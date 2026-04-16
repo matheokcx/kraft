@@ -5,7 +5,7 @@ import {getFormattedDate} from "@/utils/utils";
 import FileCard from "@/components/UI/Cards/File/FileCard";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
-import {getAllUserClients} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 import {getAllUserProjects} from "@/services/projectService";
 import {getFiles} from "@/services/fileService";
 import {getMeetings} from "@/services/meetingService";
@@ -22,7 +22,7 @@ const HomePage = async () => {
         return <p>Vous n'êtes pas connecté ...</p>;
     }
 
-    const clients: Client[] = await getAllUserClients({}, Number(session.user.id));
+    const clients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
     const processingProjects: Project[] = await getAllUserProjects({}, Number(session.user.id), true);
     const recentFiles: File[] = await getFiles(Number(session.user.id));
 

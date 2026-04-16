@@ -1,5 +1,5 @@
 import path from "path";
-import {writeFile, readFile} from "fs/promises";
+import {writeFile, readFile, unlink} from "fs/promises";
 
 export class FileStorageService {
     public static minFileSize: number = 10;
@@ -16,7 +16,7 @@ export class FileStorageService {
         ]
 };
 
-    public static async uploadFile(file: File, addingDate?: number) {
+    public static async uploadFile(file: File, addingDate?: number): Promise<void> {
         if(
             file.size < FileStorageService.minFileSize ||
             file.name.trim().length > 0 ||
@@ -33,6 +33,16 @@ export class FileStorageService {
             const newFilePath: string = path.join(uploadDirectoryPath, `${file.name}_${addingDate}`);
 
             await writeFile(newFilePath, buffer);
+        }
+        catch(error: any){
+            console.error(error.getMessage());
+        }
+    }
+
+    public static async removeFile(fileName: string): Promise<void> {
+        try {
+            const filePath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files", path.basename(fileName));
+            await unlink(filePath);
         }
         catch(error: any){
             console.error(error.getMessage());

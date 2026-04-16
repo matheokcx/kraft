@@ -3,12 +3,10 @@ import {Client} from "@/types";
 import ClientCard from "@/components/UI/Cards/Client/ClientCard";
 import Link from "next/link";
 import {Plus} from "@phosphor-icons/react/ssr";
-import {getAllUserClients} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
 import {getTranslations} from "next-intl/server";
-
-
 
 const ClientsPage = async () => {
     const session = await getServerSession(authOptions);
@@ -18,7 +16,7 @@ const ClientsPage = async () => {
         return <p>Vous n'êtes pas connecté ...</p>
     }
 
-    const clients: Client[] = await getAllUserClients({}, Number(session.user.id));
+    const clients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
 
     return (
       <section className={styles.clientsPage}>

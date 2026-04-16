@@ -5,7 +5,7 @@ import {getTranslations} from "next-intl/server";
 import styles from "./edit-client-page.module.css";
 import Separator from "@/components/UI/Separator";
 import {ClientStatus, GENDER} from "@/generated/prisma";
-import {Gender} from "@/types";
+import {Client, Gender} from "@/types";
 import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import {
     BriefcaseIcon,
@@ -20,6 +20,7 @@ import {
 import LinksList from "@/components/UI/LinksList";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
+import {ClientService} from "@/services/clientService";
 
 const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => {
     const { id } = await params;
@@ -30,12 +31,7 @@ const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => 
         return <p>Vous devez être connecté</p>;
     }
 
-    const client = await prismaClient.client.findUnique({
-        where: {
-            id: Number(id),
-            freelanceId: Number(session.user.id)
-        }
-    });
+    const client: Client | null = await ClientService.getClient(Number(id), Number(session.user.id));
 
     if(!client) {
         return <p>Ce client n'a pas été trouvé</p>;

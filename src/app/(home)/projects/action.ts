@@ -21,8 +21,8 @@ const projectSchema = z.object({
     cost: z.coerce.number().nonnegative("Le gain du projet ne peut pas être négatif"),
     clientId: z.coerce.number().nonnegative("L'id du client ne peut pas être négatif"),
     parentProjectId: z.coerce.number().refine((value: number) => value === 0).transform(() => null).nullable(),
-    startDate: z.coerce.date(),
-    endDate: z.coerce.date(),
+    startDate: z.iso.datetime(),
+    endDate: z.iso.datetime(),
     cover: z.union([
         z.file()
             .mime(FileStorageService.supportedMimeTypes.images)

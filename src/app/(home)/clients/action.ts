@@ -2,7 +2,7 @@
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {ClientStatus, GENDER} from "@/generated/prisma";
-import {addClient, deleteClient, editClient} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 import {redirect} from "next/dist/client/components/redirect";
 import z from "zod";
 import {toast} from "@/utils/utils";
@@ -21,7 +21,7 @@ const clientSchema = z.object({
     status: z.enum(Object.values(ClientStatus)),
     birthdate: z.union([
         z.literal('').transform(() => null),
-        z.coerce.date(),
+        z.iso.datetime(),
     ]).nullable(),
     mail: z.union([
         z.literal('').transform(() => null),
@@ -38,9 +38,7 @@ const clientSchema = z.object({
         z.file().refine((file) => file.size === 0).transform(() => null),
     ]),
     links: z.array(z.string().url().or(z.literal("")))
-        .transform(arr => arr.filter(s => s !== ""))
-        .transform(arr => arr.length > 0 ? arr : null)
-        .nullable(),
+        .transform(arr => arr.filter(s => s !== "")),
     gender: z.enum(Object.values(GENDER))
 });
 
@@ -55,7 +53,7 @@ export const createClient = async (inputs: FormData): Promise<void> => {
         const isValid = clientSchema.safeParse(formDataObject);
 
         if(isValid.success) {
-            const newClient: Client = await addClient(isValid.data, Number(session.user.id))
+            const newClient: Client = await ClientService.addClient(isValid.data, Number(session.user.id));
 
             if(newClient) {
                 redirect(`/clients/${newClient.id}`);
@@ -81,7 +79,7 @@ export const updateClient = async (data: FormData): Promise<void> => {
 
     if(session?.user?.id){
         if(isValid.success){
-            await editClient(isValid.data, clientId, Number(session.user.id));
+            await ClientService.editClient(isValid.data, clientId, Number(session.user.id));
             redirect(`/clients/${clientId}`);
         }
         else {
@@ -96,7 +94,7 @@ export const removeClient = async (clientId: number): Promise<void> => {
     const session = await getServerSession(authOptions);
 
     if(session?.user?.id){
-        await deleteClient(clientId, Number(session.user.id));
+        await ClientService.deleteClient(clientId, Number(session.user.id));
         redirect("/clients");
     }
 };
