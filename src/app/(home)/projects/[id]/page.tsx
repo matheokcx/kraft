@@ -1,4 +1,4 @@
-import {getProject} from "@/services/projectService";
+import {ProjectService} from "@/services/projectService";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {Client, File, Meeting, Project, ProjectDifficulty} from "@/types";
@@ -20,7 +20,7 @@ import {
 } from "@phosphor-icons/react/ssr";
 import {JSX} from "react";
 import Image from "next/image";
-import {getClient} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 import Avatar from "@/components/UI/Avatar/Avatar";
 import {getMeetings} from "@/services/meetingService";
 import {getFilesByProject} from "@/services/fileService";
@@ -34,14 +34,14 @@ import MeetingReduceCard from "@/components/UI/Cards/Meeting/MeetingReduceCard";
 const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
     const session = await getServerSession(authOptions);
     const { id } = await params;
-    const project: Project | null = await getProject(Number(id), Number(session?.user?.id));
+    const project: Project | null = await ProjectService.getProject(Number(id), Number(session?.user?.id));
     const t = await getTranslations();
 
     if(!project){
         return <p>Ce projet n'a pas pu être retrouvé...</p>;
     }
 
-    const client: Client | null = await getClient(project.clientId, Number(session?.user?.id));
+    const client: Client | null = await ClientService.getClient(project.clientId, Number(session?.user?.id));
     const projectMeetings: Meeting[] = await getMeetings({projectId: project.id}, Number(session?.user?.id))
     const files: File[] = await getFilesByProject(Number(project.id), Number(session?.user?.id));
 

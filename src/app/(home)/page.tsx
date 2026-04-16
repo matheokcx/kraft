@@ -6,7 +6,7 @@ import FileCard from "@/components/UI/Cards/File/FileCard";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {ClientService} from "@/services/clientService";
-import {getAllUserProjects} from "@/services/projectService";
+import {ProjectService} from "@/services/projectService";
 import {getFiles} from "@/services/fileService";
 import {getMeetings} from "@/services/meetingService";
 import {getTranslations} from "next-intl/server";
@@ -23,7 +23,7 @@ const HomePage = async () => {
     }
 
     const clients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
-    const processingProjects: Project[] = await getAllUserProjects({}, Number(session.user.id), true);
+    const processingProjects: Project[] = await ProjectService.getAllUserProjects({}, Number(session.user.id), true);
     const recentFiles: File[] = await getFiles(Number(session.user.id));
 
     const daysPrevisualisationNumber: number = 3;

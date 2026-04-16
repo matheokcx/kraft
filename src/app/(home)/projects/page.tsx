@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./projects-page.module.css";
 import {Plus} from "@phosphor-icons/react/ssr";
-import {getAllUserProjects} from "@/services/projectService";
+import {ProjectService} from "@/services/projectService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
 import {Project} from "@/types";
@@ -17,7 +17,7 @@ const ProjectListPage = async () => {
         return <p>Vous n'êtes pas connecté...</p>
     }
 
-    const projects: Project[] = await getAllUserProjects({}, Number(session.user.id), false);
+    const projects: Project[] = await ProjectService.getAllUserProjects({}, Number(session.user.id), false);
 
     return (
         <section className={styles.pageSection}>

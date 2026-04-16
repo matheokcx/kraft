@@ -2,13 +2,13 @@
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {Client, Project} from "@/types";
-import {addProject, deleteProject, editProject} from "@/services/projectService";
+import {ProjectService} from "@/services/projectService";
 import {redirect} from "next/dist/client/components/redirect";
 import {z} from "zod";
 import {ProjectDifficulty} from "@/generated/prisma";
 import {toast} from "@/utils/utils";
 import {FileStorageService} from "@/services/fileStorageService";
-import {getClient} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 
 const projectSchema = z.object({
     title: z.string()
@@ -38,14 +38,14 @@ export const createProject = async (data: FormData): Promise<void> => {
     const isValid = projectSchema.safeParse(formDataObject);
 
     if(session?.user?.id && isValid.success) {
-        const client: Client | null = await getClient(isValid.data.clientId, Number(session.user.id));
+        const client: Client | null = await ClientService.getClient(isValid.data.clientId, Number(session.user.id));
 
         if(!client){
             await toast("Ce n'est pas votre client");
             return;
         }
 
-        const newProject: Project = await addProject(isValid.data, clientId);
+        const newProject: Project = await ProjectService.addProject(isValid.data, clientId);
         redirect(`/projects/${newProject.id}`);
     }
     else if(isValid.error){
@@ -63,7 +63,7 @@ export const updateProject = async (data: FormData): Promise<void> => {
 
     if(session?.user?.id){
         if(isValid.success){
-            await editProject(isValid.data, projectId, Number(session.user.id));
+            await ProjectService.editProject(isValid.data, projectId, Number(session.user.id));
             redirect(`/projects/${projectId}`);
         }
         else {
@@ -78,7 +78,7 @@ export const removeProject = async (projectId: number): Promise<void> => {
     const session = await getServerSession(authOptions);
 
     if(session?.user?.id){
-        await deleteProject(projectId, Number(session.user.id));
+        await ProjectService.deleteProject(projectId, Number(session.user.id));
         redirect("/projects");
     }
 };

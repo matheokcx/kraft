@@ -1,11 +1,11 @@
-import {getProject} from "@/services/projectService";
+import {ProjectService} from "@/services/projectService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
 import Input, {InputProps} from "@/components/UI/Input/Input";
 import {updateProject} from "@/app/(home)/projects/action";
 import styles from "./edit-project-page.module.css";
 import {Client, Project} from "@/types";
-import {getAllUserClients} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 import {ProjectDifficulty} from "@/generated/prisma";
 import {getTranslations} from "next-intl/server";
 import {getFormattedDate} from "@/utils/utils";
@@ -19,8 +19,8 @@ const EditProjectPage = async ({ params }: { params: Promise<{ id: string}>}) =>
         return <p>Vous devez être connecté</p>;
     }
 
-    const userClients: Client[] = await getAllUserClients({}, Number(session.user.id));
-    const project: Project | null = await getProject(Number(id), Number(session.user.id));
+    const userClients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
+    const project: Project | null = await ProjectService.getProject(Number(id), Number(session.user.id));
 
     if(!project){
         return <p>Projet non trouvé.</p>;
