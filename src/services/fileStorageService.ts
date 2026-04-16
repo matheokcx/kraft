@@ -14,7 +14,7 @@ export class FileStorageService {
             "application/pdf",
             "text/csv"
         ]
-};
+    };
 
     public static async uploadFile(file: File, addingDate?: number): Promise<void> {
         if(

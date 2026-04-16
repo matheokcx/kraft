@@ -1,4 +1,4 @@
-import {getMeeting} from "@/services/meetingService";
+import {MeetingService} from "@/services/meetingService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
 import Modal from "@/components/UI/Modal/Modal";
@@ -17,7 +17,7 @@ const MeetingDetailModal = async ({params}: {params: Promise<{id: string}>}) => 
         return null;
     }
 
-    const meeting = await getMeeting(Number(id), Number(session.user.id));
+    const meeting = await MeetingService.getMeeting(Number(id), Number(session.user.id));
 
     if(!meeting) {
         return null;

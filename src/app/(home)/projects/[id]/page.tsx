@@ -22,8 +22,8 @@ import {JSX} from "react";
 import Image from "next/image";
 import {ClientService} from "@/services/clientService";
 import Avatar from "@/components/UI/Avatar/Avatar";
-import {getMeetings} from "@/services/meetingService";
-import {getFilesByProject} from "@/services/fileService";
+import {MeetingService} from "@/services/meetingService";
+import {FileService} from "@/services/fileService";
 import FileCard from "@/components/UI/Cards/File/FileCard";
 import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import {getTranslations} from "next-intl/server";
@@ -42,8 +42,8 @@ const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
     }
 
     const client: Client | null = await ClientService.getClient(project.clientId, Number(session?.user?.id));
-    const projectMeetings: Meeting[] = await getMeetings({projectId: project.id}, Number(session?.user?.id))
-    const files: File[] = await getFilesByProject(Number(project.id), Number(session?.user?.id));
+    const projectMeetings: Meeting[] = await MeetingService.getMeetings({projectId: project.id}, Number(session?.user?.id))
+    const files: File[] = await FileService.getFilesByProject(Number(project.id), Number(session?.user?.id));
 
     const getDifficultyIcon = (projectDifficulty: ProjectDifficulty): JSX.Element => {
         switch(projectDifficulty){

@@ -10,7 +10,7 @@ import {Envelope, GenderFemale, GenderMale, PencilIcon, Phone, TrashIcon} from "
 import Separator from "@/components/UI/Separator";
 import Avatar from "@/components/UI/Avatar/Avatar";
 import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
-import {getClientNotes} from "@/services/clientNoteService";
+import {ClientNoteService} from "@/services/clientNoteService";
 import ClientNotesSection from "@/components/Layout/Client/ClientNotesSection";
 import {getTranslations} from "next-intl/server";
 import {removeClient} from "@/app/(home)/clients/action";
@@ -33,7 +33,7 @@ const ClientDetailsPage = async ({params}: {params: Promise<{id: string}>}) => {
         return <p>Client non trouvé ...</p>
     }
 
-    const clientNotes: ClientNote[] = await getClientNotes(client.id, Number(session.user.id));
+    const clientNotes: ClientNote[] = await ClientNoteService.getClientNotes(client.id, Number(session.user.id));
 
     const calculateAge = (birthdate: Date): number => {
         const today: Date = new Date();

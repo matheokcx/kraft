@@ -7,8 +7,8 @@ import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {ClientService} from "@/services/clientService";
 import {ProjectService} from "@/services/projectService";
-import {getFiles} from "@/services/fileService";
-import {getMeetings} from "@/services/meetingService";
+import {FileService} from "@/services/fileService";
+import {MeetingService} from "@/services/meetingService";
 import {getTranslations} from "next-intl/server";
 import ComingMeetingsWidget from "@/components/UI/Widgets/ComingMeetingsWidget";
 
@@ -24,7 +24,7 @@ const HomePage = async () => {
 
     const clients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
     const processingProjects: Project[] = await ProjectService.getAllUserProjects({}, Number(session.user.id), true);
-    const recentFiles: File[] = await getFiles(Number(session.user.id));
+    const recentFiles: File[] = await FileService.getFiles(Number(session.user.id));
 
     const daysPrevisualisationNumber: number = 3;
     const nextThreeDays: string[] = Array.from({ length: daysPrevisualisationNumber }, (_, index: number) => {
@@ -32,7 +32,7 @@ const HomePage = async () => {
         todayDate.setDate(todayDate.getDate() + index);
         return getFormattedDate(todayDate);
     });
-    const meetings: Meeting[] = await getMeetings({startHour: new Date(formattedTodayDate)}, Number(session.user.id));
+    const meetings: Meeting[] = await MeetingService.getMeetings({startHour: new Date(formattedTodayDate)}, Number(session.user.id));
 
     const comingMeetings = new Map<string, Meeting[]>();
     nextThreeDays.forEach((dateStr: string) => {

@@ -3,10 +3,10 @@ import z from "zod";
 import {Meeting, Project} from "@/types";
 import {redirect} from "next/dist/client/components/redirect";
 import {toast} from "@/utils/utils";
-import {addMeeting, editMeeting, deleteMeeting} from "@/services/meetingService";
+import {MeetingService} from "@/services/meetingService";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
-import {getProject} from "@/services/projectService";
+import {ProjectService} from "@/services/projectService";
 
 const meetingSchema = z.object({
     title: z.string()
@@ -32,13 +32,13 @@ export const createMeeting = async (inputs: FormData): Promise<void> => {
     const isValid = meetingSchema.safeParse(formDataObject);
 
     if(session?.user?.id && isValid.success) {
-        const project: Project | null = await getProject(isValid.data.projectId, Number(session?.user?.id));
+        const project: Project | null = await ProjectService.getProject(isValid.data.projectId, Number(session?.user?.id));
 
         if(!project){
             await toast("Ce n'est pas l'un de vos projets");
         }
 
-        const newMeeting: Meeting = await addMeeting(isValid.data);
+        const newMeeting: Meeting = await MeetingService.addMeeting(isValid.data);
 
         redirect(`/meetings/${newMeeting.id}`);
     } else if(isValid.error) {
@@ -56,14 +56,14 @@ export const updateMeeting = async (data: FormData): Promise<void> => {
 
     if(session?.user?.id){
         if(isValid.success){
-            const project: Project | null = await getProject(isValid.data.projectId, Number(session.user.id));
+            const project: Project | null = await ProjectService.getProject(isValid.data.projectId, Number(session.user.id));
 
             if(!project){
                 await toast("Ce n'est pas l'un de vos projets");
                 return;
             }
 
-            await editMeeting(isValid.data, meetingId, Number(session.user.id));
+            await MeetingService.editMeeting(isValid.data, meetingId, Number(session.user.id));
             redirect(`/meetings/${meetingId}`);
         }
         else {
@@ -78,7 +78,7 @@ export const removeMeeting = async (meetingId: number): Promise<void> => {
     const session = await getServerSession(authOptions);
 
     if(session?.user?.id) {
-        await deleteMeeting(meetingId, Number(session?.user?.id));
+        await MeetingService.deleteMeeting(meetingId, Number(session?.user?.id));
         redirect(`/meetings`);
     }
 };

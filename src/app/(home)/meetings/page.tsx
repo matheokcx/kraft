@@ -1,11 +1,10 @@
-import {getMeetings} from "@/services/meetingService";
+import {MeetingService} from "@/services/meetingService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
 import {redirect} from "next/navigation";
 import MeetingsCalendarWrapper from "@/components/Layout/Meeting/MeetingsCalendarWrapper";
 import styles from "./meetings-page.module.css";
-
-
+import {Meeting} from "@/types";
 
 const MeetingsCalendarPage = async () => {
     const session = await getServerSession(authOptions);
@@ -14,7 +13,7 @@ const MeetingsCalendarPage = async () => {
         redirect("/login");
     }
 
-    const meetings = await getMeetings({}, Number(session.user.id));
+    const meetings: Meeting[] = await MeetingService.getMeetings({}, Number(session.user.id));
 
     return (
         <section className={styles.meetingsCalendarSection}>
