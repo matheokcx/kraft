@@ -2,8 +2,8 @@
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import z from "zod";
-import {createClientNote, editClientNote, deleteClientNote} from "@/services/clientNoteService";
-import {getClient} from "@/services/clientService";
+import {ClientNoteService} from "@/services/clientNoteService";
+import {ClientService} from "@/services/clientService";
 import {toast} from "@/utils/utils";
 import {Client, ClientNote} from "@/types";
 import {redirect} from "next/dist/client/components/redirect";
@@ -21,14 +21,14 @@ export const addClientNote = async (formData: FormData): Promise<void> => {
     const isValid = clientNoteSchema.safeParse(formDataObject);
 
     if(session?.user?.id && isValid.success){
-        const client: Client | null = await getClient(isValid.data.clientId, Number(session.user.id));
+        const client: Client | null = await ClientService.getClient(isValid.data.clientId, Number(session.user.id));
 
         if(!client) {
             await toast("Ce n'est pas votre client");
             return;
         }
 
-        const newClientNote: ClientNote = await createClientNote(isValid.data);
+        const newClientNote: ClientNote = await ClientNoteService.createClientNote(isValid.data);
         redirect(`/client-notes/${newClientNote.id}`);
     } else if (isValid.error){
         for(const error of isValid.error.issues){
@@ -45,7 +45,7 @@ export const updateClientNote = async (formData: FormData): Promise<void> => {
 
     if(session?.user?.id){
         if(isValid.success){
-            await editClientNote(isValid.data, clientNoteId, Number(session.user.id));
+            await ClientNoteService.editClientNote(isValid.data, clientNoteId, Number(session.user.id));
             redirect(`/client-notes/${clientNoteId}`);
         }
         else {
@@ -60,7 +60,7 @@ export const removeClientNote = async (clientNoteId: number): Promise<void> => {
     const session = await getServerSession(authOptions);
 
     if(session?.user?.id) {
-        await deleteClientNote(clientNoteId, Number(session?.user?.id));
+        await ClientNoteService.deleteClientNote(clientNoteId, Number(session?.user?.id));
         redirect(`/client-notes`);
     }
 };

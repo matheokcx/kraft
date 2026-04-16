@@ -21,7 +21,7 @@ const clientSchema = z.object({
     status: z.enum(Object.values(ClientStatus)),
     birthdate: z.union([
         z.literal('').transform(() => null),
-        z.iso.datetime(),
+        z.iso.date(),
     ]).nullable(),
     mail: z.union([
         z.literal('').transform(() => null),
