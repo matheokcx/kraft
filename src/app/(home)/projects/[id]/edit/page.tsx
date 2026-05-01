@@ -16,25 +16,25 @@ const EditProjectPage = async ({ params }: { params: Promise<{ id: string}>}) =>
     const session = await getServerSession(authOptions);
 
     if(!session?.user){
-        return <p>Vous devez être connecté</p>;
+        return <p>{t("auth.notAuthText")}</p>;
     }
 
     const userClients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
     const project: Project | null = await ProjectService.getProject(Number(id), Number(session.user.id));
 
     if(!project){
-        return <p>Projet non trouvé.</p>;
+        return <p>{t("projects.notFound")}</p>;
     }
 
     const inputs: InputProps[] = [
         {type: "hidden", name: "projectId", label: "projectId", defaultValue: id},
         {type: "hidden", name: "parentProjectId", label: "parentProjectId", defaultValue: project.parentProjectId ?? undefined},
-        {type: "text", name: "title", label: "Titre", defaultValue: project.title},
-        {type: "text", name: "description", label: "Description", defaultValue: project.description},
-        {type: "number", name: "cost", label: "Gains", defaultValue: project.cost},
-        {type: "date", name: "startDate", label: "Date de début", defaultValue: getFormattedDate(project.startDate)},
-        {type: "date", name: "endDate", label: "Date de fin", defaultValue: getFormattedDate(project.endDate)},
-        {type: "file", name: "cover", label: "Image de couverture", defaultValue: undefined, required: false}
+        {type: "text", name: "title", label: t("title"), defaultValue: project.title},
+        {type: "text", name: "description", label: t("description"), defaultValue: project.description},
+        {type: "number", name: "cost", label: t("gain"), defaultValue: project.cost},
+        {type: "date", name: "startDate", label: t("startDate"), defaultValue: getFormattedDate(project.startDate)},
+        {type: "date", name: "endDate", label: t("endDate"), defaultValue: getFormattedDate(project.endDate)},
+        {type: "file", name: "cover", label: t("cover"), defaultValue: undefined, required: false}
     ];
 
     return (

@@ -24,13 +24,13 @@ const ClientDetailsPage = async ({params}: {params: Promise<{id: string}>}) => {
     const t = await getTranslations();
 
     if(!session?.user?.id){
-        return <p>Vous n'êtes pas connecté ...</p>
+        return <p>{t("auth.notAuthText")}</p>
     }
 
     const client: Client | null = await ClientService.getClient(Number(id), Number(session.user.id));
 
     if(!client){
-        return <p>Client non trouvé ...</p>
+        return <p>{t("clients.notFound")}</p>
     }
 
     const clientNotes: ClientNote[] = await ClientNoteService.getClientNotes(client.id, Number(session.user.id));

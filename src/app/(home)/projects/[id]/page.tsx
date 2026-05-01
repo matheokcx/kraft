@@ -38,7 +38,7 @@ const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
     const t = await getTranslations();
 
     if(!project){
-        return <p>Ce projet n'a pas pu être retrouvé...</p>;
+        return <p>{t("projects.notFound")}</p>;
     }
 
     const client: Client | null = await ClientService.getClient(project.clientId, Number(session?.user?.id));

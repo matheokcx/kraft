@@ -97,12 +97,12 @@ const ClientCreatePage = async () => {
                 <div>
                     <div className={styles.dropFileBox}>
                         <CloudArrowUpIcon size={48} />
-                        <Input type="file" name="image" label="Lâcher ou choisir la photo de votre client (max 5Mo)" required={false} />
+                        <Input type="file" name="image" label={t("clients.imageFileInputText")} required={false} />
                     </div>
                     <div style={{ marginTop: "32px"}}>
                         <label style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "10px" }}>
                             <LinkIcon size={24} />
-                            Lien(s) associé(s)
+                            {t("clients.associateLinksLabel")}
                         </label>
                         <LinksList />
                     </div>

@@ -23,11 +23,11 @@ const SignInPage = () => {
         });
 
         if (response?.ok) {
-            toast.success("Connexion réussi !");
+            toast.success(t("auth.successfulLogin"));
             router.push("/");
         }
         else {
-            toast.error("Mail ou mot de passe incorrect");
+            toast.error(t("auth.failedLogin"));
         }
     };
 
@@ -37,7 +37,7 @@ const SignInPage = () => {
                 <h1>{t('auth.logIn')}</h1>
 
                 <input type="email"
-                       placeholder="name@domain.example"
+                       placeholder="john.doe@example.com"
                        value={email}
                        onChange={(event) => setEmail(event.target.value)}
                 />

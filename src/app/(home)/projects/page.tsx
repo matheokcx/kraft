@@ -14,7 +14,7 @@ const ProjectListPage = async () => {
     const t  = await getTranslations();
 
     if(!session?.user?.id) {
-        return <p>Vous n'êtes pas connecté...</p>
+        return <p>{t("auth.notAuthText")}</p>
     }
 
     const projects: Project[] = await ProjectService.getAllUserProjects({}, Number(session.user.id), false);

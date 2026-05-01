@@ -2,7 +2,7 @@ import {createProject} from "@/app/(home)/projects/action";
 import styles from "./project-create-page.module.css";
 import Input, {InputProps} from "@/components/UI/Input/Input";
 import {Client} from "@/types";
-import {getAllUserClients} from "@/services/clientService";
+import {ClientService} from "@/services/clientService";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {ProjectDifficulty} from "@/generated/prisma";
@@ -24,17 +24,17 @@ const ProjectCreatePage = async () => {
     const session = await getServerSession(authOptions);
     const t = await getTranslations();
     const inputsData: InputProps[] = [
-        {type: "text", name: "title", label: t('title'), placeholder: "Projet de refonte site web", icon: <TextTIcon size={24} />},
-        {type: "text", name: "description", label: t('description'), placeholder: "Projet de restructuration des sections de la page...", icon: <ArticleIcon size={24} />},
+        {type: "text", name: "title", label: t('title'), icon: <TextTIcon size={24} />},
+        {type: "text", name: "description", label: t('description'), icon: <ArticleIcon size={24} />},
         {type: "number", name: "cost", label: t('gain'), placeholder: "1000", icon: <MoneyIcon size={24} />},
         {type: "hidden", name: "parentProjectId", label: t('projects.parentProject'), required: false}
     ];
 
     if(!session?.user){
-        return <p>Vous devez être connecté</p>;
+        return <p>{t("auth.notAuthText")}</p>;
     }
 
-    const userClients: Client[] = await getAllUserClients({}, Number(session.user.id));
+    const userClients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
 
     return (
         <section className={styles.page}>
@@ -66,8 +66,9 @@ const ProjectCreatePage = async () => {
                                  icon={<UserIcon size={24} />}
                     />
 
-                    <SelectField label="Difficulté*"
+                    <SelectField label={t("difficulties")}
                                  name="difficulty"
+                                 required={true}
                                  values={Object.keys(ProjectDifficulty) as Array<keyof typeof ProjectDifficulty>}
                                  icon={<ChartBarIcon size={24} />}
                     />

@@ -17,7 +17,7 @@ const ClientNotesSection = async ({clientNotes}: ClientNotesSectionProps) => {
             {clientNotes.map((clientNote) => (
                 <div key={clientNote.id} className={styles.clientNoteCard}>
                     <p>{clientNote.text}</p>
-                    <p className={styles.clientNoteDateText}>Le {clientNote.createdAt.toISOString().split("T")[0]}</p>
+                    <p className={styles.clientNoteDateText}>{clientNote.createdAt.toISOString().split("T")[0]}</p>
                 </div>
             ))}
         </section>

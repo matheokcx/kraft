@@ -13,7 +13,7 @@ const ClientsPage = async () => {
     const t = await getTranslations();
 
     if(!session?.user?.id){
-        return <p>Vous n'êtes pas connecté ...</p>
+        return <p>{t("auth.notAuthText")}</p>
     }
 
     const clients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));

@@ -45,7 +45,7 @@ const SignUpPage = () => {
             type: "email",
             value: informations.email,
             onChange: (event: any) => {setInformations({...informations, email: event.target.value})},
-            placeholder: "name@domain.example"
+            placeholder: "john.doe@example.com"
         },
         {
             type: "password",
@@ -76,13 +76,13 @@ const SignUpPage = () => {
         });
 
         if(response.ok){
-            toast.success("Compte créé avec succès !");
+            toast.success(t("auth.createdAccount"));
             router.push("/sign-in");
         }
         else{
             setIsLoading(false);
             const errorMessage = await response.json();
-            toast.error(errorMessage.error ?? "Une erreur est survenue lors de la création du compte.");
+            toast.error(`${t("auth.accountCreationError")}: ${errorMessage.error}`);
         }
         setIsLoading(false);
     };

@@ -2,12 +2,15 @@ import Skeleton from "@/components/UI/Skeleton/Skeleton";
 import styles from "@/app/(home)/clients/clients-page.module.css";
 import Separator from "@/components/UI/Separator";
 import cardStyles from "@/components/UI/Cards/Client/client-card.module.css";
+import {getTranslations} from "next-intl/server";
 
 
-const Loading = () => {
+const Loading = async () => {
+    const t = await getTranslations();
+
     return (
          <section className={styles.clientsPage}>
-            <h1 style={{paddingBottom: "24px"}}>Liste de vos clients:</h1>
+            <h1 style={{paddingBottom: "24px"}}>{t("clients.listPage.title")}</h1>
             <div className={styles.clientsList}>
                 {Array.from({length: 12}).map((_, index: number) => (
                     <div key={index} className={cardStyles.clientCard} style={{ background: "rgba(204,204,204,0.53)" }}>

@@ -3,16 +3,19 @@ import projectStyles from "@/components/UI/Cards/Project/project-card.module.css
 import Skeleton from "@/components/UI/Skeleton/Skeleton";
 import {Plus} from "@phosphor-icons/react/ssr";
 import Link from "next/link";
+import {getTranslations} from "next-intl/server";
 
 
-const Loading = () => {
+const Loading = async () => {
+    const t = await getTranslations();
+
     return (
         <section className={styles.pageSection}>
             <div className={styles.pageHeader}>
-                <h1>Répertoire de vos projets</h1>
+                <h1>{t('projects.listPage.title')}</h1>
                 <button>
                     <Plus size={24} weight="bold" />
-                    <Link href="/projects/create">Créer</Link>
+                    <Link href="/projects/create">{t("create")}</Link>
                 </button>
             </div>
 

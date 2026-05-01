@@ -6,12 +6,10 @@ import LinkLine from "@/components/UI/Lines/LinkLine";
 import {Browsers, CalendarDots, House, Users} from "@phosphor-icons/react";
 import LanguageButton from "@/components/UI/Buttons/LanguageButton";
 import {useTranslations} from "next-intl";
-import styles from "./home-sidebar.module.css";
+import styles from "./sidebar.module.css";
 import Separator from "@/components/UI/Separator";
 
-
-
-const HomeSideBar = () => {
+const SideBar = () => {
     const t = useTranslations();
     type linkType = {
         link: string;
@@ -53,4 +51,4 @@ const HomeSideBar = () => {
     );
 };
 
-export default HomeSideBar;
+export default SideBar;

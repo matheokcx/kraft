@@ -1,12 +1,14 @@
 "use client";
 import {useState} from "react";
 import {PlusIcon} from "@phosphor-icons/react";
+import {useTranslations} from "next-intl";
 
 type LinksListProps = {
     existinglinks?: string[];
 };
 
 const LinksList = ({existinglinks = [""]}: LinksListProps) => {
+    const t = useTranslations();
     const [links, setLinks] = useState<string[]>(existinglinks);
 
     return (
@@ -32,7 +34,7 @@ const LinksList = ({existinglinks = [""]}: LinksListProps) => {
             ))}
             <button type="button" onClick={() => setLinks([...links, ""])} style={{justifySelf: "start", cursor: "pointer"}}>
                 <PlusIcon size={24} />
-                Ajouter un lien
+                {t("clients.addLink")}
             </button>
         </div>
     );

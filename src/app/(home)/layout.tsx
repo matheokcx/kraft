@@ -1,11 +1,11 @@
-import HomeSideBar from "@/components/Layout/HomeSideBar";
+import SideBar from "@/components/Layout/SideBar/SideBar";
 
 
 
 const HomeLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
         <main style={{width:'100%', height:'100%', display: "flex", gap: "24px", padding: "32px"}}>
-            <HomeSideBar />
+            <SideBar />
             {children}
         </main>
     );

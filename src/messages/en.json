@@ -31,7 +31,11 @@
     },
     "updatePage": {
       "title": "Update client information"
-    }
+    },
+    "notFound": "Client not found",
+    "imageFileInputText": "Drop or choose the picture of your client (max. 5MB)",
+    "associateLinksLabel": "Associate links",
+    "addLink": "Add a link"
   },
   "projects": {
     "projects": "Projects",
@@ -45,11 +49,15 @@
     },
     "detailsPage": {
       "associateMeetings": "Associate meetings"
-    }
+    },
+    "notFound": "Project not found"
   },
   "meetings": {
     "meetings": "Meetings",
-    "shortcutSectionTitle": "Your coming meetings"
+    "shortcutSectionTitle": "Your coming meetings",
+    "detailsModal": {
+      "noDescription": "No description for this meeting"
+    }
   },
   "files": {
     "recentFiles": "Recent files"
@@ -71,7 +79,12 @@
     "logIn": "Login",
     "signUp": "Sign up",
     "password": "Password",
-    "connect": "Connect"
+    "connect": "Connect",
+    "successfulLogin": "Successful login!",
+    "failedLogin": "Mail or password is incorrect",
+    "createdAccount": "Account created with success!",
+    "accountCreationError": "An error occurred during the creation of your account",
+    "notAuthText": "You're not auth"
   },
   "information": "Information",
   "years": "years",
@@ -96,5 +109,6 @@
   "time": "Time",
   "project": "Project",
   "client": "Client",
-  "noDescription": "No description"
+  "noDescription": "No description",
+  "difficulties": "Difficulties"
 }
