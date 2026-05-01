@@ -29,6 +29,7 @@ const ClientsPage = async () => {
         </div>
 
         <div className={styles.clientsList}>
+            {clients.length === 0 && <p>{t("clients.noClients")}</p>}
             {clients.map((client: Client, index: number) => <ClientCard key={index} client={client} />)}
         </div>
       </section>

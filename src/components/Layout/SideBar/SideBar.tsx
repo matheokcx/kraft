@@ -18,7 +18,7 @@ const SideBar = () => {
     };
     const links: linkType[] = [
         {link: "/", title: t("links.home"), icon: <House size={32} weight="bold" />},
-        {link: "/clients", title: t("clients.clients"), icon: <Users size={32} weight="bold" />},
+        {link: "/clients", title: t("clients.client", { count: 2 }), icon: <Users size={32} weight="bold" />},
         {link: "/projects", title: t("projects.projects"), icon: <Browsers size={32} weight="bold" />},
         {link: "/meetings", title: t("meetings.meetings"), icon: <CalendarDots size={32} weight="bold" />}
     ];

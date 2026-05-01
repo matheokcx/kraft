@@ -18,7 +18,7 @@
     "sunday": "Dimanche"
   },
   "clients": {
-    "clients": "Clients",
+    "client":  "{count, plural, one {Client} other {Clients}}",
     "listPage": {
       "title": "Liste de vos clients:"
     },
@@ -35,12 +35,13 @@
     "notFound": "Client non trouvé",
     "imageFileInputText": "Lâchez ou choisissez l'image de vôtre client (max. 5Mo)",
     "associateLinksLabel": "Liens associés",
-    "addLink": "Ajouter un lien"
+    "addLink": "Ajouter un lien",
+    "noClients": "Vous n'avez pas de clients"
   },
   "projects": {
     "projects": "Projets",
     "parentProject": "Projet parent",
-    "inProgress": "Projets en cours",
+    "inProgress": "{count, plural, one {Projet en cours} other {Projets en cours}}",
     "listPage": {
       "title": "Répertoire de vos projets"
     },
@@ -50,7 +51,8 @@
     "detailsPage": {
       "associateMeetings": "Réunions associées"
     },
-    "notFound": "Projet non trouvé"
+    "notFound": "Projet non trouvé",
+    "noProjects": "Vous n'avez pas de projets"
   },
   "meetings": {
     "meetings": "Réunions",
@@ -60,7 +62,8 @@
     }
   },
   "files": {
-    "recentFiles": "Fichiers récents"
+    "recentFiles": "Fichiers récents",
+    "noFiles": "Vous n'avez aucun fichiers"
   },
   "firstName": "Prénom",
   "lastName": "Nom",

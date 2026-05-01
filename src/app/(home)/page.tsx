@@ -43,16 +43,15 @@ const HomePage = async () => {
         <section className={styles.homePage}>
             <div className={styles.displayGrid}>
                 <ComingMeetingsWidget comingMeetings={comingMeetings} />
-                <KpiCard name={t("clients.clients")} value={clients.length} />
-                <KpiCard name={t("projects.inProgress")} value={processingProjects.length} />
-                {recentFiles.length > 0 && (
-                    <div className={styles.recentFilesDiv}>
-                        <label>{t("files.recentFiles")}</label>
-                        <div className={styles.filesDiv}>
-                            {recentFiles.map((file: File) => <FileCard key={file.id} file={file} />)}
-                        </div>
+                <KpiCard name={t("clients.client", { count: clients.length})} value={clients.length} />
+                <KpiCard name={t("projects.inProgress", { count: processingProjects.length})} value={processingProjects.length} />
+                <div className={styles.recentFilesDiv}>
+                    <label>{t("files.recentFiles")}</label>
+                    <div className={styles.filesDiv}>
+                        {recentFiles.length === 0 && <p>{t("files.noFiles")}</p>}
+                        {recentFiles.map((file: File) => <FileCard key={file.id} file={file} />)}
                     </div>
-                )}
+                </div>
             </div>
         </section>
     );

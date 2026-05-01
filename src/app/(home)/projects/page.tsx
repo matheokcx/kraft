@@ -30,6 +30,7 @@ const ProjectListPage = async () => {
             </div>
 
             <div className={styles.projectList}>
+                {projects.length === 0 && <p>{t("projects.noProjects")}</p>}
                 {projects.map((project: Project) => (
                     <ProjectCard key={project.id} project={project} />
                 ))}

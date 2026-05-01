@@ -97,7 +97,6 @@ button:disabled {
 
 button:hover {
   cursor: pointer;
-  border: 2px solid hsl(0, 0%, 40%)
 }
 
 input,
