@@ -5,7 +5,6 @@ import {ClientStatus, GENDER} from "@/generated/prisma";
 import {ClientService} from "@/services/clientService";
 import {redirect} from "next/dist/client/components/redirect";
 import z from "zod";
-import {toast} from "@/utils/utils";
 import {Client} from "@/types";
 import {FileStorageService} from "@/services/fileStorageService";
 
@@ -52,17 +51,14 @@ export const createClient = async (inputs: FormData): Promise<void> => {
         };
         const isValid = clientSchema.safeParse(formDataObject);
 
-        if(isValid.success) {
-            const newClient: Client = await ClientService.addClient(isValid.data, Number(session.user.id));
-
-            if(newClient) {
-                redirect(`/clients/${newClient.id}`);
-            }
+        if(!isValid.success) {
+            throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
         }
-        else {
-            for(const error of isValid.error.issues){
-                await toast(error.message);
-            }
+
+        const newClient: Client = await ClientService.addClient(isValid.data, Number(session.user.id));
+
+        if(newClient) {
+            redirect(`/clients/${newClient.id}`);
         }
     }
 };
@@ -78,15 +74,12 @@ export const updateClient = async (data: FormData): Promise<void> => {
     const isValid = clientSchema.safeParse(formDataObject);
 
     if(session?.user?.id){
-        if(isValid.success){
-            await ClientService.editClient(isValid.data, clientId, Number(session.user.id));
-            redirect(`/clients/${clientId}`);
+        if(!isValid.success){
+            throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
         }
-        else {
-            for(const error of isValid.error.issues){
-                await toast(error.message);
-            }
-        }
+
+        await ClientService.editClient(isValid.data, clientId, Number(session.user.id));
+        redirect(`/clients/${clientId}`);
     }
 };
 

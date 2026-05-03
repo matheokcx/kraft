@@ -13,7 +13,7 @@ type SelectFieldProps = {
     defaultValue?: any;
 };
 
-const SelectField = ({name, values, label, displayKey, icon, required = true}: SelectFieldProps) => {
+const SelectField = ({name, values, label, displayKey, icon, required = true, defaultValue}: SelectFieldProps) => {
     const t = useTranslations();
 
     return (
@@ -22,7 +22,7 @@ const SelectField = ({name, values, label, displayKey, icon, required = true}: S
                 {icon && icon}
                 {label}
             </label>
-            <select id={name} name={name} required={required}>
+            <select id={name} name={name} required={required} defaultValue={defaultValue}>
                 {values.map((object: any, index: number) => (
                     <option key={index} value={displayKey ? object.id : object}>{displayKey ? object[displayKey] : t(object)}</option>
                 ))}
