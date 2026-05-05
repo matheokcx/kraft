@@ -19,7 +19,7 @@ export class FileStorageService {
     public static async uploadFile(file: File, addingDate?: number): Promise<void> {
         if(
             file.size < FileStorageService.minFileSize ||
-            file.name.trim().length > 0 ||
+            file.name.trim().length === 0 ||
             !(/^[a-zA-Z0-9][\w\-. ]{0,253}[a-zA-Z0-9]$/.test(file.name))
         ){
             return;
@@ -30,12 +30,12 @@ export class FileStorageService {
             const buffer = Buffer.from(bytes);
 
             const uploadDirectoryPath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files");
-            const newFilePath: string = path.join(uploadDirectoryPath, `${file.name}_${addingDate}`);
+            const newFilePath: string = path.join(uploadDirectoryPath, `${file.name.split(".")[0]}_${addingDate}.${file.name.split(".")[1]}`);
 
             await writeFile(newFilePath, buffer);
         }
         catch(error: any){
-            console.error(error.getMessage());
+            console.error(error.message);
         }
     }
 
@@ -45,7 +45,7 @@ export class FileStorageService {
             await unlink(filePath);
         }
         catch(error: any){
-            console.error(error.getMessage());
+            console.error(error.message);
         }
     }
 

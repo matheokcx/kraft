@@ -21,8 +21,8 @@ const projectSchema = z.object({
     cost: z.coerce.number().nonnegative("Le gain du projet ne peut pas être négatif"),
     clientId: z.coerce.number().nonnegative("L'id du client ne peut pas être négatif"),
     parentProjectId: z.coerce.number().refine((value: number) => value === 0).transform(() => null).nullable(),
-    startDate: z.iso.datetime(),
-    endDate: z.iso.datetime(),
+    startDate: z.coerce.date(),
+    endDate: z.coerce.date(),
     cover: z.union([
         z.file()
             .mime(FileStorageService.supportedMimeTypes.images)
@@ -37,20 +37,21 @@ export const createProject = async (data: FormData): Promise<void> => {
     const formDataObject = Object.fromEntries(data);
     const isValid = projectSchema.safeParse(formDataObject);
 
-    if(session?.user?.id && isValid.success) {
+    if(session?.user?.id) {
+        if(!isValid.success) {
+            throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
+        }
+
         const client: Client | null = await ClientService.getClient(isValid.data.clientId, Number(session.user.id));
 
         if(!client){
-            await toast("Ce n'est pas votre client");
-            return;
+            throw new Error("Ce n'est pas votre client !");
         }
 
         const newProject: Project = await ProjectService.addProject(isValid.data, clientId);
-        redirect(`/projects/${newProject.id}`);
-    }
-    else if(isValid.error){
-        for(const error of isValid.error.issues){
-            await toast(error.message);
+
+        if(newProject){
+            redirect(`/projects/${newProject.id}`);
         }
     }
 };
@@ -62,15 +63,12 @@ export const updateProject = async (data: FormData): Promise<void> => {
     const isValid = projectSchema.safeParse(formDataObject);
 
     if(session?.user?.id){
-        if(isValid.success){
-            await ProjectService.editProject(isValid.data, projectId, Number(session.user.id));
-            redirect(`/projects/${projectId}`);
+        if(!isValid.success){
+            throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
         }
-        else {
-            for(const error of isValid.error.issues){
-                await toast(error.message);
-            }
-        }
+
+        await ProjectService.editProject(isValid.data, projectId, Number(session.user.id));
+        redirect(`/projects/${projectId}`);
     }
 };
 

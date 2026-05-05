@@ -2,6 +2,7 @@ import {prismaClient} from "@/lib/prisma";
 import {Project} from "@/types";
 import {ProjectDifficulty} from "@/generated/prisma";
 import {FileStorageService} from "@/services/fileStorageService";
+import path from "path";
 
 type ProjectInformations = {
     title: string;
@@ -10,8 +11,8 @@ type ProjectInformations = {
     cost: number;
     clientId: number;
     parentProjectId: number | null;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     cover: File | null;
 };
 
@@ -64,8 +65,8 @@ export class ProjectService {
                 cost: data.cost,
                 clientId: clientId,
                 parentProjectId: data.parentProjectId,
-                startDate: new Date(data.startDate),
-                endDate: new Date(data.endDate),
+                startDate: data.startDate,
+                endDate: data.endDate,
                 cover: coverFile ? `/files/project_cover_${today}_${coverFile.name}` : null
             }
         });
@@ -84,6 +85,7 @@ export class ProjectService {
             }
 
             await FileStorageService.uploadFile(coverFile, today);
+            coverPath = `/files/${coverFile.name.split(".")[0]}_${today}.${coverFile.name.split(".")[1]}`;
         }
 
         return await prismaClient.project.update({
@@ -94,8 +96,8 @@ export class ProjectService {
                 cost: data.cost,
                 clientId: data.clientId,
                 parentProjectId: data.parentProjectId,
-                startDate: new Date(data.startDate),
-                endDate: new Date(data.endDate),
+                startDate: data.startDate,
+                endDate: data.endDate,
                 ...(coverPath !== undefined && { cover: coverPath })
             },
             where: {
