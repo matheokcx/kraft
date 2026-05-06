@@ -40,30 +40,40 @@ const clientSchema = z.object({
     gender: z.enum(Object.values(GENDER))
 });
 
-export const createClient = async (inputs: FormData): Promise<void> => {
+export type ClientFormState = { error?: string } | null;
+
+export const createClient = async (
+    _prevState: ClientFormState,
+    inputs: FormData
+): Promise<ClientFormState> => {
     const session = await getServerSession(authOptions);
+    if(!session?.user?.id) return { error: "Unauthenticated" };
 
-    if(session?.user?.id) {
-        const formDataObject = {
-            ...Object.fromEntries(inputs),
-            links: inputs.getAll("links")
-        };
-        const isValid = clientSchema.safeParse(formDataObject);
+    const formDataObject = {
+        ...Object.fromEntries(inputs),
+        links: inputs.getAll("links")
+    };
+    const isValid = clientSchema.safeParse(formDataObject);
 
-        if(!isValid.success) {
-            throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
-        }
-
-        const newClient: Client = await ClientService.addClient(isValid.data, Number(session.user.id));
-
-        if(newClient) {
-            redirect(`/clients/${newClient.id}`);
-        }
+    if(!isValid.success) {
+        return { error: isValid.error.issues.map(i => i.message).join("\n\n") };
     }
+
+    const newClient: Client = await ClientService.addClient(isValid.data, Number(session.user.id));
+
+    if(newClient) {
+        redirect(`/clients/${newClient.id}`);
+    }
+    return null;
 };
 
-export const updateClient = async (data: FormData): Promise<void> => {
+export const updateClient = async (
+    _prevState: ClientFormState,
+    data: FormData
+): Promise<ClientFormState> => {
     const session = await getServerSession(authOptions);
+    if(!session?.user?.id) return { error: "Unauthenticated" };
+
     const clientId: number = Number(data.get("clientId") as string);
 
     const formDataObject = {
@@ -72,14 +82,12 @@ export const updateClient = async (data: FormData): Promise<void> => {
     };
     const isValid = clientSchema.safeParse(formDataObject);
 
-    if(session?.user?.id){
-        if(!isValid.success){
-            throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
-        }
-
-        await ClientService.editClient(isValid.data, clientId, Number(session.user.id));
-        redirect(`/clients/${clientId}`);
+    if(!isValid.success){
+        return { error: isValid.error.issues.map(i => i.message).join("\n\n") };
     }
+
+    await ClientService.editClient(isValid.data, clientId, Number(session.user.id));
+    redirect(`/clients/${clientId}`);
 };
 
 export const removeClient = async (clientId: number): Promise<void> => {

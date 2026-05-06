@@ -17,7 +17,7 @@ import LinksList from "@/components/UI/LinksList";
 import {useTranslations} from "next-intl";
 import {createClient, updateClient} from "@/app/(home)/clients/action";
 import toast from "react-hot-toast";
-import {isRedirectError} from "next/dist/client/components/redirect-error";
+import {useActionState, useEffect} from "react";
 
 type ClientFormProps = {
     client?: Client;
@@ -83,6 +83,9 @@ const ClientForm = ({client}: ClientFormProps) => {
         }
     ];
 
+    const [createState, create, isCreating] = useActionState(createClient, null);
+    const [updateState, edit, isUpdating] = useActionState(updateClient, null);
+
     if(client){
         inputs.push({
             type: "hidden",
@@ -92,24 +95,16 @@ const ClientForm = ({client}: ClientFormProps) => {
         });
     }
 
-    const handleSubmit = async (formData: FormData): Promise<void> => {
-        try{
-            if(client){
-                await updateClient(formData);
-            } else {
-                await createClient(formData);
-            }
-        }
-        catch(error: any){
-            if(isRedirectError(error)) {
-                throw error;
-            }
-            toast.error(error.message);
-        }
-    };
+    useEffect(() => {
+        if(createState?.error) toast.error(createState.error);
+    }, [createState]);
+
+    useEffect(() => {
+        if(updateState?.error) toast.error(updateState.error);
+    }, [updateState]);
 
     return (
-        <form action={handleSubmit} className={styles.gridForm}>
+        <form action={client ? edit : create} className={styles.gridForm}>
             <div className={styles.titleRow}>
                 <h1 style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     <BackButton />
@@ -123,8 +118,12 @@ const ClientForm = ({client}: ClientFormProps) => {
                         <Input key={index} {...input} />
                     ))}
 
-                    <button className={styles.valideFormButton} type="submit">{client ? t('edit') : t('create')}</button>
-
+                    <button className={styles.valideFormButton}
+                            type="submit"
+                            disabled={isCreating || isUpdating}
+                    >
+                        {client ? t('edit') : t('create')}
+                    </button>
                 </div>
                 <div>
                     <SelectField name="gender"
@@ -148,7 +147,6 @@ const ClientForm = ({client}: ClientFormProps) => {
                     <LinksList existinglinks={client?.links} />
                 </div>
             </div>
-
         </form>
     );
 };
