@@ -1,17 +1,11 @@
-// Auth
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
-// ORM
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prismaClient } from "@/lib/prisma";
-// Types
 import { AuthOptions } from "next-auth";
 import { User } from "@/generated/prisma";
-// Others
+import {getClientIp, getUserRateLimit, UserRateLimitInfo} from "@/lib/rateLimit";
 import bcrypt from "bcrypt";
-
-
-
 
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prismaClient),
@@ -28,9 +22,16 @@ export const authOptions: AuthOptions = {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" }
             },
-            authorize: async (credentials: any): Promise<any> => {
+            authorize: async (credentials: any, request: any): Promise<any> => {
                 if (!credentials?.email || !credentials?.password) {
                     return null;
+                }
+
+                const ipAddress: string = getClientIp({ headers: request?.headers ?? {} });
+                const limit: UserRateLimitInfo = getUserRateLimit(`sign-in:${ipAddress}:${credentials.email}`, 5, 60_000);
+
+                if (!limit.success) {
+                    throw new Error("Trop de tentatives de connexion. Veuillez réessayer dans une minute.");
                 }
 
                 const user: User | null = await prismaClient.user.findUnique({ where: { email: credentials.email } });

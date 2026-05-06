@@ -59,7 +59,8 @@
     "shortcutSectionTitle": "Your coming meetings",
     "detailsModal": {
       "noDescription": "No description for this meeting"
-    }
+    },
+    "notFound": "Meeting not found"
   },
   "files": {
     "recentFiles": "Recent files",

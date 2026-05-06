@@ -18,7 +18,7 @@ const MeetingsCalendar = ({ meetings }: MeetingsCalendarProps) => {
             initialView="dayGridMonth"
             displayEventTime={true}
             progressiveEventRendering={true}
-            eventClick={(arg) => router.push(`/meetings/details/${arg.event.id}`)}
+            eventClick={(arg) => router.push(`/meetings/${arg.event.id}`)}
             eventContent={(event: EventContentArg) => (
                 <div style={{
                     overflow: "hidden",

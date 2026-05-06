@@ -1,12 +1,13 @@
 import {MeetingService} from "@/services/meetingService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
-import Modal from "@/components/UI/Modal/Modal";
+import {Meeting} from "@/generated/prisma";
+import styles from "@/app/(home)/meetings/[id]/meeting-details.module.css";
 import Separator from "@/components/UI/Separator";
-import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
-import styles from "./meeting-details-modal.module.css";
-import {getTranslations} from "next-intl/server";
 import {ArrowRight, CalendarDot, Clock, Folder, Notepad, User} from "@phosphor-icons/react/ssr";
+import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
+import Modal from "@/components/UI/Modal/Modal";
+import {getTranslations} from "next-intl/server";
 
 const MeetingDetailModal = async ({params}: {params: Promise<{id: string}>}) => {
     const {id} = await params;
@@ -14,14 +15,10 @@ const MeetingDetailModal = async ({params}: {params: Promise<{id: string}>}) => 
     const t = await getTranslations();
 
     if(!session?.user) {
-        return null;
+        return <p>{t('auth.notAuthText')}</p>;
     }
 
     const meeting = await MeetingService.getMeeting(Number(id), Number(session.user.id));
-
-    if(!meeting) {
-        return null;
-    }
 
     const formatTime = (date: Date) => {
         return new Date(date).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
@@ -35,6 +32,10 @@ const MeetingDetailModal = async ({params}: {params: Promise<{id: string}>}) => 
             day: "numeric"
         });
     };
+
+    if(!meeting) {
+        return <p>{t("meetings.notFound")}</p>;
+    }
 
     return (
         <Modal>

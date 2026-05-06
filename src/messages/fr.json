@@ -59,7 +59,8 @@
     "shortcutSectionTitle": "Vos prochaines réunions",
     "detailsModal": {
       "noDescription": "Pas de description pour cette réunion"
-    }
+    },
+    "notFound": "Meeting not found"
   },
   "files": {
     "recentFiles": "Fichiers récents",

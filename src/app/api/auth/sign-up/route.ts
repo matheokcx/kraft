@@ -1,13 +1,18 @@
 import {NextRequest, NextResponse} from "next/server";
 import {User} from "@/generated/prisma";
 import {prismaClient} from "@/lib/prisma";
+import { enforceRateLimit, getClientIp } from "@/lib/rateLimit";
 import bcrypt from 'bcrypt';
 import * as z from "zod";
 
-
-
 export async function POST(request: NextRequest) {
     try {
+        const limited = enforceRateLimit(`sign-up:${getClientIp(request)}`, 5, 60_000);
+
+        if (limited) {
+            return limited;
+        }
+
         const { email, password, name, birthdate, gender, country } = await request.json();
         const UserSchema = z.object({
             email: z.email("Votre email doit respecter la structure standard: nom@domain.exemple"),

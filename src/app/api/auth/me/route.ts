@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prismaClient } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
+import { enforceRateLimit, getClientIp } from "@/lib/rateLimit";
 import { User } from "@/types";
 
 export async function GET(request: NextRequest) {
+    const limited = enforceRateLimit(`me:${getClientIp(request)}`, 30, 60_000);
+
+    if (limited) {
+        return limited;
+    }
+
     const session: any = await getServerSession(authOptions);
 
     if (!session || !session.user?.email) {
