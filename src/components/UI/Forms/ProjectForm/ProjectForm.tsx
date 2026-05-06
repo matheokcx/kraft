@@ -1,5 +1,4 @@
 "use client"
-import {Client, Project} from "@/types";
 import {createProject, updateProject} from "@/app/(home)/projects/action";
 import styles from "./project-form.module.css";
 import Separator from "@/components/UI/Separator";
@@ -9,7 +8,7 @@ import {
     UserIcon
 } from "@phosphor-icons/react/ssr";
 import SelectField from "@/components/UI/SelectField/SelectField";
-import {ProjectDifficulty} from "@/generated/prisma";
+import {Client, Project, ProjectDifficulty} from "@/generated/prisma";
 import {useTranslations} from "next-intl";
 import {isRedirectError} from "next/dist/client/components/redirect-error";
 import toast from "react-hot-toast";

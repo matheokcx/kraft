@@ -1,8 +1,8 @@
 "use client";
 import styles from "./fileCard.module.css";
-import { File } from "@/types"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { File } from "@/generated/prisma";
 
 type FileCardProps = {
     file: File;

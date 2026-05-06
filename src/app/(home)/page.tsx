@@ -1,6 +1,5 @@
 import styles from "./homepage.module.css";
 import KpiCard from "@/components/UI/Widgets/KpiCard";
-import {Client, File, Meeting, Project} from "@/types";
 import {getFormattedDate} from "@/utils/utils";
 import FileCard from "@/components/UI/Cards/File/FileCard";
 import {getServerSession} from "next-auth/next";
@@ -11,6 +10,7 @@ import {FileService} from "@/services/fileService";
 import {MeetingService} from "@/services/meetingService";
 import {getTranslations} from "next-intl/server";
 import ComingMeetingsWidget from "@/components/UI/Widgets/ComingMeetingsWidget";
+import {Client, Meeting, Project, File} from "@/generated/prisma";
 
 const HomePage = async () => {
     const session = await getServerSession(authOptions);

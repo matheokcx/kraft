@@ -1,11 +1,11 @@
 import {ProjectService} from "@/services/projectService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
-import {Client, Project} from "@/types";
 import {ClientService} from "@/services/clientService";
 import {getTranslations} from "next-intl/server";
 import ProjectForm from "@/components/UI/Forms/ProjectForm/ProjectForm";
 import styles from "@/app/(home)/projects/create/project-create-page.module.css";
+import {Client, Project} from "@/generated/prisma";
 
 const EditProjectPage = async ({ params }: { params: Promise<{ id: string}>}) => {
     const { id } = await params;

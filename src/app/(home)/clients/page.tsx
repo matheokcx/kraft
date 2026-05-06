@@ -1,5 +1,4 @@
 import styles from "./clients-page.module.css";
-import {Client} from "@/types";
 import ClientCard from "@/components/UI/Cards/Client/ClientCard";
 import Link from "next/link";
 import {Plus} from "@phosphor-icons/react/ssr";
@@ -7,6 +6,7 @@ import {ClientService} from "@/services/clientService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
 import {getTranslations} from "next-intl/server";
+import {Client} from "@/generated/prisma";
 
 const ClientsPage = async () => {
     const session = await getServerSession(authOptions);

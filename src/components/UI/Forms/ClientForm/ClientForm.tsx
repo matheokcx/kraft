@@ -4,7 +4,7 @@ import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import Separator from "@/components/UI/Separator";
 import Input from "@/components/UI/Input/Input";
 import SelectField from "@/components/UI/SelectField/SelectField";
-import {ClientStatus, GENDER} from "@/generated/prisma";
+import {Client, ClientStatus, GENDER} from "@/generated/prisma";
 import {
     BriefcaseIcon,
     CakeIcon, CloudArrowUpIcon,
@@ -18,7 +18,6 @@ import {useTranslations} from "next-intl";
 import {createClient, updateClient} from "@/app/(home)/clients/action";
 import toast from "react-hot-toast";
 import {isRedirectError} from "next/dist/client/components/redirect-error";
-import {Client} from "@/types";
 
 type ClientFormProps = {
     client?: Client;

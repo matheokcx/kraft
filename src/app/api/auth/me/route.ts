@@ -4,9 +4,6 @@ import { prismaClient } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import { User } from "@/types";
 
-
-
-
 export async function GET(request: NextRequest) {
     const session: any = await getServerSession(authOptions);
 

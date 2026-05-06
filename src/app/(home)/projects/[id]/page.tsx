@@ -1,7 +1,6 @@
 import {ProjectService} from "@/services/projectService";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
-import {Client, File, Meeting, Project, ProjectDifficulty} from "@/types";
 import styles from "./project-details-page.module.css";
 import Separator from "@/components/UI/Separator";
 import {
@@ -30,6 +29,7 @@ import {getTranslations} from "next-intl/server";
 import {removeProject} from "@/app/(home)/projects/action";
 import Link from "next/link";
 import MeetingReduceCard from "@/components/UI/Cards/Meeting/MeetingReduceCard";
+import {Client, Meeting, Project, ProjectDifficulty, File} from "@/generated/prisma";
 
 const ProjectDetailPage = async ({params}: {params: Promise<{id: string}>}) => {
     const session = await getServerSession(authOptions);

@@ -1,12 +1,11 @@
 "use server"
 import z from "zod";
-import {Meeting, Project} from "@/types";
 import {redirect} from "next/dist/client/components/redirect";
-import {toast} from "@/utils/utils";
 import {MeetingService} from "@/services/meetingService";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {ProjectService} from "@/services/projectService";
+import {Meeting, Project} from "@/generated/prisma";
 
 const meetingSchema = z.object({
     title: z.string()
@@ -31,19 +30,21 @@ export const createMeeting = async (inputs: FormData): Promise<void> => {
     const session = await getServerSession(authOptions);
     const isValid = meetingSchema.safeParse(formDataObject);
 
-    if(session?.user?.id && isValid.success) {
+    if(!isValid.success) {
+        throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
+    }
+
+    if(session?.user?.id) {
         const project: Project | null = await ProjectService.getProject(isValid.data.projectId, Number(session?.user?.id));
 
         if(!project){
-            await toast("Ce n'est pas l'un de vos projets");
+            throw new Error("Ce n'est pas l'un de vos projets");
         }
 
         const newMeeting: Meeting = await MeetingService.addMeeting(isValid.data);
 
-        redirect(`/meetings/${newMeeting.id}`);
-    } else if(isValid.error) {
-        for (const error of isValid.error.issues) {
-            await toast(error.message);
+        if(newMeeting){
+            redirect(`/meetings/${newMeeting.id}`);
         }
     }
 };
@@ -54,23 +55,19 @@ export const updateMeeting = async (data: FormData): Promise<void> => {
     const formDataObject = Object.fromEntries(data);
     const isValid = meetingSchema.safeParse(formDataObject);
 
+    if(!isValid.success) {
+        throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
+    }
+
     if(session?.user?.id){
-        if(isValid.success){
-            const project: Project | null = await ProjectService.getProject(isValid.data.projectId, Number(session.user.id));
+        const project: Project | null = await ProjectService.getProject(isValid.data.projectId, Number(session.user.id));
 
-            if(!project){
-                await toast("Ce n'est pas l'un de vos projets");
-                return;
-            }
+        if(!project){
+            throw new Error("Ce n'est pas l'un de vos projets");
+        }
 
-            await MeetingService.editMeeting(isValid.data, meetingId, Number(session.user.id));
-            redirect(`/meetings/${meetingId}`);
-        }
-        else {
-            for(const error of isValid.error.issues){
-                await toast(error.message);
-            }
-        }
+        await MeetingService.editMeeting(isValid.data, meetingId, Number(session.user.id));
+        redirect(`/meetings/${meetingId}`);
     }
 };
 

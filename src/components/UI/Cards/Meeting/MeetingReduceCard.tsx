@@ -1,6 +1,6 @@
 import styles from "./meetingReduceCard.module.css"
 import {useTranslations} from "next-intl";
-import {Meeting} from "@/types";
+import {Meeting} from "@/generated/prisma";
 
 type MeetingReduceCardProps = {
     meeting: Meeting;

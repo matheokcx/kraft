@@ -4,9 +4,9 @@ import {Plus} from "@phosphor-icons/react/ssr";
 import {ProjectService} from "@/services/projectService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
-import {Project} from "@/types";
 import ProjectCard from "@/components/UI/Cards/Project/ProjectCard";
 import {getTranslations} from "next-intl/server";
+import {Project} from "@/generated/prisma";
 
 
 const ProjectListPage = async () => {

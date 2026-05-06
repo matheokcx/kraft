@@ -1,5 +1,5 @@
 import {prismaClient} from "@/lib/prisma";
-import {Meeting} from "@/types";
+import {Meeting} from "@/generated/prisma";
 
 type MeetingInfos = {
     title: string;

@@ -1,10 +1,10 @@
 import {getTranslations} from "next-intl/server";
 import styles from "./edit-client-page.module.css";
-import {Client} from "@/types";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {ClientService} from "@/services/clientService";
 import ClientForm from "@/components/UI/Forms/ClientForm/ClientForm";
+import {Client} from "@/generated/prisma";
 
 const EditClientPage = async ({ params }: { params: Promise<{ id: string}>}) => {
     const { id } = await params;

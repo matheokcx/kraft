@@ -1,12 +1,10 @@
 "use server"
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
-import {Client, Project} from "@/types";
 import {ProjectService} from "@/services/projectService";
 import {redirect} from "next/dist/client/components/redirect";
 import {z} from "zod";
-import {ProjectDifficulty} from "@/generated/prisma";
-import {toast} from "@/utils/utils";
+import {Client, Project, ProjectDifficulty} from "@/generated/prisma";
 import {FileStorageService} from "@/services/fileStorageService";
 import {ClientService} from "@/services/clientService";
 

@@ -1,10 +1,9 @@
 "use client";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import FullCalendar from "@fullcalendar/react";
-import {Meeting} from "@/types";
 import {EventContentArg} from "@fullcalendar/core";
 import {useRouter} from "next/navigation";
-
+import {Meeting} from "@/generated/prisma";
 
 type MeetingsCalendarProps = {
     meetings: Meeting[];

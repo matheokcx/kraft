@@ -1,8 +1,6 @@
 import {prismaClient} from "@/lib/prisma";
-import {Project} from "@/types";
-import {ProjectDifficulty} from "@/generated/prisma";
+import {Project, ProjectDifficulty} from "@/generated/prisma";
 import {FileStorageService} from "@/services/fileStorageService";
-import path from "path";
 
 type ProjectInformations = {
     title: string;

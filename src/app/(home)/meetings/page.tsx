@@ -4,7 +4,7 @@ import {getServerSession} from "next-auth/next";
 import {redirect} from "next/navigation";
 import MeetingsCalendarWrapper from "@/components/Layout/Meeting/MeetingsCalendarWrapper";
 import styles from "./meetings-page.module.css";
-import {Meeting} from "@/types";
+import {Meeting} from "@/generated/prisma";
 
 const MeetingsCalendarPage = async () => {
     const session = await getServerSession(authOptions);

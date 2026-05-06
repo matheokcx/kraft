@@ -1,11 +1,10 @@
 "use server"
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
-import {ClientStatus, GENDER} from "@/generated/prisma";
+import {Client, ClientStatus, GENDER} from "@/generated/prisma";
 import {ClientService} from "@/services/clientService";
 import {redirect} from "next/dist/client/components/redirect";
 import z from "zod";
-import {Client} from "@/types";
 import {FileStorageService} from "@/services/fileStorageService";
 
 const clientSchema = z.object({

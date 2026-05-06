@@ -1,8 +1,6 @@
-import {ClientNote} from "@/types";
 import styles from "./client-note-section.module.css";
 import {getTranslations} from "next-intl/server";
-
-
+import {ClientNote} from "@/generated/prisma";
 
 type ClientNotesSectionProps = {
     clientNotes: ClientNote[];

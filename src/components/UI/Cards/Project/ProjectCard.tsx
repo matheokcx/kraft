@@ -1,10 +1,8 @@
 "use client"
 import styles from "./project-card.module.css";
-import {Project} from "@/types";
 import {ArrowRight, CalendarCheck, CalendarDot} from "@phosphor-icons/react/ssr";
 import {useRouter} from "next/navigation";
-
-
+import {Project} from "@/generated/prisma";
 
 type ProjectCardProps = {
     project: Project;

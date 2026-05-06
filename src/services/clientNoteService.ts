@@ -1,5 +1,5 @@
 import { prismaClient } from "@/lib/prisma";
-import {ClientNote} from "@/types";
+import {ClientNote} from "@/generated/prisma";
 
 type ClientNoteInfos = {
     text: string;

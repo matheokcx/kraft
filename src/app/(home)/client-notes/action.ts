@@ -4,9 +4,8 @@ import {authOptions} from "@/lib/auth";
 import z from "zod";
 import {ClientNoteService} from "@/services/clientNoteService";
 import {ClientService} from "@/services/clientService";
-import {toast} from "@/utils/utils";
-import {Client, ClientNote} from "@/types";
 import {redirect} from "next/dist/client/components/redirect";
+import {Client, ClientNote} from "@/generated/prisma";
 
 const clientNoteSchema = z.object({
     text: z.string()
@@ -20,19 +19,21 @@ export const addClientNote = async (formData: FormData): Promise<void> => {
     const formDataObject = {...Object.fromEntries(formData)};
     const isValid = clientNoteSchema.safeParse(formDataObject);
 
-    if(session?.user?.id && isValid.success){
+    if(!isValid.success) {
+        throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
+    }
+
+    if(session?.user?.id){
         const client: Client | null = await ClientService.getClient(isValid.data.clientId, Number(session.user.id));
 
         if(!client) {
-            await toast("Ce n'est pas votre client");
-            return;
+            throw new Error("Ce n'est pas votre client");
         }
 
         const newClientNote: ClientNote = await ClientNoteService.createClientNote(isValid.data);
-        redirect(`/client-notes/${newClientNote.id}`);
-    } else if (isValid.error){
-        for(const error of isValid.error.issues){
-            await toast(error.message);
+
+        if(newClientNote){
+            redirect(`/client-notes/${newClientNote.id}`);
         }
     }
 };
@@ -43,16 +44,13 @@ export const updateClientNote = async (formData: FormData): Promise<void> => {
     const formDataObject = {...Object.fromEntries(formData)};
     const isValid = clientNoteSchema.safeParse(formDataObject);
 
+    if(!isValid.success) {
+        throw new Error(isValid.error.issues.map(i => i.message).join("\n\n"));
+    }
+
     if(session?.user?.id){
-        if(isValid.success){
-            await ClientNoteService.editClientNote(isValid.data, clientNoteId, Number(session.user.id));
-            redirect(`/client-notes/${clientNoteId}`);
-        }
-        else {
-            for(const error of isValid.error.issues){
-                await toast(error.message);
-            }
-        }
+        await ClientNoteService.editClientNote(isValid.data, clientNoteId, Number(session.user.id));
+        redirect(`/client-notes/${clientNoteId}`);
     }
 };
 

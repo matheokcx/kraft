@@ -1,10 +1,9 @@
 import {ClientService} from "@/services/clientService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
-import {Client, ClientNote} from "@/types";
 import styles from "./client-detail-page.module.css";
 import Chip from "@/components/UI/Chip/Chip";
-import {$Enums, ClientStatus} from "@/generated/prisma";
+import {$Enums, Client, ClientNote, ClientStatus} from "@/generated/prisma";
 import {statusColors} from "@/lib/statusColors";
 import {Envelope, GenderFemale, GenderMale, PencilIcon, Phone, TrashIcon} from "@phosphor-icons/react/ssr";
 import Separator from "@/components/UI/Separator";

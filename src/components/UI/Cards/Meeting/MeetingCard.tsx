@@ -1,8 +1,6 @@
-import { Meeting } from "@/types";
 import styles from "./meeting-card.module.css";
 import {ArrowRight, Clock} from "@phosphor-icons/react/ssr";
-
-
+import {Meeting} from "@/generated/prisma";
 
 type MeetingCardProps = {
     meeting: Meeting;

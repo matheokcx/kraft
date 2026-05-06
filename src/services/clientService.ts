@@ -1,7 +1,7 @@
 import {prismaClient} from "@/lib/prisma";
-import {Client, Gender} from "@/types";
 import {FileStorageService} from "@/services/fileStorageService";
-import {ClientStatus} from "@/generated/prisma";
+import {Client, ClientStatus} from "@/generated/prisma";
+import {Gender} from "@/types";
 
 type ClientFilters = {
     job?: string;

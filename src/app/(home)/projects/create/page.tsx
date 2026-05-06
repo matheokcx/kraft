@@ -1,10 +1,10 @@
 import styles from "./project-create-page.module.css";
-import {Client} from "@/types";
 import {ClientService} from "@/services/clientService";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/auth";
 import {getTranslations} from "next-intl/server";
 import ProjectForm from "@/components/UI/Forms/ProjectForm/ProjectForm";
+import {Client} from "@/generated/prisma";
 
 const ProjectCreatePage = async () => {
     const session = await getServerSession(authOptions);

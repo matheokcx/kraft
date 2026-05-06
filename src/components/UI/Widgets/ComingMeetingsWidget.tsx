@@ -1,8 +1,8 @@
 import styles from "./coming-meetings-widget.module.css";
-import {Meeting} from "@/types";
 import {getWeekDay} from "@/utils/utils";
 import MeetingReduceCard from "@/components/UI/Cards/Meeting/MeetingReduceCard";
 import {useTranslations} from "next-intl";
+import {Meeting} from "@/generated/prisma";
 
 type ComingMeetingsWidgetProps = {
     comingMeetings: Map<string, Meeting[]>;

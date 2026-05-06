@@ -1,7 +1,7 @@
-import {Meeting} from "@/types";
 import {MeetingService} from "@/services/meetingService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
+import {Meeting} from "@/generated/prisma";
 
 const MeetingDetailModal = async ({params}: {params: Promise<{id: string}>}) => {
     const {id} = await params;
