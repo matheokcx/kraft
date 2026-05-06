@@ -2,12 +2,12 @@
 import styles from "./client-form.module.css";
 import BackButton from "@/components/UI/Buttons/BackButton/BackButton";
 import Separator from "@/components/UI/Separator";
-import Input from "@/components/UI/Input/Input";
+import Input, {InputProps} from "@/components/UI/Input/Input";
 import SelectField from "@/components/UI/SelectField/SelectField";
 import {Client, ClientStatus, GENDER} from "@/generated/prisma";
 import {
     BriefcaseIcon,
-    CakeIcon, CloudArrowUpIcon,
+    CakeIcon,
     EnvelopeIcon,
     GenderIntersexIcon, LinkIcon,
     PhoneIcon,
@@ -25,11 +25,76 @@ type ClientFormProps = {
 
 const ClientForm = ({client}: ClientFormProps) => {
     const t = useTranslations();
-    const isEdit: boolean = !!client;
+    const inputs: InputProps[] = [
+        {
+            type: "text",
+            name: "lastName",
+            label: t("lastName"),
+            placeholder: "Dubois",
+            defaultValue: client?.lastName
+        },
+        {
+            type: "text",
+            name: "firstName",
+            label: t("firstName"),
+            placeholder: "Alex",
+            defaultValue: client?.firstName
+        },
+        {
+            type: "date",
+            name: "birthdate",
+            label: t("birthdate"),
+            placeholder: "Alex",
+            defaultValue: client?.birthdate?.toISOString().split("T")[0],
+            icon: <CakeIcon size={24} />,
+            required: false
+        },
+        {
+            type: "text",
+            name: "job",
+            label: t("job"),
+            placeholder: "CEO",
+            defaultValue: client?.job,
+            icon: <BriefcaseIcon size={24} />
+        },
+        {
+            type: "email",
+            name: "mail",
+            label: "Mail",
+            placeholder: "alex.dubois@example.com",
+            defaultValue: client?.mail ?? undefined,
+            icon: <EnvelopeIcon size={24} />,
+            required: false
+        },
+        {
+            type: "tel",
+            name: "phone",
+            label: "0707070707",
+            placeholder: "CEO",
+            defaultValue: client?.phone ?? undefined,
+            icon: <PhoneIcon size={24} />,
+            required: false
+        },
+        {
+            type: "file",
+            name: "image",
+            label: t("clients.imageFileInputText"),
+            required: false
+        }
+    ];
+
+    if(client){
+        inputs.push({
+            type: "hidden",
+            name: "clientId",
+            label: "clientId",
+            defaultValue: client.id
+        });
+    }
 
     const handleSubmit = async (formData: FormData): Promise<void> => {
         try{
-            if(isEdit){
+            if(client){
                 await updateClient(formData);
             } else {
                 await createClient(formData);
@@ -48,87 +113,34 @@ const ClientForm = ({client}: ClientFormProps) => {
             <div className={styles.titleRow}>
                 <h1 style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     <BackButton />
-                    {isEdit ? t('clients.updatePage.title') : t('clients.createPage.title')}
+                    {client ? t('clients.updatePage.title') : t('clients.createPage.title')}
                 </h1>
                 <Separator widthPercent={30} />
             </div>
-            <div style={{ display: "grid", gap: "32px" }}>
-                <div className={styles.inputsLine}>
-                    <Input type="text"
-                           name="lastName"
-                           label={t("lastName")}
-                           placeholder="Dubois"
-                           defaultValue={client?.lastName}
-                    />
-                    <Input type="text"
-                           name="firstName"
-                           label={t("firstName")}
-                           placeholder="Alex"
-                           defaultValue={client?.firstName}
-                    />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
+                <div style={{ display: "grid", gap: "12px" }}>
+                    {inputs.map((input: InputProps, index: number) => (
+                        <Input key={index} {...input} />
+                    ))}
+
+                    <button className={styles.valideFormButton} type="submit">{client ? t('edit') : t('create')}</button>
+
                 </div>
-
-                <div className={styles.inputsLine}>
-
-                    <div className={styles.selectDiv} style={{width: "50%"}}>
-                        <SelectField name="gender"
-                                     label="Sex*"
-                                     values={Object.values(GENDER)}
-                                     icon={<GenderIntersexIcon size={24} />}
-                                     defaultValue={client?.gender}
-                        />
-                    </div>
-                    <Input type="date"
-                           name="birthdate"
-                           label={t("birthdate")}
-                           required={false}
-                           icon={<CakeIcon size={24} />}
-                           defaultValue={client?.birthdate?.toISOString().split("T")[0]}
+                <div>
+                    <SelectField name="gender"
+                                 label="Sex*"
+                                 values={Object.values(GENDER)}
+                                 icon={<GenderIntersexIcon size={24} />}
+                                 defaultValue={client?.gender}
                     />
-                </div>
 
-                <Input type="text"
-                       name="job"
-                       label={t("job")}
-                       placeholder="CEO"
-                       icon={<BriefcaseIcon size={24} />}
-                       defaultValue={client?.job}
-                />
-
-                <SelectField name="status"
-                             label={t("status")}
-                             values={Object.values(ClientStatus)}
-                             icon={<ThermometerIcon size={24} />}
-                             defaultValue={client?.status}
-                />
-
-
-                <div className={styles.inputsLine}>
-                    <Input type="mail"
-                           name="mail"
-                           label="Mail"
-                           placeholder="alex.dubois@example.com"
-                           required={false}
-                           icon={<EnvelopeIcon size={24} />}
-                           defaultValue={client?.mail ?? undefined}
+                    <SelectField name="status"
+                                 label={t("status")}
+                                 values={Object.values(ClientStatus)}
+                                 icon={<ThermometerIcon size={24} />}
+                                 defaultValue={client?.status}
                     />
-                    <Input type="tel"
-                           name="phone"
-                           label={t("phone")}
-                           placeholder="0707070707"
-                           required={false}
-                           icon={<PhoneIcon size={24} />}
-                           defaultValue={client?.phone ?? undefined}
-                    />
-                </div>
-                <button className={styles.valideFormButton} type="submit">{isEdit ? t('edit') : t('create')}</button>
-            </div>
-            <div>
-                <div className={styles.dropFileBox}>
-                    <CloudArrowUpIcon size={48} />
-                    <Input type="file" name="image" label={t("clients.imageFileInputText")} required={false} />
-                </div>
-                <div style={{ marginTop: "32px"}}>
+
                     <label style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "10px" }}>
                         <LinkIcon size={24} />
                         {t("clients.associateLinksLabel")}
@@ -136,14 +148,7 @@ const ClientForm = ({client}: ClientFormProps) => {
                     <LinksList existinglinks={client?.links} />
                 </div>
             </div>
-            {isEdit && (
-                <Input type="hidden"
-                       label="clientId"
-                       name="clientId"
-                       required={true}
-                       defaultValue={client!.id}
-                />
-            )}
+
         </form>
     );
 };
