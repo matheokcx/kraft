@@ -43,4 +43,24 @@
     border: 0;
 }
 
+@media screen and (max-width: 1024px) {
+    .signUpForm {
+        width: 60%;
+        padding: 32px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .signUpForm {
+        width: 90%;
+        padding: 24px;
+        gap: 16px;
+    }
+
+    .signUpForm input,
+    .signUpForm select {
+        width: 100%;
+    }
+}
+
 

@@ -115,3 +115,23 @@
     border-color: hsl(116, 50%, 60%);
     color: hsl(116, 50%, 60%);
 }
+
+@media screen and (max-width: 768px) {
+    .projectRelationInformation {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .projectDetailsPage {
+        width: 100%;
+    }
+
+    .pageBody {
+        padding: 10px;
+    }
+
+    .projectDetails {
+        padding: 12px;
+    }
+}

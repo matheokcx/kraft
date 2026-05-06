@@ -26,3 +26,9 @@
 .clientNoteDateText {
     opacity: 50%;
 }
+
+@media screen and (max-width: 768px) {
+    .clientNoteCard {
+        width: 100%;
+    }
+}

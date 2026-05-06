@@ -137,6 +137,25 @@ hr {
 }
 
 
+@media screen and (max-width: 500px) {
+  body > main {
+    padding: 12px !important;
+    gap: 8px !important;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

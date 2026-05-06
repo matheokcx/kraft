@@ -26,3 +26,13 @@
     background: var(--primary);
     border-color: hsl(200, 80%, 50%);
 }
+
+@media screen and (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .inputsLine {
+        flex-wrap: wrap;
+    }
+}

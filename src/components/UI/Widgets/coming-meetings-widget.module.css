@@ -32,8 +32,18 @@
     font-size: 12px;
 }
 
+@media screen and (max-width: 900px) {
+    .comingSoonMeetingsWidget {
+        grid-column: span 2;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .comingSoonMeetingsWidget {
         grid-column: span 4;
+    }
+
+    .comingSoonMeetingsDiv {
+        grid-template-columns: 1fr;
     }
 }

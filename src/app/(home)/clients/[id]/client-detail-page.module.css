@@ -65,8 +65,15 @@
     color: hsl(116, 50%, 60%);
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
     .infos {
         flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .pageHeader {
+        flex-wrap: wrap;
+        gap: 10px;
     }
 }

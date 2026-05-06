@@ -53,4 +53,8 @@
     .titleRow {
         grid-column: span 1;
     }
+
+    .inputsLine {
+        flex-wrap: wrap;
+    }
 }

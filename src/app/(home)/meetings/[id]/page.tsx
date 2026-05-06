@@ -1,7 +1,6 @@
 import {MeetingService} from "@/services/meetingService";
 import {authOptions} from "@/lib/auth";
 import {getServerSession} from "next-auth/next";
-import {Meeting} from "@/generated/prisma";
 import styles from "@/app/(home)/meetings/[id]/meeting-details.module.css";
 import Separator from "@/components/UI/Separator";
 import {ArrowRight, CalendarDot, Clock, Folder, Notepad, User} from "@phosphor-icons/react/ssr";
