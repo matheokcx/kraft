@@ -12,6 +12,7 @@ import {Client, Project, ProjectDifficulty} from "@/generated/prisma";
 import {useTranslations} from "next-intl";
 import {isRedirectError} from "next/dist/client/components/redirect-error";
 import toast from "react-hot-toast";
+import {useActionState, useEffect} from "react";
 
 type ProjectFormProps = {
     clients: Client[];
@@ -20,6 +21,8 @@ type ProjectFormProps = {
 
 const ProjectForm = ({ clients, project }: ProjectFormProps) => {
     const t = useTranslations();
+    const [createState, create, isCreating] = useActionState(createProject, null);
+    const [updateState, update, isUpdating] = useActionState(updateProject, null);
 
     const getFormattedDate = (date: Date): string => {
         const year: number = date.getFullYear();
@@ -27,22 +30,6 @@ const ProjectForm = ({ clients, project }: ProjectFormProps) => {
         const day: string = String(date.getDate()).padStart(2, '0');
 
         return `${year}-${month}-${day}`;
-    };
-
-    const handleSubmit = async (formData: FormData): Promise<void> => {
-        try{
-            if(project){
-                await updateProject(formData);
-            } else {
-                await createProject(formData);
-            }
-        }
-        catch(error: any){
-            if(isRedirectError(error)) {
-                throw error;
-            }
-            toast.error(error.message);
-        }
     };
 
     const inputs: InputProps[] = [
@@ -91,6 +78,14 @@ const ProjectForm = ({ clients, project }: ProjectFormProps) => {
         }
     ];
 
+    useEffect(() => {
+        if(createState?.error) toast.error(createState.error);
+    }, [createState]);
+
+    useEffect(() => {
+        if(updateState?.error) toast.error(updateState.error);
+    }, [updateState]);
+
     if(project){
         inputs.push({
             type: "hidden",
@@ -101,7 +96,7 @@ const ProjectForm = ({ clients, project }: ProjectFormProps) => {
     }
 
     return (
-        <form action={handleSubmit} className={styles.projectForm}>
+        <form action={project ? update : create} className={styles.projectForm}>
             <div>
                 <h1>{project ? project.title : t('projects.createPage.title')}</h1>
                 <Separator widthPercent={30} />
@@ -124,7 +119,10 @@ const ProjectForm = ({ clients, project }: ProjectFormProps) => {
                                  icon={<ChartBarIcon size={24} />}
                     />
 
-                    <button className={styles.valideFormButton} type="submit">
+                    <button className={styles.valideFormButton}
+                            type="submit"
+                            disabled={isCreating || isUpdating}
+                    >
                         {project ? t("edit") : t('create')}
                     </button>
                 </div>

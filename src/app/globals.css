@@ -91,12 +91,13 @@ button {
   transition: 1s;
 }
 
-button:disabled {
-  opacity: 50%;
-}
-
 button:hover {
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 50%;
+  cursor: not-allowed;
 }
 
 input,
