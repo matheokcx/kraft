@@ -6,50 +6,53 @@ import { ClientService } from '@/services/clientService';
 import { redirect } from 'next/dist/client/components/redirect';
 import z from 'zod';
 import { FileStorageService } from '@/services/fileStorageService';
+import { getTranslations } from 'next-intl/server';
 
-const clientSchema = z.object({
-	firstName: z
-		.string()
-		.min(2, 'Le prénom doit avoir au minimum une longueur de 2')
-		.max(100, 'Le prénom doit avoir au maximum une longueur de 100'),
-	lastName: z
-		.string()
-		.min(2, 'Le nom doit avoir au minimum une longueur de 2')
-		.max(100, 'Le nom doit avoir au maximum une longueur de 100'),
-	job: z.string().max(100, 'Le poste doit avoir au maximum une longueur de 100'),
-	status: z.enum(Object.values(ClientStatus)),
-	birthdate: z.union([z.literal('').transform(() => null), z.iso.date()]).nullable(),
-	mail: z.union([z.literal('').transform(() => null), z.string().email()]).nullable(),
-	phone: z.union([z.literal('').transform(() => null), z.string()]).nullable(),
-	image: z.union([
-		z
-			.file()
-			.mime(FileStorageService.supportedMimeTypes.images)
-			.max(FileStorageService.maxFileSize),
-		z
-			.file()
-			.refine((file) => file.size === 0)
-			.transform(() => null),
-	]),
-	links: z
-		.array(z.string().url().or(z.literal('')))
-		.transform((arr) => arr.filter((s) => s !== '')),
-	gender: z.enum(Object.values(GENDER)),
-});
+const buildClientSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
+	z.object({
+		firstName: z
+			.string()
+			.min(2, t('clients.errors.firstNameMin'))
+			.max(100, t('clients.errors.firstNameMax')),
+		lastName: z
+			.string()
+			.min(2, t('clients.errors.lastNameMin'))
+			.max(100, t('clients.errors.lastNameMax')),
+		job: z.string().max(100, t('clients.errors.jobMax')),
+		status: z.enum(Object.values(ClientStatus)),
+		birthdate: z.union([z.literal('').transform(() => null), z.iso.date()]).nullable(),
+		mail: z.union([z.literal('').transform(() => null), z.string().email()]).nullable(),
+		phone: z.union([z.literal('').transform(() => null), z.string()]).nullable(),
+		image: z.union([
+			z
+				.file()
+				.mime(FileStorageService.supportedMimeTypes.images)
+				.max(FileStorageService.maxFileSize),
+			z
+				.file()
+				.refine((file) => file.size === 0)
+				.transform(() => null),
+		]),
+		links: z
+			.array(z.string().url().or(z.literal('')))
+			.transform((arr) => arr.filter((s) => s !== '')),
+		gender: z.enum(Object.values(GENDER)),
+	});
 
 export const createClient = async (
 	_prevState: { error?: string } | null,
 	inputs: FormData,
 ): Promise<{ error?: string } | null> => {
+	const t = await getTranslations();
 	const session = await getServerSession(authOptions);
 	const formDataObject = {
 		...Object.fromEntries(inputs),
 		links: inputs.getAll('links'),
 	};
-	const isValid = clientSchema.safeParse(formDataObject);
+	const isValid = buildClientSchema(t).safeParse(formDataObject);
 
 	if (!session?.user?.id) {
-		return { error: 'Unauthenticated' };
+		return { error: t('errors.unauthenticated') };
 	}
 
 	if (!isValid.success) {
@@ -61,7 +64,7 @@ export const createClient = async (
 	if (newClient) {
 		redirect(`/clients/${newClient.id}`);
 	} else {
-		return { error: "Le client n'a pas pu être créé" };
+		return { error: t('clients.errors.creationFailed') };
 	}
 };
 
@@ -69,16 +72,17 @@ export const updateClient = async (
 	_prevState: { error?: string } | null,
 	data: FormData,
 ): Promise<{ error?: string } | null> => {
+	const t = await getTranslations();
 	const session = await getServerSession(authOptions);
 	const clientId: number = Number(data.get('clientId') as string);
 	const formDataObject = {
 		...Object.fromEntries(data),
 		links: data.getAll('links'),
 	};
-	const isValid = clientSchema.safeParse(formDataObject);
+	const isValid = buildClientSchema(t).safeParse(formDataObject);
 
 	if (!session?.user?.id) {
-		return { error: 'Unauthenticated' };
+		return { error: t('errors.unauthenticated') };
 	}
 
 	if (!isValid.success) {

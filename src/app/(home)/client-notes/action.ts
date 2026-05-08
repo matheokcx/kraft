@@ -6,25 +6,28 @@ import { ClientNoteService } from '@/services/clientNoteService';
 import { ClientService } from '@/services/clientService';
 import { redirect } from 'next/dist/client/components/redirect';
 import { Client, ClientNote } from '@/generated/prisma';
+import { getTranslations } from 'next-intl/server';
 
-const clientNoteSchema = z.object({
-	text: z
-		.string()
-		.min(1, 'Le titre doit avoir au minimum une longueur de 1')
-		.max(200, "Le texte d'une note ne peut pas dépassé 200 caractères"),
-	clientId: z.number().nonnegative(),
-});
+const buildClientNoteSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
+	z.object({
+		text: z
+			.string()
+			.min(1, t('clientNotes.errors.textMin'))
+			.max(200, t('clientNotes.errors.textMax')),
+		clientId: z.number().nonnegative(),
+	});
 
 export const addClientNote = async (
 	_prevState: { error?: string } | null,
 	formData: FormData,
 ): Promise<{ error?: string } | null> => {
+	const t = await getTranslations();
 	const session = await getServerSession(authOptions);
 	const formDataObject = { ...Object.fromEntries(formData) };
-	const isValid = clientNoteSchema.safeParse(formDataObject);
+	const isValid = buildClientNoteSchema(t).safeParse(formDataObject);
 
 	if (!session?.user?.id) {
-		return { error: 'Unauthenticated' };
+		return { error: t('errors.unauthenticated') };
 	}
 
 	if (!isValid.success) {
@@ -37,7 +40,7 @@ export const addClientNote = async (
 	);
 
 	if (!client) {
-		return { error: "Ce n'est pas votre client" };
+		return { error: t('clientNotes.errors.notYourClient') };
 	}
 
 	const newClientNote: ClientNote = await ClientNoteService.createClientNote(isValid.data);
@@ -45,7 +48,7 @@ export const addClientNote = async (
 	if (newClientNote) {
 		redirect(`/client-notes/${newClientNote.id}`);
 	} else {
-		return { error: "La note client n'a pas pu être créée" };
+		return { error: t('clientNotes.errors.creationFailed') };
 	}
 };
 
@@ -53,13 +56,14 @@ export const updateClientNote = async (
 	_prevState: { error?: string } | null,
 	formData: FormData,
 ): Promise<{ error?: string } | null> => {
+	const t = await getTranslations();
 	const session = await getServerSession(authOptions);
 	const clientNoteId: number = Number(formData.get('clientNoteId') as string);
 	const formDataObject = { ...Object.fromEntries(formData) };
-	const isValid = clientNoteSchema.safeParse(formDataObject);
+	const isValid = buildClientNoteSchema(t).safeParse(formDataObject);
 
 	if (!session?.user?.id) {
-		return { error: 'Unauthenticated' };
+		return { error: t('errors.unauthenticated') };
 	}
 
 	if (!isValid.success) {

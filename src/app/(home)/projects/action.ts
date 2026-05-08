@@ -7,49 +7,52 @@ import { z } from 'zod';
 import { Client, Project, ProjectDifficulty } from '@/generated/prisma';
 import { FileStorageService } from '@/services/fileStorageService';
 import { ClientService } from '@/services/clientService';
+import { getTranslations } from 'next-intl/server';
 
-const projectSchema = z.object({
-	title: z
-		.string()
-		.min(3, 'La longueur minimale du titre est de 3')
-		.max(150, 'La longueur maximale du titre est de 150'),
-	description: z
-		.string()
-		.min(3, 'La longueur minimale de la description est de 3')
-		.max(250, 'La longueur maximale de la description est de 250'),
-	difficulty: z.enum(Object.values(ProjectDifficulty), 'La difficulté doit être parmi les choix'),
-	cost: z.coerce.number().nonnegative('Le gain du projet ne peut pas être négatif'),
-	clientId: z.coerce.number().nonnegative("L'id du client ne peut pas être négatif"),
-	parentProjectId: z.coerce
-		.number()
-		.refine((value: number) => value === 0)
-		.transform(() => null)
-		.nullable(),
-	startDate: z.coerce.date(),
-	endDate: z.coerce.date(),
-	cover: z.union([
-		z
-			.file()
-			.mime(FileStorageService.supportedMimeTypes.images)
-			.max(FileStorageService.maxFileSize),
-		z
-			.file()
-			.refine((file) => file.size === 0)
-			.transform(() => null),
-	]),
-});
+const buildProjectSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
+	z.object({
+		title: z
+			.string()
+			.min(3, t('projects.errors.titleMin'))
+			.max(150, t('projects.errors.titleMax')),
+		description: z
+			.string()
+			.min(3, t('projects.errors.descriptionMin'))
+			.max(250, t('projects.errors.descriptionMax')),
+		difficulty: z.enum(Object.values(ProjectDifficulty), t('projects.errors.difficultyInvalid')),
+		cost: z.coerce.number().nonnegative(t('projects.errors.costNegative')),
+		clientId: z.coerce.number().nonnegative(t('projects.errors.clientIdNegative')),
+		parentProjectId: z.coerce
+			.number()
+			.refine((value: number) => value === 0)
+			.transform(() => null)
+			.nullable(),
+		startDate: z.coerce.date(),
+		endDate: z.coerce.date(),
+		cover: z.union([
+			z
+				.file()
+				.mime(FileStorageService.supportedMimeTypes.images)
+				.max(FileStorageService.maxFileSize),
+			z
+				.file()
+				.refine((file) => file.size === 0)
+				.transform(() => null),
+		]),
+	});
 
 export const createProject = async (
 	_prevState: { error?: string } | null,
 	data: FormData,
 ): Promise<{ error?: string } | null> => {
+	const t = await getTranslations();
 	const session = await getServerSession(authOptions);
 	const clientId: number = Number(data.get('clientId'));
 	const formDataObject = Object.fromEntries(data);
-	const isValid = projectSchema.safeParse(formDataObject);
+	const isValid = buildProjectSchema(t).safeParse(formDataObject);
 
 	if (!session?.user?.id) {
-		return { error: 'Unauthenticated' };
+		return { error: t('errors.unauthenticated') };
 	}
 
 	if (!isValid.success) {
@@ -62,7 +65,7 @@ export const createProject = async (
 	);
 
 	if (!client) {
-		return { error: "Ce n'est pas votre client !" };
+		return { error: t('projects.errors.notYourClient') };
 	}
 
 	const newProject: Project = await ProjectService.addProject(isValid.data, clientId);
@@ -70,7 +73,7 @@ export const createProject = async (
 	if (newProject) {
 		redirect(`/projects/${newProject.id}`);
 	} else {
-		return { error: "Le projet n'a pas pu être créé" };
+		return { error: t('projects.errors.creationFailed') };
 	}
 };
 
@@ -78,13 +81,14 @@ export const updateProject = async (
 	_prevState: { error?: string } | null,
 	data: FormData,
 ): Promise<{ error?: string } | null> => {
+	const t = await getTranslations();
 	const session = await getServerSession(authOptions);
 	const projectId: number = Number(data.get('projectId') as string);
 	const formDataObject = Object.fromEntries(data);
-	const isValid = projectSchema.safeParse(formDataObject);
+	const isValid = buildProjectSchema(t).safeParse(formDataObject);
 
 	if (!session?.user?.id) {
-		return { error: 'Unauthenticated' };
+		return { error: t('errors.unauthenticated') };
 	}
 
 	if (!isValid.success) {

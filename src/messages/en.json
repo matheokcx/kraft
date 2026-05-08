@@ -36,7 +36,16 @@
 		"imageFileInputText": "Drop or choose the picture of your client (max. 5MB)",
 		"associateLinksLabel": "Associate links",
 		"addLink": "Add a link",
-		"noClients": "You don't have any client"
+		"noClients": "You don't have any client",
+		"errors": {
+			"firstNameMin": "First name must be at least 2 characters long",
+			"firstNameMax": "First name must be at most 100 characters long",
+			"lastNameMin": "Last name must be at least 2 characters long",
+			"lastNameMax": "Last name must be at most 100 characters long",
+			"jobMax": "Job must be at most 100 characters long",
+			"creationFailed": "The client could not be created",
+			"notYourClient": "This is not your client!"
+		}
 	},
 	"projects": {
 		"projects": "Projects",
@@ -52,7 +61,18 @@
 			"associateMeetings": "Associate meetings"
 		},
 		"notFound": "Project not found",
-		"noProjects": "You don't have any project"
+		"noProjects": "You don't have any project",
+		"errors": {
+			"titleMin": "Title minimum length is 3",
+			"titleMax": "Title maximum length is 150",
+			"descriptionMin": "Description minimum length is 3",
+			"descriptionMax": "Description maximum length is 250",
+			"difficultyInvalid": "Difficulty must be one of the available choices",
+			"costNegative": "Project gain cannot be negative",
+			"clientIdNegative": "Client id cannot be negative",
+			"creationFailed": "The project could not be created",
+			"notYourClient": "This is not your client!"
+		}
 	},
 	"meetings": {
 		"meetings": "Meetings",
@@ -60,7 +80,27 @@
 		"detailsModal": {
 			"noDescription": "No description for this meeting"
 		},
-		"notFound": "Meeting not found"
+		"notFound": "Meeting not found",
+		"errors": {
+			"titleMin": "Title must be at least 1 character long",
+			"titleMax": "Title must be at most 100 characters long",
+			"descriptionMax": "Description must be at most 250 characters long",
+			"endDateAfterStart": "End date must be after start date",
+			"creationFailed": "The meeting could not be created",
+			"notYourProject": "This is not one of your projects"
+		}
+	},
+	"clientNotes": {
+		"errors": {
+			"textMin": "Text must be at least 1 character long",
+			"textMax": "A note text cannot exceed 200 characters",
+			"creationFailed": "The client note could not be created",
+			"notYourClient": "This is not your client"
+		}
+	},
+	"errors": {
+		"unauthenticated": "Unauthenticated",
+		"unauthorized": "Unauthorized"
 	},
 	"files": {
 		"recentFiles": "Recent files",

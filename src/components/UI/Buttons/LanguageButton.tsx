@@ -12,7 +12,7 @@ const LanguageButton = () => {
 
 	const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setSelectedLanguage(event.target.value);
-		document.cookie = `locale=${event.target.value}`;
+		document.cookie = `locale=${event.target.value}; path=/; max-age=31536000; SameSite=Lax`;
 		router.refresh();
 	};
 
