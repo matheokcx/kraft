@@ -2,7 +2,7 @@
 import Input, { InputProps } from '@/components/UI/Input/Input';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import styles from '@/app/sign-in/sign-in-page.module.css';
+import styles from './sign-in-form.module.css';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -15,6 +15,7 @@ const SignInForm = () => {
 	const inputs: InputProps[] = [
 		{
 			type: 'email',
+			name: 'email',
 			label: t('mail'),
 			placeholder: 'john.doe@example.com',
 			autoComplete: 'email',
@@ -22,6 +23,7 @@ const SignInForm = () => {
 		},
 		{
 			type: 'password',
+			name: 'password',
 			label: t('auth.password'),
 			autoComplete: 'password',
 			icon: <LockKeyIcon size={24} />,
@@ -50,6 +52,7 @@ const SignInForm = () => {
 				<Input
 					key={index}
 					type={input.type}
+					name={input.name}
 					label={input.label}
 					autoComplete={input.autoComplete}
 					placeholder={input?.placeholder}
