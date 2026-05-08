@@ -49,18 +49,12 @@ const SignInForm = () => {
 		<form action={handleSubmit} className={styles.signInForm}>
 			<h1>{t('auth.logIn')}</h1>
 			{inputs.map((input: InputProps, index: number) => (
-				<Input
-					key={index}
-					type={input.type}
-					name={input.name}
-					label={input.label}
-					autoComplete={input.autoComplete}
-					placeholder={input?.placeholder}
-					icon={input.icon}
-				/>
+				<Input key={index} {...input} />
 			))}
 
-			<button type="submit">{t('auth.connect')}</button>
+			<button className={styles.validateButton} type="submit">
+				{t('auth.connect')}
+			</button>
 			<p>
 				{t('auth.dontHaveAccountQuestion')}{' '}
 				<Link href="/sign-up">

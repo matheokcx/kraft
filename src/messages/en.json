@@ -155,5 +155,14 @@
 	"client": "Client",
 	"noDescription": "No description",
 	"difficulties": "Difficulties",
-	"mail": "Mail"
+	"mail": "Mail",
+	"fullName": "Full name",
+	"gender": "Gender",
+	"country": "Country",
+	"countries": {
+		"france": "France",
+		"belgium": "Belgium",
+		"switzerland": "Switzerland",
+		"spain": "Spain"
+	}
 }
