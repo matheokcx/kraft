@@ -7,7 +7,6 @@ import { ChartBarIcon, UserIcon } from '@phosphor-icons/react/ssr';
 import SelectField from '@/components/UI/SelectField/SelectField';
 import { Client, Project, ProjectDifficulty } from '@/generated/prisma';
 import { useTranslations } from 'next-intl';
-import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import toast from 'react-hot-toast';
 import { useActionState, useEffect } from 'react';
 

@@ -44,17 +44,6 @@
 	align-items: center;
 }
 
-.deleteButton {
-	background-color: #00000000;
-	transition: 1.5s;
-	color: var(--main-text);
-}
-
-.deleteButton:hover {
-	border-color: hsl(0, 50%, 60%);
-	color: hsl(0, 50%, 60%);
-}
-
 .editButton {
 	background-color: #00000000;
 	transition: 1.5s;

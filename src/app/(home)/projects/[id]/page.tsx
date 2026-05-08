@@ -30,6 +30,7 @@ import { removeProject } from '@/app/(home)/projects/action';
 import Link from 'next/link';
 import MeetingReduceCard from '@/components/UI/Cards/Meeting/MeetingReduceCard';
 import { Client, Meeting, Project, ProjectDifficulty, File } from '@/generated/prisma';
+import DeleteForm from '@/components/UI/Forms/DeleteForm/DeleteForm';
 
 const ProjectDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const session = await getServerSession(authOptions);
@@ -70,7 +71,10 @@ const ProjectDetailPage = async ({ params }: { params: Promise<{ id: string }> }
 		}
 	};
 
-	const deleteProject = removeProject.bind(null, project.id);
+	const deleteProject = async (): Promise<void> => {
+		'use server';
+		await removeProject(project.id);
+	};
 
 	return (
 		<section className={styles.projectDetailsPage}>
@@ -110,11 +114,10 @@ const ProjectDetailPage = async ({ params }: { params: Promise<{ id: string }> }
 								<PencilIcon size={24} />
 							</Link>
 						</button>
-						<form action={deleteProject}>
-							<button className={styles.deleteButton} type="submit">
-								<TrashIcon size={24} />
-							</button>
-						</form>
+						<DeleteForm
+							validationText="Voulez vous vraiment supprimer ce projet ?"
+							onValidation={deleteProject}
+						/>
 					</div>
 				</div>
 

@@ -164,5 +164,7 @@
 		"belgium": "Belgique",
 		"switzerland": "Suisse",
 		"spain": "Espagne"
-	}
+	},
+	"createdSince": "Créé depuis le {date}",
+	"profile": "Profil"
 }

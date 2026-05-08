@@ -22,6 +22,7 @@ import { getTranslations } from 'next-intl/server';
 import { removeClient } from '@/app/(home)/clients/action';
 import Link from 'next/link';
 import GENDER = $Enums.GENDER;
+import DeleteForm from '@/components/UI/Forms/DeleteForm/DeleteForm';
 
 const ClientDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const session = await getServerSession(authOptions);
@@ -61,7 +62,10 @@ const ClientDetailsPage = async ({ params }: { params: Promise<{ id: string }> }
 		return age;
 	};
 
-	const deleteClient = removeClient.bind(null, client.id);
+	const deleteClient = async () => {
+		'use server';
+		await removeClient(client.id);
+	};
 
 	return (
 		<main className={styles.page}>
@@ -90,11 +94,10 @@ const ClientDetailsPage = async ({ params }: { params: Promise<{ id: string }> }
 							<PencilIcon size={24} />
 						</Link>
 					</button>
-					<form action={deleteClient}>
-						<button className={styles.deleteButton} type="submit">
-							<TrashIcon size={24} />
-						</button>
-					</form>
+					<DeleteForm
+						validationText="Voulez vous vraiment supprimer ce client ?"
+						onValidation={deleteClient}
+					/>
 				</div>
 			</div>
 			<Separator widthPercent={100} />

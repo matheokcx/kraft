@@ -80,6 +80,7 @@ const SideBar = () => {
 
 				<div className={styles.buttonsSection}>
 					<LanguageButton />
+					<button onClick={() => router.push('/profile')}>{t('profile')}</button>
 					<button onClick={() => signOut()} className={styles.logoutButton}>
 						{t('auth.logout')}
 					</button>
