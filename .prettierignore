@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+public
+prisma/migrations
+*.lock
+package-lock.json
+tsconfig.tsbuildinfo
+next-env.d.ts
