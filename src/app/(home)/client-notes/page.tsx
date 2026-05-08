@@ -1,9 +1,5 @@
 const ClientNotesListPage = () => {
-    return (
-        <div>
-
-        </div>
-    );
+	return <div></div>;
 };
 
 export default ClientNotesListPage;

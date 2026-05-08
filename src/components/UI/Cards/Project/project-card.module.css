@@ -1,34 +1,34 @@
 .projectCard {
-    width: 100%;
-    padding: 16px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: var(--background-light);
-    border: 2px solid hsla(0, 0%, 70%, 50%);
-    transition: 1s;
+	width: 100%;
+	padding: 16px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background: var(--background-light);
+	border: 2px solid hsla(0, 0%, 70%, 50%);
+	transition: 1s;
 }
 
 .projectCard:hover {
-    background-color: var(--primary);
-    cursor: pointer;
+	background-color: var(--primary);
+	cursor: pointer;
 }
 
 .title {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
 }
 
 .projectDescription {
-    max-width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	max-width: 90%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .dates {
-    display: flex;
-    gap: 4px;
-    align-items: center;
+	display: flex;
+	gap: 4px;
+	align-items: center;
 }

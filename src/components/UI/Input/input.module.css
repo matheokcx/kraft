@@ -1,15 +1,15 @@
 .inputDiv {
-    display: grid;
-    width: 100%;
-    gap: 10px;
+	display: grid;
+	width: 100%;
+	gap: 10px;
 }
 
 .inputDiv input {
-    width: 100%;
+	width: 100%;
 }
 
 .inputLabel {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
 }

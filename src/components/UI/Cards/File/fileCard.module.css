@@ -1,13 +1,13 @@
 .fileCard {
-    width: 33%;
-    min-width: 180px;
-    height: 100%;
-    flex-shrink: 0;
+	width: 33%;
+	min-width: 180px;
+	height: 100%;
+	flex-shrink: 0;
 }
 
 .fileName {
-    text-wrap: nowrap;
-    overflow: hidden;
-    width: 100%;
-    text-overflow: ellipsis;
+	text-wrap: nowrap;
+	overflow: hidden;
+	width: 100%;
+	text-overflow: ellipsis;
 }

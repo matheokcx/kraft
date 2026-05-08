@@ -1,34 +1,34 @@
 .clientNotesSection {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding: 20px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	padding: 20px;
+	border-radius: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
 .clientNoteCard {
-    background: var(--background-light);
-    padding-inline: 16px;
-    padding-block: 8px;
-    border-radius: 10px;
-    width: 50%;
-    height: fit-content;
+	background: var(--background-light);
+	padding-inline: 16px;
+	padding-block: 8px;
+	border-radius: 10px;
+	width: 50%;
+	height: fit-content;
 }
 
 .clientNoteCard p {
-    width: 100%;
-    text-wrap: wrap;
+	width: 100%;
+	text-wrap: wrap;
 }
 
 .clientNoteDateText {
-    opacity: 50%;
+	opacity: 50%;
 }
 
 @media screen and (max-width: 768px) {
-    .clientNoteCard {
-        width: 100%;
-    }
+	.clientNoteCard {
+		width: 100%;
+	}
 }

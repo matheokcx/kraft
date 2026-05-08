@@ -1,118 +1,118 @@
 {
-  "links": {
-    "links": "Liens",
-    "home": "Accueil"
-  },
-  "add": "Ajouter",
-  "create": "Créer",
-  "edit": "Modifier",
-  "details": "Détails",
-  "nothingSchedule": "Rien de prévu",
-  "daysOfWeek": {
-    "monday": "Lundi",
-    "tuesday": "Mardi",
-    "wednesday": "Mercredi",
-    "thursday": "Jeudi",
-    "friday": "Vendredi",
-    "saturday": "Samedi",
-    "sunday": "Dimanche"
-  },
-  "clients": {
-    "client":  "{count, plural, one {Client} other {Clients}}",
-    "listPage": {
-      "title": "Liste de vos clients:"
-    },
-    "detailsPage": {
-      "aboutNotes": "Vos notes à propos"
-    },
-    "createPage": {
-      "title": "Ajout d'un client",
-      "fileRequirements": "Uniquement .png, .webp et .jpeg, max. 5Mo"
-    },
-    "updatePage": {
-      "title": "Mettre à jour les informations client"
-    },
-    "notFound": "Client non trouvé",
-    "imageFileInputText": "Lâchez ou choisissez l'image de vôtre client (max. 5Mo)",
-    "associateLinksLabel": "Liens associés",
-    "addLink": "Ajouter un lien",
-    "noClients": "Vous n'avez pas de clients"
-  },
-  "projects": {
-    "projects": "Projets",
-    "parentProject": "Projet parent",
-    "inProgress": "{count, plural, one {Projet en cours} other {Projets en cours}}",
-    "listPage": {
-      "title": "Répertoire de vos projets"
-    },
-    "createPage": {
-      "title": "Création d'un projet"
-    },
-    "detailsPage": {
-      "associateMeetings": "Réunions associées"
-    },
-    "notFound": "Projet non trouvé",
-    "noProjects": "Vous n'avez pas de projets"
-  },
-  "meetings": {
-    "meetings": "Réunions",
-    "shortcutSectionTitle": "Vos prochaines réunions",
-    "detailsModal": {
-      "noDescription": "Pas de description pour cette réunion"
-    },
-    "notFound": "Meeting not found"
-  },
-  "files": {
-    "recentFiles": "Fichiers récents",
-    "noFiles": "Vous n'avez aucun fichiers"
-  },
-  "firstName": "Prénom",
-  "lastName": "Nom",
-  "job": "Poste",
-  "birthdate": "Date de naissance",
-  "phone": "Téléphone",
-  "required": "Requis",
-  "photo": "Photo",
-  "status": "Status",
-  "MALE": "Homme",
-  "FEMALE": "Femme",
-  "auth": {
-    "logout": "Déconnexion",
-    "dontHaveAccountQuestion": "Vous n'avez pas de compte ?",
-    "alreadyHaveAccountQuestion": "Vous avez déjà un compte ?",
-    "logIn": "Connexion",
-    "signUp": "Inscription",
-    "password": "Mot de passe",
-    "connect": "Se connecter",
-    "successfulLogin": "Connexion réussi !",
-    "failedLogin": "Mail ou mot de passe incorrect",
-    "createdAccount": "Compte créé avec succès !",
-    "accountCreationError": "Une erreur est survenue lors de la création de votre compte",
-    "notAuthText": "Vous n'êtes pas connecté"
-  },
-  "information": "Informations",
-  "years": "ans",
-  "contacts": "Contacts",
-  "title": "Titre",
-  "description": "Description",
-  "gain": "Gain",
-  "totalGain": "Gains totaux",
-  "startDate": "Date de début",
-  "endDate": "Date de fin",
-  "cover": "Couverture",
-  "EASY": "Facile",
-  "MEDIUM": "Intermédiaire",
-  "HARD": "Difficile",
-  "EXPERT": "Expert",
-  "LEAD": "Lead",
-  "SIGNED": "Signé",
-  "LOST": "Perdu",
-  "ARCHIVED": "Archivé",
-  "close": "Fermer",
-  "date": "Date",
-  "time": "Horaire",
-  "project": "Projet",
-  "client": "Client",
-  "noDescription": "Aucune description",
-  "difficulties": "Difficultés"
+	"links": {
+		"links": "Liens",
+		"home": "Accueil"
+	},
+	"add": "Ajouter",
+	"create": "Créer",
+	"edit": "Modifier",
+	"details": "Détails",
+	"nothingSchedule": "Rien de prévu",
+	"daysOfWeek": {
+		"monday": "Lundi",
+		"tuesday": "Mardi",
+		"wednesday": "Mercredi",
+		"thursday": "Jeudi",
+		"friday": "Vendredi",
+		"saturday": "Samedi",
+		"sunday": "Dimanche"
+	},
+	"clients": {
+		"client": "{count, plural, one {Client} other {Clients}}",
+		"listPage": {
+			"title": "Liste de vos clients:"
+		},
+		"detailsPage": {
+			"aboutNotes": "Vos notes à propos"
+		},
+		"createPage": {
+			"title": "Ajout d'un client",
+			"fileRequirements": "Uniquement .png, .webp et .jpeg, max. 5Mo"
+		},
+		"updatePage": {
+			"title": "Mettre à jour les informations client"
+		},
+		"notFound": "Client non trouvé",
+		"imageFileInputText": "Lâchez ou choisissez l'image de vôtre client (max. 5Mo)",
+		"associateLinksLabel": "Liens associés",
+		"addLink": "Ajouter un lien",
+		"noClients": "Vous n'avez pas de clients"
+	},
+	"projects": {
+		"projects": "Projets",
+		"parentProject": "Projet parent",
+		"inProgress": "{count, plural, one {Projet en cours} other {Projets en cours}}",
+		"listPage": {
+			"title": "Répertoire de vos projets"
+		},
+		"createPage": {
+			"title": "Création d'un projet"
+		},
+		"detailsPage": {
+			"associateMeetings": "Réunions associées"
+		},
+		"notFound": "Projet non trouvé",
+		"noProjects": "Vous n'avez pas de projets"
+	},
+	"meetings": {
+		"meetings": "Réunions",
+		"shortcutSectionTitle": "Vos prochaines réunions",
+		"detailsModal": {
+			"noDescription": "Pas de description pour cette réunion"
+		},
+		"notFound": "Meeting not found"
+	},
+	"files": {
+		"recentFiles": "Fichiers récents",
+		"noFiles": "Vous n'avez aucun fichiers"
+	},
+	"firstName": "Prénom",
+	"lastName": "Nom",
+	"job": "Poste",
+	"birthdate": "Date de naissance",
+	"phone": "Téléphone",
+	"required": "Requis",
+	"photo": "Photo",
+	"status": "Status",
+	"MALE": "Homme",
+	"FEMALE": "Femme",
+	"auth": {
+		"logout": "Déconnexion",
+		"dontHaveAccountQuestion": "Vous n'avez pas de compte ?",
+		"alreadyHaveAccountQuestion": "Vous avez déjà un compte ?",
+		"logIn": "Connexion",
+		"signUp": "Inscription",
+		"password": "Mot de passe",
+		"connect": "Se connecter",
+		"successfulLogin": "Connexion réussi !",
+		"failedLogin": "Mail ou mot de passe incorrect",
+		"createdAccount": "Compte créé avec succès !",
+		"accountCreationError": "Une erreur est survenue lors de la création de votre compte",
+		"notAuthText": "Vous n'êtes pas connecté"
+	},
+	"information": "Informations",
+	"years": "ans",
+	"contacts": "Contacts",
+	"title": "Titre",
+	"description": "Description",
+	"gain": "Gain",
+	"totalGain": "Gains totaux",
+	"startDate": "Date de début",
+	"endDate": "Date de fin",
+	"cover": "Couverture",
+	"EASY": "Facile",
+	"MEDIUM": "Intermédiaire",
+	"HARD": "Difficile",
+	"EXPERT": "Expert",
+	"LEAD": "Lead",
+	"SIGNED": "Signé",
+	"LOST": "Perdu",
+	"ARCHIVED": "Archivé",
+	"close": "Fermer",
+	"date": "Date",
+	"time": "Horaire",
+	"project": "Projet",
+	"client": "Client",
+	"noDescription": "Aucune description",
+	"difficulties": "Difficultés"
 }

@@ -1,53 +1,53 @@
 .pageSection {
-    width: 80%;
-    height: 100%;
-    padding-inline: 24px;
+	width: 80%;
+	height: 100%;
+	padding-inline: 24px;
 }
 
 .pageHeader {
-    width: 100%;
-    height: 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 20px;
+	width: 100%;
+	height: 10%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 20px;
 }
 
 .projectList {
-    width: 100%;
-    max-height: 90%;
-    overflow-y: auto;
-    display: grid;
-    gap: 20px;
-    padding: 20px;
-    border-radius: 12px;
-    background: var(--background);
+	width: 100%;
+	max-height: 90%;
+	overflow-y: auto;
+	display: grid;
+	gap: 20px;
+	padding: 20px;
+	border-radius: 12px;
+	background: var(--background);
 }
 
 .addButton {
-    border-width: 0;
-    transition: 1.5s;
+	border-width: 0;
+	transition: 1.5s;
 }
 
 .addButton:hover {
-    background-color: var(--primary);
+	background-color: var(--primary);
 }
 
 .addButton a {
-    color: white;
+	color: white;
 }
 
 @media screen and (max-width: 500px) {
-    .pageHeader {
-        height: auto;
-    }
+	.pageHeader {
+		height: auto;
+	}
 
-    .pageSection {
-        width: 100%;
-        padding: 0;
-    }
+	.pageSection {
+		width: 100%;
+		padding: 0;
+	}
 
-    .projectList {
-        padding: 10px;
-    }
+	.projectList {
+		padding: 10px;
+	}
 }

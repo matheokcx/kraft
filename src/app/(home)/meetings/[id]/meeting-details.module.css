@@ -1,64 +1,64 @@
 .modalContent {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 .title {
-    text-align: center;
-    margin-bottom: 8px;
+	text-align: center;
+	margin-bottom: 8px;
 }
 
 .infoList {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: 16px;
-    flex: 1;
-    overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 16px;
+	flex: 1;
+	overflow-y: auto;
 }
 
 .infoRow {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 0.95rem;
 }
 
 .infoLabel {
-    font-weight: 600;
-    min-width: 70px;
+	font-weight: 600;
+	min-width: 70px;
 }
 
 .timeBadge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background-color: var(--background);
-    padding: 4px 12px;
-    border-radius: 8px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	background-color: var(--background);
+	padding: 4px 12px;
+	border-radius: 8px;
 }
 
 .descriptionSection {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 .descriptionHeader {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 .meetingDescription {
-    font-size: 14px;
-    padding-left: 32px;
-    color: var(--secondary-text, #6b7280);
+	font-size: 14px;
+	padding-left: 32px;
+	color: var(--secondary-text, #6b7280);
 }
 
 .modalActions {
-    display: flex;
-    justify-content: end;
-    padding: 16px 0 0;
+	display: flex;
+	justify-content: end;
+	padding: 16px 0 0;
 }

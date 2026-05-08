@@ -1,181 +1,180 @@
-:root{
-  --background-dark: hsl(0, 0%, 90%);
-  --background: hsl(0, 0%, 95%);
-  --background-light: hsl(0, 0%, 100%);
+:root {
+	--background-dark: hsl(0, 0%, 90%);
+	--background: hsl(0, 0%, 95%);
+	--background-light: hsl(0, 0%, 100%);
 
-  --main-text: hsl(0, 0%, 0%);
-  --secondary-text: hsl(0, 0%, 20%);
+	--main-text: hsl(0, 0%, 0%);
+	--secondary-text: hsl(0, 0%, 20%);
 
-  --border-color: hsl(0, 0%, 30%);
+	--border-color: hsl(0, 0%, 30%);
 
-  --primary: hsl(200, 80%, 30%);
-  --secondary: hsl(175, 40%, 50%);
+	--primary: hsl(200, 80%, 30%);
+	--secondary: hsl(175, 40%, 50%);
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 
 html,
 body {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: var(--background-dark);
-  color: var(--main-text);
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+	background: var(--background-dark);
+	color: var(--main-text);
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
-  font-family: 'poppins', sans-serif;
-  font-weight: 700;
-  font-size: 32px;
-  color: var(--main-text);
+	font-family: 'poppins', sans-serif;
+	font-weight: 700;
+	font-size: 32px;
+	color: var(--main-text);
 }
 
 h2 {
-  font-family: 'poppins', sans-serif;
-  font-weight: 600;
-  font-size: 24px;
-  color: var(--main-text);
+	font-family: 'poppins', sans-serif;
+	font-weight: 600;
+	font-size: 24px;
+	color: var(--main-text);
 }
 
 h3 {
-  font-family: 'poppins', sans-serif;
-  font-weight: 500;
-  font-size: 20px;
-  color: var(--main-text);
+	font-family: 'poppins', sans-serif;
+	font-weight: 500;
+	font-size: 20px;
+	color: var(--main-text);
 }
 
 p {
-  font-family: 'inter', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--secondary-text);
+	font-family: 'inter', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--secondary-text);
 }
 
 label {
-  font-family: 'inter', sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  font-weight: 500;
-  color: var(--secondary-text);
+	font-family: 'inter', sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	font-weight: 500;
+	color: var(--secondary-text);
 }
 
 a {
-  width: fit-content;
-  font-family: 'inter', sans-serif;
-  color: hsl(0, 0%, 10%);
-  text-decoration: none;
-  font-weight: 500;
+	width: fit-content;
+	font-family: 'inter', sans-serif;
+	color: hsl(0, 0%, 10%);
+	text-decoration: none;
+	font-weight: 500;
 }
 
 button {
-  background: hsl(0, 0%, 20%);
-  color: hsl(0, 0%, 100%);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  border-radius: 10px;
-  padding-inline: 20px;
-  padding-block: 7px;
-  border: 2px solid hsl(0, 0%, 30%);
-  transition: 1s;
+	background: hsl(0, 0%, 20%);
+	color: hsl(0, 0%, 100%);
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	border-radius: 10px;
+	padding-inline: 20px;
+	padding-block: 7px;
+	border: 2px solid hsl(0, 0%, 30%);
+	transition: 1s;
 }
 
 button:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 button:disabled {
-  opacity: 50%;
-  cursor: not-allowed;
+	opacity: 50%;
+	cursor: not-allowed;
 }
 
 input,
 select {
-  border-radius: 10px;
-  border: 2px solid hsl(0, 0%, 70%);
-  background: hsla(0, 0%, 90%, 0%);
-  width: fit-content;
-  color: var(--secondary-text);
-  padding-inline: 14px;
-  padding-block: 10px;
+	border-radius: 10px;
+	border: 2px solid hsl(0, 0%, 70%);
+	background: hsla(0, 0%, 90%, 0%);
+	width: fit-content;
+	color: var(--secondary-text);
+	padding-inline: 14px;
+	padding-block: 10px;
 }
 
 hr {
-  width: 100%;
-  height: 2px;
-  border-width: 2px;
-  border-style: solid;
-  color: var(--secondary-text);
+	width: 100%;
+	height: 2px;
+	border-width: 2px;
+	border-style: solid;
+	color: var(--secondary-text);
 }
 
 .fc-event-main {
-  overflow: hidden;
-  min-width: 0;
+	overflow: hidden;
+	min-width: 0;
 }
 
 .fc-daygrid-event {
-  overflow: hidden;
-  white-space: nowrap;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .fc-daygrid-day-frame {
-  overflow: hidden;
+	overflow: hidden;
 }
 
 .fc-daygrid-event-harness-abs {
-  right: 0 !important;
+	right: 0 !important;
 }
-
 
 @media screen and (max-width: 500px) {
-  body > main {
-    padding: 12px !important;
-    padding-top: 68px !important;
-    gap: 8px !important;
-  }
+	body > main {
+		padding: 12px !important;
+		padding-top: 68px !important;
+		gap: 8px !important;
+	}
 
-  h1 {
-    font-size: 24px;
-  }
+	h1 {
+		font-size: 24px;
+	}
 
-  h2 {
-    font-size: 20px;
-  }
+	h2 {
+		font-size: 20px;
+	}
 
-  h3 {
-    font-size: 18px;
-  }
+	h3 {
+		font-size: 18px;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+	html {
+		color-scheme: dark;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    overflow-y: auto;
-    --background-dark: hsl(0, 0%, 0%);
-    --background: hsl(0, 0%, 5%);
-    --background-light: hsl(0, 0%, 10%);
+	body {
+		overflow-y: auto;
+		--background-dark: hsl(0, 0%, 0%);
+		--background: hsl(0, 0%, 5%);
+		--background-light: hsl(0, 0%, 10%);
 
-    --main-text: hsl(0, 0%, 90%);
-    --secondary-text: hsl(0, 0%, 70%);
-  }
+		--main-text: hsl(0, 0%, 90%);
+		--secondary-text: hsl(0, 0%, 70%);
+	}
 
-  a {
-    color: hsl(0, 0%, 90%);
-  }
+	a {
+		color: hsl(0, 0%, 90%);
+	}
 }
