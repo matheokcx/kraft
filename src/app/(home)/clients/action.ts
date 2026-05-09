@@ -8,36 +8,29 @@ import z from 'zod';
 import { FileStorageService } from '@/services/fileStorageService';
 import { getTranslations } from 'next-intl/server';
 
-const buildClientSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
-	z.object({
-		firstName: z
-			.string()
-			.min(2, t('clients.errors.firstNameMin'))
-			.max(100, t('clients.errors.firstNameMax')),
-		lastName: z
-			.string()
-			.min(2, t('clients.errors.lastNameMin'))
-			.max(100, t('clients.errors.lastNameMax')),
-		job: z.string().max(100, t('clients.errors.jobMax')),
-		status: z.enum(Object.values(ClientStatus)),
-		birthdate: z.union([z.literal('').transform(() => null), z.iso.date()]).nullable(),
-		mail: z.union([z.literal('').transform(() => null), z.string().email()]).nullable(),
-		phone: z.union([z.literal('').transform(() => null), z.string()]).nullable(),
-		image: z.union([
-			z
-				.file()
-				.mime(FileStorageService.supportedMimeTypes.images)
-				.max(FileStorageService.maxFileSize),
-			z
-				.file()
-				.refine((file) => file.size === 0)
-				.transform(() => null),
-		]),
-		links: z
-			.array(z.string().url().or(z.literal('')))
-			.transform((arr) => arr.filter((s) => s !== '')),
-		gender: z.enum(Object.values(GENDER)),
-	});
+const clientSchema = z.object({
+	firstName: z.string().min(2).max(100),
+	lastName: z.string().min(2).max(100),
+	job: z.string().max(100),
+	status: z.enum(Object.values(ClientStatus)),
+	birthdate: z.union([z.literal('').transform(() => null), z.iso.date()]).nullable(),
+	mail: z.union([z.literal('').transform(() => null), z.string().email()]).nullable(),
+	phone: z.union([z.literal('').transform(() => null), z.string()]).nullable(),
+	image: z.union([
+		z
+			.file()
+			.mime(FileStorageService.supportedMimeTypes.images)
+			.max(FileStorageService.maxFileSize),
+		z
+			.file()
+			.refine((file) => file.size === 0)
+			.transform(() => null),
+	]),
+	links: z
+		.array(z.string().url().or(z.literal('')))
+		.transform((arr) => arr.filter((s) => s !== '')),
+	gender: z.enum(Object.values(GENDER)),
+});
 
 export const createClient = async (
 	_prevState: { error?: string } | null,
@@ -49,7 +42,7 @@ export const createClient = async (
 		...Object.fromEntries(inputs),
 		links: inputs.getAll('links'),
 	};
-	const isValid = buildClientSchema(t).safeParse(formDataObject);
+	const isValid = clientSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthenticated') };
@@ -79,7 +72,7 @@ export const updateClient = async (
 		...Object.fromEntries(data),
 		links: data.getAll('links'),
 	};
-	const isValid = buildClientSchema(t).safeParse(formDataObject);
+	const isValid = clientSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthenticated') };

@@ -8,14 +8,10 @@ import { redirect } from 'next/dist/client/components/redirect';
 import { Client, ClientNote } from '@/generated/prisma';
 import { getTranslations } from 'next-intl/server';
 
-const buildClientNoteSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
-	z.object({
-		text: z
-			.string()
-			.min(1, t('clientNotes.errors.textMin'))
-			.max(200, t('clientNotes.errors.textMax')),
-		clientId: z.number().nonnegative(),
-	});
+const clientNoteSchema = z.object({
+	text: z.string().min(1).max(200),
+	clientId: z.number().nonnegative(),
+});
 
 export const addClientNote = async (
 	_prevState: { error?: string } | null,
@@ -24,7 +20,7 @@ export const addClientNote = async (
 	const t = await getTranslations();
 	const session = await getServerSession(authOptions);
 	const formDataObject = { ...Object.fromEntries(formData) };
-	const isValid = buildClientNoteSchema(t).safeParse(formDataObject);
+	const isValid = clientNoteSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthenticated') };
@@ -60,7 +56,7 @@ export const updateClientNote = async (
 	const session = await getServerSession(authOptions);
 	const clientNoteId: number = Number(formData.get('clientNoteId') as string);
 	const formDataObject = { ...Object.fromEntries(formData) };
-	const isValid = buildClientNoteSchema(t).safeParse(formDataObject);
+	const isValid = clientNoteSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthenticated') };

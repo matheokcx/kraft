@@ -128,7 +128,8 @@
 		"failedLogin": "Mail ou mot de passe incorrect",
 		"createdAccount": "Compte créé avec succès !",
 		"accountCreationError": "Une erreur est survenue lors de la création de votre compte",
-		"notAuthText": "Vous n'êtes pas connecté"
+		"notAuthText": "Vous n'êtes pas connecté",
+		"deleteAccount": "Supprimer votre compte"
 	},
 	"information": "Informations",
 	"years": "ans",

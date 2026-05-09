@@ -30,3 +30,14 @@
 	align-items: center;
 	gap: 5px;
 }
+
+.logoutButton {
+	width: 100%;
+	border: 0;
+	background: hsla(0, 0%, 50%, 50%);
+	transition: 1.5s;
+}
+
+.logoutButton:hover {
+	background-color: hsl(0, 50%, 50%);
+}

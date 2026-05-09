@@ -8,22 +8,17 @@ import { ProjectService } from '@/services/projectService';
 import { Meeting, Project } from '@/generated/prisma';
 import { getTranslations } from 'next-intl/server';
 
-const buildMeetingSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
-	z
-		.object({
-			title: z
-				.string()
-				.min(1, t('meetings.errors.titleMin'))
-				.max(100, t('meetings.errors.titleMax')),
-			description: z.string().max(250, t('meetings.errors.descriptionMax')).optional(),
-			startDate: z.date(),
-			endDate: z.date(),
-			projectId: z.number().nonnegative(),
-		})
-		.refine((data) => data.endDate > data.startDate, {
-			message: t('meetings.errors.endDateAfterStart'),
-			path: ['endDate'],
-		});
+const meetingSchema = z
+	.object({
+		title: z.string().min(1).max(100),
+		description: z.string().max(250).optional(),
+		startDate: z.date(),
+		endDate: z.date(),
+		projectId: z.number().nonnegative(),
+	})
+	.refine((data) => data.endDate > data.startDate, {
+		path: ['endDate'],
+	});
 
 export const createMeeting = async (
 	_prevState: { error?: string } | null,
@@ -35,7 +30,7 @@ export const createMeeting = async (
 		...Object.fromEntries(inputs),
 		links: inputs.getAll('links'),
 	};
-	const isValid = buildMeetingSchema(t).safeParse(formDataObject);
+	const isValid = meetingSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthorized') };
@@ -71,7 +66,7 @@ export const updateMeeting = async (
 	const session = await getServerSession(authOptions);
 	const meetingId: number = Number(data.get('meetingId') as string);
 	const formDataObject = Object.fromEntries(data);
-	const isValid = buildMeetingSchema(t).safeParse(formDataObject);
+	const isValid = meetingSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthorized') };

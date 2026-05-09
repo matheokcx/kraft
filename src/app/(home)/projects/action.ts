@@ -9,37 +9,30 @@ import { FileStorageService } from '@/services/fileStorageService';
 import { ClientService } from '@/services/clientService';
 import { getTranslations } from 'next-intl/server';
 
-const buildProjectSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
-	z.object({
-		title: z
-			.string()
-			.min(3, t('projects.errors.titleMin'))
-			.max(150, t('projects.errors.titleMax')),
-		description: z
-			.string()
-			.min(3, t('projects.errors.descriptionMin'))
-			.max(250, t('projects.errors.descriptionMax')),
-		difficulty: z.enum(Object.values(ProjectDifficulty), t('projects.errors.difficultyInvalid')),
-		cost: z.coerce.number().nonnegative(t('projects.errors.costNegative')),
-		clientId: z.coerce.number().nonnegative(t('projects.errors.clientIdNegative')),
-		parentProjectId: z.coerce
-			.number()
-			.refine((value: number) => value === 0)
-			.transform(() => null)
-			.nullable(),
-		startDate: z.coerce.date(),
-		endDate: z.coerce.date(),
-		cover: z.union([
-			z
-				.file()
-				.mime(FileStorageService.supportedMimeTypes.images)
-				.max(FileStorageService.maxFileSize),
-			z
-				.file()
-				.refine((file) => file.size === 0)
-				.transform(() => null),
-		]),
-	});
+const projectSchema = z.object({
+	title: z.string().min(3).max(150),
+	description: z.string().min(3).max(250),
+	difficulty: z.enum(Object.values(ProjectDifficulty)),
+	cost: z.coerce.number().nonnegative(),
+	clientId: z.coerce.number().nonnegative(),
+	parentProjectId: z.coerce
+		.number()
+		.refine((value: number) => value === 0)
+		.transform(() => null)
+		.nullable(),
+	startDate: z.coerce.date(),
+	endDate: z.coerce.date(),
+	cover: z.union([
+		z
+			.file()
+			.mime(FileStorageService.supportedMimeTypes.images)
+			.max(FileStorageService.maxFileSize),
+		z
+			.file()
+			.refine((file) => file.size === 0)
+			.transform(() => null),
+	]),
+});
 
 export const createProject = async (
 	_prevState: { error?: string } | null,
@@ -49,7 +42,7 @@ export const createProject = async (
 	const session = await getServerSession(authOptions);
 	const clientId: number = Number(data.get('clientId'));
 	const formDataObject = Object.fromEntries(data);
-	const isValid = buildProjectSchema(t).safeParse(formDataObject);
+	const isValid = projectSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthenticated') };
@@ -85,7 +78,7 @@ export const updateProject = async (
 	const session = await getServerSession(authOptions);
 	const projectId: number = Number(data.get('projectId') as string);
 	const formDataObject = Object.fromEntries(data);
-	const isValid = buildProjectSchema(t).safeParse(formDataObject);
+	const isValid = projectSchema.safeParse(formDataObject);
 
 	if (!session?.user?.id) {
 		return { error: t('errors.unauthenticated') };

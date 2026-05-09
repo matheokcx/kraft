@@ -11,11 +11,22 @@ import GENDER = $Enums.GENDER;
 import Link from 'next/link';
 import LanguageButton from '@/components/UI/Buttons/LanguageButton';
 import { signOut } from 'next-auth/react';
+import BackButton from '@/components/UI/Buttons/BackButton/BackButton';
+import { redirect, useRouter } from 'next/navigation';
 
 const ProfilePage = () => {
 	const t = useTranslations();
+	const router = useRouter();
 
 	const [user, setUser] = useState<User | null>(null);
+	const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+	const deleteAccount = (): void => {
+		const response = confirm(`Are you sure you want to delete this account?`);
+		if (response) {
+			setIsDeleting(true);
+		}
+	};
 
 	useEffect(() => {
 		const func = async () => {
@@ -28,6 +39,21 @@ const ProfilePage = () => {
 		func();
 	}, []);
 
+	useEffect(() => {
+		const func = async () => {
+			if (isDeleting) {
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/delete-account`,
+					{
+						method: 'DELETE',
+					},
+				);
+				router.push('/');
+			}
+		};
+		func();
+	}, [isDeleting]);
+
 	if (!user) {
 		return null;
 	}
@@ -35,7 +61,7 @@ const ProfilePage = () => {
 	return (
 		<main className={styles.profilePage}>
 			<div className={styles.profileDiv}>
-				<Link href="/">retour</Link>
+				<BackButton />
 				<img src={user.image ?? '/default-pp.png'} alt="Profile picture" />
 				<Separator widthPercent={100} />
 				<h2 style={{ justifySelf: 'center' }}>{user.name}</h2>
@@ -72,9 +98,15 @@ const ProfilePage = () => {
 				</div>
 
 				<LanguageButton />
-				<button onClick={() => signOut()} className={styles.logoutButton}>
-					{t('auth.logout')}
-				</button>
+				<button onClick={() => router.push('/profile/edit')}>{t('edit')}</button>
+				<div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '5px' }}>
+					<button onClick={() => signOut()} className={styles.logoutButton}>
+						{t('auth.logout')}
+					</button>
+					<button onClick={deleteAccount} className={styles.logoutButton}>
+						{t('auth.deleteAccount')}
+					</button>
+				</div>
 			</div>
 		</main>
 	);

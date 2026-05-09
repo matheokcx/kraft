@@ -128,7 +128,8 @@
 		"failedLogin": "Mail or password is incorrect",
 		"createdAccount": "Account created with success!",
 		"accountCreationError": "An error occurred during the creation of your account",
-		"notAuthText": "You're not auth"
+		"notAuthText": "You're not auth",
+		"deleteAccount": "Delete your account"
 	},
 	"information": "Information",
 	"years": "years",
