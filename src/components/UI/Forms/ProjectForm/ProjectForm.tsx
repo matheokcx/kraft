@@ -108,6 +108,7 @@ const ProjectForm = ({ clients, project }: ProjectFormProps) => {
 						name="clientId"
 						values={clients}
 						displayKey="firstName"
+						defaultValue={project?.clientId}
 						icon={<UserIcon size={24} />}
 					/>
 
@@ -118,6 +119,7 @@ const ProjectForm = ({ clients, project }: ProjectFormProps) => {
 						values={
 							Object.keys(ProjectDifficulty) as Array<keyof typeof ProjectDifficulty>
 						}
+						defaultValue={project?.difficulty}
 						icon={<ChartBarIcon size={24} />}
 					/>
 

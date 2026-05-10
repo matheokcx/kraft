@@ -10,7 +10,7 @@ import { getTranslations } from 'next-intl/server';
 
 const clientNoteSchema = z.object({
 	text: z.string().min(1).max(200),
-	clientId: z.number().nonnegative(),
+	clientId: z.coerce.number().nonnegative(),
 });
 
 export const addClientNote = async (

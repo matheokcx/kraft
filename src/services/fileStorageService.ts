@@ -9,13 +9,13 @@ export class FileStorageService {
 		documents: ['application/pdf', 'text/csv'],
 	};
 
-	public static async uploadFile(file: File, addingDate?: number): Promise<void> {
+	public static async uploadFile(file: File, addingDate?: number): Promise<string | null> {
 		if (
 			file.size < FileStorageService.minFileSize ||
 			file.name.trim().length === 0 ||
 			!/^[a-zA-Z0-9][\w\-. ]{0,253}[a-zA-Z0-9]$/.test(file.name)
 		) {
-			return;
+			throw new Error('Invalid file name');
 		}
 
 		try {
@@ -32,8 +32,10 @@ export class FileStorageService {
 			);
 
 			await writeFile(newFilePath, buffer);
+			return newFilePath;
 		} catch (error: any) {
 			console.error(error.message);
+			return null;
 		}
 	}
 

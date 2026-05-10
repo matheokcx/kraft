@@ -12,9 +12,9 @@ const meetingSchema = z
 	.object({
 		title: z.string().min(1).max(100),
 		description: z.string().max(250).optional(),
-		startDate: z.date(),
-		endDate: z.date(),
-		projectId: z.number().nonnegative(),
+		startDate: z.coerce.date(),
+		endDate: z.coerce.date(),
+		projectId: z.coerce.number().nonnegative(),
 	})
 	.refine((data) => data.endDate > data.startDate, {
 		path: ['endDate'],

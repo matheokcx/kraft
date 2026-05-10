@@ -53,10 +53,10 @@ export class ClientService {
 	public static async addClient(clientInfos: ClientInfos, userId: number): Promise<Client> {
 		const today: number = Date.now();
 		const profilePicture: File | null = clientInfos.image;
-		const clientImageUpload: boolean = profilePicture !== null && profilePicture.size > 0;
+		let imagePath: string | null = null;
 
 		if (profilePicture) {
-			await FileStorageService.uploadFile(profilePicture, today);
+			imagePath = await FileStorageService.uploadFile(profilePicture, today);
 		}
 
 		return await prismaClient.client.create({
@@ -69,10 +69,7 @@ export class ClientService {
 				birthdate: clientInfos.birthdate ? new Date(clientInfos.birthdate) : null,
 				mail: clientInfos.mail ?? null,
 				phone: clientInfos.phone ?? null,
-				image:
-					profilePicture && clientImageUpload
-						? `/files/${profilePicture.name}_${today}`
-						: null,
+				image: imagePath,
 				gender: clientInfos.gender,
 				freelanceId: userId,
 			},
@@ -86,19 +83,24 @@ export class ClientService {
 	): Promise<Client> {
 		const today: number = Date.now();
 		const profilePicture: File | null = clientInfos.image;
-		let imagePath: string | null | undefined;
+		let imagePath: string | null = null;
 
 		if (profilePicture) {
 			const existingClient = await prismaClient.client.findUnique({
-				where: { id: clientId },
-				select: { image: true },
+				where: {
+					id: clientId,
+					freelanceId: userId,
+				},
+				select: {
+					image: true,
+				},
 			});
 
 			if (existingClient?.image) {
 				await FileStorageService.removeFile(existingClient.image);
 			}
 
-			await FileStorageService.uploadFile(profilePicture, today);
+			imagePath = await FileStorageService.uploadFile(profilePicture, today);
 		}
 
 		return await prismaClient.client.update({
@@ -111,7 +113,7 @@ export class ClientService {
 				birthdate: clientInfos.birthdate ? new Date(clientInfos.birthdate) : null,
 				mail: clientInfos.mail,
 				phone: clientInfos.phone,
-				...(imagePath !== undefined && { image: imagePath }),
+				...(imagePath !== null && { image: imagePath }),
 				gender: clientInfos.gender,
 			},
 			where: {

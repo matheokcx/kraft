@@ -1,6 +1,7 @@
 import { prismaClient } from '@/lib/prisma';
-import { Project, ProjectDifficulty } from '@/generated/prisma';
+import { Client, Project, ProjectDifficulty } from '@/generated/prisma';
 import { FileStorageService } from '@/services/fileStorageService';
+import { ClientService } from '@/services/clientService';
 
 type ProjectInformations = {
 	title: string;
@@ -54,9 +55,10 @@ export class ProjectService {
 	public static async addProject(data: ProjectInformations, clientId: number): Promise<Project> {
 		const coverFile: File | null = data.cover;
 		const today: number = Date.now();
+		let coverPath: string | null = null;
 
 		if (coverFile) {
-			await FileStorageService.uploadFile(coverFile, today);
+			coverPath = await FileStorageService.uploadFile(coverFile, today);
 		}
 
 		return await prismaClient.project.create({
@@ -69,7 +71,7 @@ export class ProjectService {
 				parentProjectId: data.parentProjectId,
 				startDate: data.startDate,
 				endDate: data.endDate,
-				cover: coverFile ? `/files/project_cover_${today}_${coverFile.name}` : null,
+				cover: coverPath,
 			},
 		});
 	}
@@ -81,11 +83,22 @@ export class ProjectService {
 	): Promise<Project> {
 		const coverFile: File | null = data.cover;
 		const today: number = Date.now();
-		let coverPath: string | null | undefined;
+		let coverPath: string | null = null;
+
+		const client: Client | null = await ClientService.getClient(data.clientId, userId);
+
+		if (!client) {
+			throw new Error("It's not your client");
+		}
 
 		if (coverFile) {
 			const existingProject = await prismaClient.project.findUnique({
-				where: { id: projectId },
+				where: {
+					id: projectId,
+					client: {
+						freelanceId: userId,
+					},
+				},
 				select: { cover: true },
 			});
 
@@ -93,8 +106,7 @@ export class ProjectService {
 				await FileStorageService.removeFile(existingProject.cover);
 			}
 
-			await FileStorageService.uploadFile(coverFile, today);
-			coverPath = `/files/${coverFile.name.split('.')[0]}_${today}.${coverFile.name.split('.')[1]}`;
+			coverPath = await FileStorageService.uploadFile(coverFile, today);
 		}
 
 		return await prismaClient.project.update({
@@ -107,7 +119,7 @@ export class ProjectService {
 				parentProjectId: data.parentProjectId,
 				startDate: data.startDate,
 				endDate: data.endDate,
-				...(coverPath !== undefined && { cover: coverPath }),
+				...(coverPath !== null && { cover: coverPath }),
 			},
 			where: {
 				id: projectId,

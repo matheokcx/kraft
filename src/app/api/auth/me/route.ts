@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
 	const currentUser: User | null = await prismaClient.user.findUnique({
 		where: {
-			email: session.user.email,
+			id: Number(session.user.id),
 		},
 	});
 
