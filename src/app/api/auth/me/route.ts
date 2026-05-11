@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { prismaClient } from '@/lib/prisma';
 import { authOptions } from '@/lib/auth';
 import { enforceRateLimit, getClientIp } from '@/lib/rateLimit';
-import { User } from '@/types';
+import { User } from '@/generated/prisma';
 
 export async function GET(request: NextRequest) {
 	const limited = enforceRateLimit(`me:${getClientIp(request)}`, 30, 60_000);

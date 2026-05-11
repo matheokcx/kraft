@@ -5,9 +5,8 @@ import toast from 'react-hot-toast';
 import { useTranslations } from 'next-intl';
 import Input from '@/components/UI/Input/Input';
 import SelectField from '@/components/UI/SelectField/SelectField';
-import { GENDER } from '@/generated/prisma';
+import { GENDER, User } from '@/generated/prisma';
 import styles from './profile-form.module.css';
-import { User } from '@/types';
 
 type ProfileFormProps = {
 	user: User;

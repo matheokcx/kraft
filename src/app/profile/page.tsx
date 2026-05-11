@@ -1,18 +1,16 @@
 'use client';
-import { User } from '@/types';
 import { useEffect, useState } from 'react';
 import Separator from '@/components/UI/Separator';
 import styles from './profile-page.module.css';
 import { Envelope, GenderFemale, GenderMale, Phone } from '@phosphor-icons/react/ssr';
 import { Cake, Flag } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
-import { $Enums } from '@/generated/prisma';
+import { $Enums, User } from '@/generated/prisma';
 import GENDER = $Enums.GENDER;
-import Link from 'next/link';
 import LanguageButton from '@/components/UI/Buttons/LanguageButton';
 import { signOut } from 'next-auth/react';
 import BackButton from '@/components/UI/Buttons/BackButton/BackButton';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const ProfilePage = () => {
 	const t = useTranslations();

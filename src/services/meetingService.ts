@@ -12,6 +12,7 @@ type MeetingInfos = {
 type MeetingFilters = {
 	title?: string;
 	projectId?: number;
+	startHour?: Date;
 };
 
 export class MeetingService {
@@ -23,6 +24,11 @@ export class MeetingService {
 						freelanceId: userId,
 					},
 					...(filters.projectId && { id: Number(filters.projectId) }),
+					...(filters.startHour && {
+						startHour: {
+							gte: filters?.startHour,
+						},
+					}),
 				},
 			},
 			orderBy: {
