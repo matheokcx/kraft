@@ -1,18 +1,18 @@
 .kpiCard {
-    width: 100%;
-    display: grid;
-    justify-items: center;
-    align-items: center;
-    gap: 8px;
-    padding-inline: 10px;
-    padding-block: 32px;
-    border-radius: 10px;
-    background: var(--background);
-    box-shadow: 0 3px 13px hsla(0, 0%, 0%, 25%);
+	width: 100%;
+	display: grid;
+	justify-items: center;
+	align-items: center;
+	gap: 8px;
+	padding-inline: 10px;
+	padding-block: 32px;
+	border-radius: 10px;
+	background: var(--background);
+	box-shadow: 0 3px 13px hsla(0, 0%, 0%, 25%);
 }
 
 @media screen and (max-width: 500px) {
-    .kpiCard {
-        grid-column: span 2;
-    }
+	.kpiCard {
+		grid-column: span 2;
+	}
 }

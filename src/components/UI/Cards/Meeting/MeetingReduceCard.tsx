@@ -1,38 +1,27 @@
-import styles from "./meetingReduceCard.module.css"
-import {getWeekDay} from "@/utils/utils";
-import {useTranslations} from "next-intl";
-
-
+import styles from './meetingReduceCard.module.css';
+import { useTranslations } from 'next-intl';
+import { Meeting } from '@/generated/prisma';
 
 type MeetingReduceCardProps = {
-    weekDay: Date;
-    meetingTitle?: string;
+	meeting: Meeting;
 };
 
-const MeetingReduceCard = ({weekDay, meetingTitle}: MeetingReduceCardProps) => {
-    const t = useTranslations();
-    const isToday: boolean = weekDay.getDay() === (new Date()).getDay();
-    const style = {
-        color: isToday ? "var(--main-text" : "var(--secondary-text)",
-        fontWeight: isToday ? 700 : 400,
-    };
+const MeetingReduceCard = ({ meeting }: MeetingReduceCardProps) => {
+	const t = useTranslations();
 
-    return (
-        <div className={styles.meetingReduceCard}>
-            <label style={style}>{t(`daysOfWeek.${getWeekDay(weekDay.getDay())}`)}</label>
-            {
-                meetingTitle ? (
-                    <div className={styles.meetingBlock}>
-                        <p>{meetingTitle}</p>
-                    </div>
-                ) : (
-                    <div className={styles.noMeetingBlock}>
-                        <p>{t("nothingSchedule")}</p>
-                    </div>
-                )
-            }
-        </div>
-    );
+	return (
+		<div className={styles.meetingReduceCard}>
+			{meeting ? (
+				<div className={styles.meetingBlock}>
+					<p>{meeting.title}</p>
+				</div>
+			) : (
+				<div className={styles.noMeetingBlock}>
+					<p>{t('nothingSchedule')}</p>
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default MeetingReduceCard;

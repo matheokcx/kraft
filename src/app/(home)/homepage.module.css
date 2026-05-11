@@ -1,44 +1,54 @@
-.homePage{
-    padding-inline: 10px;
-    width: 80%;
-    max-height: 100%;
-    overflow-y: auto;
+.homePage {
+	padding-inline: 10px;
+	width: 80%;
+	max-height: 100%;
+	overflow-y: auto;
 }
 
 .displayGrid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 24px;
 }
 
 .recentFilesDiv {
-    width: 50%;
-    min-width: 0;
-    background: var(--background);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 3px 13px hsla(0, 0%, 0%, 25%);
+	grid-column: span 2;
+	min-width: 0;
+	background: var(--background);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 3px 13px hsla(0, 0%, 0%, 25%);
 }
 
 .filesDiv {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    overflow-x: auto;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	overflow-x: auto;
 }
 
-@media screen and (max-width: 500px){
-    .homePage {
-        width: 100%;
-        padding: 4px;
-    }
+@media screen and (max-width: 900px) {
+	.displayGrid {
+		grid-template-columns: repeat(2, 1fr);
+	}
 
-    .recentFilesDiv {
-        width: 100%;
-    }
+	.recentFilesDiv {
+		grid-column: span 2;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.homePage {
+		width: 100%;
+		padding: 4px;
+	}
+
+	.recentFilesDiv {
+		width: 100%;
+	}
 }

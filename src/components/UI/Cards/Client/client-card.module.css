@@ -1,74 +1,74 @@
 .clientCard {
-    border: 2px solid hsla(0, 0%, 70%, 50%);
-    border-radius: 12px;
-    background: var(--background);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 12px;
+	border: 2px solid hsla(0, 0%, 70%, 50%);
+	border-radius: 12px;
+	background: var(--background);
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 12px;
 }
 
 .cardHeader {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
 }
 
 .clientInformation {
-    max-width: 50%;
+	max-width: 50%;
 }
 
 .mainInformation {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    overflow: hidden;
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	overflow: hidden;
 }
 
 .mainInformation h3,
 .mainInformation label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	width: 100%;
 }
 
 .buttonsDiv {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+	display: flex;
+	gap: 10px;
+	align-items: center;
 }
 
 .clientJob {
-    text-overflow: ellipsis;
+	text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 500px) {
-    .clientCard {
-        width: 100%;
-        max-width: 100%;
-    }
+	.clientCard {
+		width: 100%;
+		max-width: 100%;
+	}
 }
 
 @media screen and (max-width: 1200px) {
-    .buttonsDiv {
-        flex-direction: column;
-    }
+	.buttonsDiv {
+		flex-direction: column;
+	}
 
-    .cardHeader {
-        flex-direction: column;
-    }
+	.cardHeader {
+		flex-direction: column;
+	}
 
-    .mainInformation {
-        width: 100%;
-        flex-direction: column;
-    }
+	.mainInformation {
+		width: 100%;
+		flex-direction: column;
+	}
 
-    .clientInformation {
-        max-width: 100%;
-    }
+	.clientInformation {
+		max-width: 100%;
+	}
 }

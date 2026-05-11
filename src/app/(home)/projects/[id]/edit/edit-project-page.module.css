@@ -1,6 +1,14 @@
-.editForm {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.page {
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	border-radius: 10px;
+	background-color: var(--background);
+	overflow-y: auto;
+}
+
+@media screen and (max-width: 500px) {
+	.page {
+		padding: 12px;
+	}
 }

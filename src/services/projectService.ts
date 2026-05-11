@@ -1,125 +1,147 @@
-import {prismaClient} from "@/lib/prisma";
-import {Project} from "@/types";
-import path from "path";
-import {unlink, writeFile} from "fs/promises";
+import { prismaClient } from '@/lib/prisma';
+import { Client, Project, ProjectDifficulty } from '@/generated/prisma';
+import { FileStorageService } from '@/services/fileStorageService';
+import { ClientService } from '@/services/clientService';
 
-export const getAllUserProjects = async (filters: any, userId: number, onlyProcessingProjects: boolean): Promise<Project[]> => {
-    return await prismaClient.project.findMany({
-        where: {
-            ...filters,
-            client: {
-                freelanceId: userId
-            },
-            ...(onlyProcessingProjects && {
-                AND: [
-                    {
-                        endDate: {gte: new Date()}
-                    },
-                    {
-                        startDate: {lte: new Date()}
-                    }
-                ]
-            })
-        }
-    });
+type ProjectInformations = {
+	title: string;
+	description: string;
+	difficulty: ProjectDifficulty;
+	cost: number;
+	clientId: number;
+	parentProjectId: number | null;
+	startDate: Date;
+	endDate: Date;
+	cover: File | null;
 };
 
-export const getProject = async (projectId: number, userId: number): Promise<Project | null> => {
-    return await prismaClient.project.findUnique({
-        where: {
-            id: projectId,
-            client: {
-                freelanceId: userId
-            }
-        }
-    });
-};
+export class ProjectService {
+	public static async getAllUserProjects(
+		filters: any,
+		userId: number,
+		onlyProcessingProjects: boolean,
+	): Promise<Project[]> {
+		return await prismaClient.project.findMany({
+			where: {
+				...filters,
+				client: {
+					freelanceId: userId,
+				},
+				...(onlyProcessingProjects && {
+					AND: [
+						{
+							endDate: { gte: new Date() },
+						},
+						{
+							startDate: { lte: new Date() },
+						},
+					],
+				}),
+			},
+		});
+	}
 
-export const addProject = async (projectInformations: any, clientId: number): Promise<Project> => {
-    const coverFile: File | null = projectInformations.cover;
-    const today: number = Date.now();
+	public static async getProject(projectId: number, userId: number): Promise<Project | null> {
+		return await prismaClient.project.findUnique({
+			where: {
+				id: projectId,
+				client: {
+					freelanceId: userId,
+				},
+			},
+		});
+	}
 
-    if(coverFile && coverFile.size > 0){
-        const bytes = await coverFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+	public static async addProject(data: ProjectInformations, clientId: number): Promise<Project> {
+		const coverFile: File | null = data.cover;
+		const today: number = Date.now();
+		let coverPath: string | null = null;
 
-        const uploadDirectoryPath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files");
-        const newFilePath: string = path.join(uploadDirectoryPath, `project_cover_${today}_${coverFile.name}`);
+		if (coverFile) {
+			coverPath = await FileStorageService.uploadFile(coverFile, today);
+		}
 
-        await writeFile(newFilePath, buffer);
-    }
+		return await prismaClient.project.create({
+			data: {
+				title: data.title,
+				description: data.description,
+				difficulty: data.difficulty,
+				cost: data.cost,
+				clientId: clientId,
+				parentProjectId: data.parentProjectId,
+				startDate: data.startDate,
+				endDate: data.endDate,
+				cover: coverPath,
+			},
+		});
+	}
 
-    return await prismaClient.project.create({
-        data: {
-            title: projectInformations.title,
-            description: projectInformations.description,
-            difficulty: projectInformations.difficulty,
-            cost: projectInformations.cost,
-            clientId: clientId,
-            parentProjectId: projectInformations.parentProjectId,
-            startDate: new Date(projectInformations.startDate),
-            endDate: new Date(projectInformations.endDate),
-            cover: coverFile ? `/files/project_cover_${today}_${coverFile.name}` : null
-        }
-    });
-};
+	public static async editProject(
+		data: ProjectInformations,
+		projectId: number,
+		userId: number,
+	): Promise<Project> {
+		const coverFile: File | null = data.cover;
+		const today: number = Date.now();
+		let coverPath: string | null = null;
 
-export const editProject = async (projectInformations: any, projectId: number, userId: number): Promise<Project> => {
-    const coverFile: File | null = projectInformations.cover;
-    const today: number = Date.now();
-    let coverPath: string | null | undefined;
+		const client: Client | null = await ClientService.getClient(data.clientId, userId);
 
-    if(coverFile && coverFile.size > 0){
-        const existingProject = await prismaClient.project.findUnique({ where: { id: projectId }, select: { cover: true } });
+		if (!client) {
+			throw new Error("It's not your client");
+		}
 
-        if(existingProject?.cover){
-            const oldFilePath = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files", path.basename(existingProject.cover));
-            await unlink(oldFilePath).catch(() => {});
-        }
+		if (coverFile) {
+			const existingProject = await prismaClient.project.findUnique({
+				where: {
+					id: projectId,
+					client: {
+						freelanceId: userId,
+					},
+				},
+				select: { cover: true },
+			});
 
-        const bytes = await coverFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+			if (existingProject?.cover) {
+				await FileStorageService.removeFile(existingProject.cover);
+			}
 
-        const uploadDirectoryPath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files");
-        const newFilePath: string = path.join(uploadDirectoryPath, `project_cover_${today}_${coverFile.name}`);
+			coverPath = await FileStorageService.uploadFile(coverFile, today);
+		}
 
-        await writeFile(newFilePath, buffer);
-        coverPath = `/files/project_cover_${today}_${coverFile.name}`;
-    }
+		return await prismaClient.project.update({
+			data: {
+				title: data.title,
+				description: data.description,
+				difficulty: data.difficulty,
+				cost: data.cost,
+				clientId: data.clientId,
+				parentProjectId: data.parentProjectId,
+				startDate: data.startDate,
+				endDate: data.endDate,
+				...(coverPath !== null && { cover: coverPath }),
+			},
+			where: {
+				id: projectId,
+				client: {
+					freelanceId: userId,
+				},
+			},
+		});
+	}
 
-    return await prismaClient.project.update({
-        data: {
-            title: projectInformations.title,
-            description: projectInformations.description,
-            difficulty: projectInformations.difficulty,
-            cost: projectInformations.cost,
-            clientId: projectInformations.clientId,
-            parentProjectId: projectInformations.parentProjectId,
-            startDate: new Date(projectInformations.startDate),
-            endDate: new Date(projectInformations.endDate),
-            ...(coverPath !== undefined && { cover: coverPath })
-        },
-        where: {
-            id: projectId,
-            client: {
-                freelanceId: userId
-            }
-        }
-    });
-};
+	public static async deleteProject(projectId: number, userId: number): Promise<void> {
+		const deletedProject: Project = await prismaClient.project.delete({
+			where: {
+				id: projectId,
+				client: {
+					freelanceId: userId,
+				},
+			},
+		});
 
-export const deleteProject = async (projectId: number, userId: number): Promise<void> => {
-    const deletedProject: Project = await prismaClient.project.delete({
-        where: {
-            id: projectId,
-            client: {
-                freelanceId: userId
-            }
-        }
-    });
-
-    if(deletedProject.cover){
-        const oldFilePath: string = path.join(process.cwd(), process.env.FILES_DIRECTORY ?? "public/files", path.basename(deletedProject.cover));
-        await unlink(oldFilePath);
-    }
-};
+		if (deletedProject.cover) {
+			await FileStorageService.removeFile(deletedProject.cover);
+		}
+	}
+}

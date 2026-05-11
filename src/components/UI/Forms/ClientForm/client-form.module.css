@@ -1,0 +1,25 @@
+.gridForm {
+	width: 100%;
+	display: grid;
+	gap: 32px;
+}
+
+.titleRow {
+	grid-column: span 2;
+}
+
+.valideFormButton {
+	width: fit-content;
+	background: var(--primary);
+	border-color: hsl(200, 80%, 50%);
+}
+
+@media screen and (max-width: 768px) {
+	.gridForm {
+		grid-template-columns: 1fr;
+	}
+
+	.titleRow {
+		grid-column: span 1;
+	}
+}

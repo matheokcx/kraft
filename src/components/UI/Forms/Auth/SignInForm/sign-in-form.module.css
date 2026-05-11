@@ -1,0 +1,40 @@
+.signInForm {
+	width: 30%;
+	height: fit-content;
+	background-color: var(--background);
+	border-radius: 16px;
+	box-shadow: 0 6px 12px hsla(0, 0%, 20%, 30%);
+	display: grid;
+	gap: 24px;
+	padding: 64px;
+}
+
+.signInForm input {
+	width: 100%;
+}
+
+.signInForm p {
+	text-align: center;
+}
+
+.validateButton {
+	width: fit-content;
+	background: var(--primary);
+	color: hsl(0, 0%, 100%);
+	border: 0;
+}
+
+@media screen and (max-width: 1024px) {
+	.signInForm {
+		width: 60%;
+		padding: 32px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.signInForm {
+		width: 90%;
+		padding: 24px;
+		gap: 16px;
+	}
+}

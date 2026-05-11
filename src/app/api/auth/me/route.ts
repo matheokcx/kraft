@@ -1,30 +1,34 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { prismaClient } from "@/lib/prisma";
-import { authOptions } from "@/lib/auth";
-import { User } from "@/types";
-
-
-
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { prismaClient } from '@/lib/prisma';
+import { authOptions } from '@/lib/auth';
+import { enforceRateLimit, getClientIp } from '@/lib/rateLimit';
+import { User } from '@/types';
 
 export async function GET(request: NextRequest) {
-    const session: any = await getServerSession(authOptions);
+	const limited = enforceRateLimit(`me:${getClientIp(request)}`, 30, 60_000);
 
-    if (!session || !session.user?.email) {
-        return NextResponse.json({ error: "Vous n'êtes pas connecté" }, { status: 401 });
-    }
+	if (limited) {
+		return limited;
+	}
 
-    const currentUser: User | null = await prismaClient.user.findUnique({
-        where: {
-            email: session.user.email
-        }
-    });
+	const session: any = await getServerSession(authOptions);
 
-    if (!currentUser) {
-        return NextResponse.json({ error: "Utilisateur non trouvé" }, { status: 404 });
-    }
+	if (!session || !session?.user?.id) {
+		return NextResponse.json({ error: "Vous n'êtes pas connecté" }, { status: 401 });
+	}
 
-    const { password, ...userWithoutPassword } = currentUser;
+	const currentUser: User | null = await prismaClient.user.findUnique({
+		where: {
+			id: Number(session.user.id),
+		},
+	});
 
-    return NextResponse.json(userWithoutPassword, { status: 200 });
+	if (!currentUser) {
+		return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
+	}
+
+	const { password, ...userWithoutPassword } = currentUser;
+
+	return NextResponse.json(userWithoutPassword, { status: 200 });
 }

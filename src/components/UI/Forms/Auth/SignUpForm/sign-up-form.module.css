@@ -1,0 +1,48 @@
+.signUpForm {
+	width: 30%;
+	height: fit-content;
+	background: var(--background);
+	border-radius: 12px;
+	box-shadow: 0 6px 12px hsl(0, 0%, 20%, 30%);
+	padding: 64px;
+	display: grid;
+	gap: 24px;
+}
+
+.signUpForm p {
+	text-align: center;
+}
+
+.validateButton {
+	width: fit-content;
+	background: var(--primary);
+	color: hsl(0, 0%, 100%);
+	border: 0;
+}
+
+.formBottom {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+}
+
+@media screen and (max-width: 1024px) {
+	.signUpForm {
+		width: 60%;
+		padding: 32px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.signUpForm {
+		width: 90%;
+		padding: 24px;
+		gap: 16px;
+	}
+
+	.signUpForm input,
+	.signUpForm select {
+		width: 100%;
+	}
+}

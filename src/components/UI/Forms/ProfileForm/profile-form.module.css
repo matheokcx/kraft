@@ -1,0 +1,8 @@
+.profileForm {
+	width: 25%;
+	display: grid;
+	gap: 20px;
+	padding: 20px;
+	background: var(--background);
+	border-radius: 10px;
+}

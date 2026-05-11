@@ -1,0 +1,7 @@
+.backButton {
+	width: fit-content;
+	background: var(--background-light);
+	color: var(--main-text);
+	padding: 10px;
+	transition: 1.5s;
+}

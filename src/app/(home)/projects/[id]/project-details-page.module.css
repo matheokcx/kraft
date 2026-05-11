@@ -1,114 +1,137 @@
 .projectDetailsPage {
-    position: relative;
-    width: 80%;
-    height: 100%;
-    background: var(--background);
+	position: relative;
+	width: 80%;
+	height: 100%;
+	background: var(--background);
 }
 
 .backButtonContainer {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    z-index: 10;
-    opacity: 30%;
-    transition: 1s;
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	z-index: 10;
+	opacity: 30%;
+	transition: 1s;
 }
 
 .backButtonContainer:hover {
-    opacity: 100%;
+	opacity: 100%;
 }
 
 .projectCover {
-    width: 100%;
-    height: 25%;
-    border-radius: 10px;
+	width: 100%;
+	height: 25%;
+	border-radius: 10px;
 }
 
 .deadline {
-    display: flex;
-    gap: 4px;
-    align-items: center;
+	display: flex;
+	gap: 4px;
+	align-items: center;
 }
 
 .pageBody {
-    width: 100%;
-    height: 80%;
-    padding: 20px;
+	width: 100%;
+	height: 80%;
+	padding: 20px;
 }
 
 .projectInformation {
-    width: 100%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+	width: 100%;
+	height: 80%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 .projectDetails {
-    width: 100%;
-    padding: 20px;
-    background: var(--background-light);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+	width: 100%;
+	padding: 20px;
+	background: var(--background-light);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 .earnedMoneyLine {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 .projectRelationInformation {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    display: flex;
-    gap: 20px;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	display: flex;
+	gap: 20px;
 }
 
 .projectRelationPart {
-    width: 100%;
-    padding: 20px;
-    border-radius: 10px;
-    background: var(--background-light);
+	width: 100%;
+	display: grid;
+	gap: 16px;
+	padding: 20px;
+	border-radius: 10px;
+	background: var(--background-light);
 }
 
 .contactLine {
-    display: flex;
-    gap: 5px;
-    align-items: center;
+	display: flex;
+	gap: 5px;
+	align-items: center;
 }
 
 .projectFilesSection {
-    width: 100%;
-    height: 100%;
-    background: var(--background-light);
-    padding: 20px;
-    border-radius: 10px;
+	width: 100%;
+	height: 100%;
+	background: var(--background-light);
+	padding: 20px;
+	border-radius: 10px;
 }
 
 .clientContactsPart {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .deleteButton {
-    background-color: #00000000;
-    transition: 1.5s;
+	background-color: #00000000;
+	transition: 1.5s;
+	color: var(--main-text);
 }
 
 .deleteButton:hover {
-    border-color: hsl(0, 50%, 60%);
-    color: hsl(0, 50%, 60%);
+	border-color: hsl(0, 50%, 60%);
+	color: hsl(0, 50%, 60%);
 }
 
 .editButton {
-    background-color: #00000000;
-    transition: 1.5s;
+	background-color: #00000000;
+	transition: 1.5s;
 }
 
 .editButton:hover {
-    border-color: hsl(116, 50%, 60%);
-    color: hsl(116, 50%, 60%);
+	border-color: hsl(116, 50%, 60%);
+	color: hsl(116, 50%, 60%);
+}
+
+@media screen and (max-width: 768px) {
+	.projectRelationInformation {
+		flex-direction: column;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.projectDetailsPage {
+		width: 100%;
+	}
+
+	.pageBody {
+		padding: 10px;
+	}
+
+	.projectDetails {
+		padding: 12px;
+	}
 }

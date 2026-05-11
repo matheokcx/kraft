@@ -1,98 +1,171 @@
 {
-  "links": {
-    "links": "Links",
-    "home": "Home"
-  },
-  "add": "Add",
-  "create": "Create",
-  "edit": "Edit",
-  "details": "Details",
-  "nothingSchedule": "Nothing of schedule",
-  "daysOfWeek": {
-    "monday": "Monday",
-    "tuesday": "Tuesday",
-    "wednesday": "Wednesday",
-    "thursday": "Thursday",
-    "friday": "Friday",
-    "saturday": "Saturday",
-    "sunday": "Sunday"
-  },
-  "clients": {
-    "clients": "Clients",
-    "status": {
-      "LEAD": "Lead",
-      "SIGNED": "Signed",
-      "LOST": "Lost",
-      "ARCHIVED": "Archived"
-    },
-    "listPage": {
-      "title": "List of your clients:"
-    },
-    "detailsPage": {
-      "aboutNotes": "Your about notes"
-    },
-    "createPage": {
-      "title": "Adding a client",
-      "fileRequirements": "Only .png, .webp and .jpeg, Max 5MB"
-    },
-    "updatePage": {
-      "title": "Update client information"
-    }
-  },
-  "projects": {
-    "projects": "Projects",
-    "parentProject": "Parent project",
-    "inProgress": "Projects in progress",
-    "listPage": {
-      "title": "Directory of your projects"
-    },
-    "createPage": {
-      "title": "Create a project"
-    },
-    "detailsPage": {
-      "associateMeetings": "Associate meetings"
-    },
-    "difficulties": {
-      "EASY": "Easy",
-      "MEDIUM": "Medium",
-      "HARD": "Hard",
-      "EXPERT": "Expert"
-    }
-  },
-  "meetings": {
-    "meetings": "Meetings",
-    "shortcutSectionTitle": "Your coming meetings"
-  },
-  "files": {
-    "recentFiles": "Recent files"
-  },
-  "firstName": "First name",
-  "lastName": "Last name",
-  "job": "Job",
-  "birthdate": "Birthdate",
-  "phone": "Phone",
-  "required": "Required",
-  "photo": "Photo",
-  "status": "Status",
-  "MALE": "Male",
-  "FEMALE": "Female",
-  "auth": {
-    "logout": "Logout",
-    "dontHaveAccountQuestion": "You don't have an account?",
-    "alreadyHaveAccountQuestion": "You already have an account?",
-    "logIn": "Login",
-    "signUp": "Sign up",
-    "password": "Password",
-    "connect": "Connect"
-  },
-  "information": "Information",
-  "years": "years",
-  "contacts": "Contacts",
-  "title": "Title",
-  "description": "Description",
-  "gain": "Gain",
-  "totalGain": "Total gain",
-  "startDate": "Start date",
-  "endDate": "End date",
-  "cover": "Cover"
+	"links": {
+		"links": "Links",
+		"home": "Home"
+	},
+	"add": "Add",
+	"create": "Create",
+	"edit": "Edit",
+	"details": "Details",
+	"nothingSchedule": "Nothing of schedule",
+	"daysOfWeek": {
+		"monday": "Monday",
+		"tuesday": "Tuesday",
+		"wednesday": "Wednesday",
+		"thursday": "Thursday",
+		"friday": "Friday",
+		"saturday": "Saturday",
+		"sunday": "Sunday"
+	},
+	"clients": {
+		"client": "{count, plural, one {Client} other {Clients}}",
+		"listPage": {
+			"title": "List of your clients:"
+		},
+		"detailsPage": {
+			"aboutNotes": "Your about notes"
+		},
+		"createPage": {
+			"title": "Adding a client",
+			"fileRequirements": "Only .png, .webp and .jpeg, Max 5MB"
+		},
+		"updatePage": {
+			"title": "Update client information"
+		},
+		"notFound": "Client not found",
+		"imageFileInputText": "Drop or choose the picture of your client (max. 5MB)",
+		"associateLinksLabel": "Associate links",
+		"addLink": "Add a link",
+		"noClients": "You don't have any client",
+		"errors": {
+			"firstNameMin": "First name must be at least 2 characters long",
+			"firstNameMax": "First name must be at most 100 characters long",
+			"lastNameMin": "Last name must be at least 2 characters long",
+			"lastNameMax": "Last name must be at most 100 characters long",
+			"jobMax": "Job must be at most 100 characters long",
+			"creationFailed": "The client could not be created",
+			"notYourClient": "This is not your client!"
+		}
+	},
+	"projects": {
+		"projects": "Projects",
+		"parentProject": "Parent project",
+		"inProgress": "{count, plural, one {Project in progress} other {Projects in progress}}",
+		"listPage": {
+			"title": "Directory of your projects"
+		},
+		"createPage": {
+			"title": "Create a project"
+		},
+		"detailsPage": {
+			"associateMeetings": "Associate meetings"
+		},
+		"notFound": "Project not found",
+		"noProjects": "You don't have any project",
+		"errors": {
+			"titleMin": "Title minimum length is 3",
+			"titleMax": "Title maximum length is 150",
+			"descriptionMin": "Description minimum length is 3",
+			"descriptionMax": "Description maximum length is 250",
+			"difficultyInvalid": "Difficulty must be one of the available choices",
+			"costNegative": "Project gain cannot be negative",
+			"clientIdNegative": "Client id cannot be negative",
+			"creationFailed": "The project could not be created",
+			"notYourClient": "This is not your client!"
+		}
+	},
+	"meetings": {
+		"meetings": "Meetings",
+		"shortcutSectionTitle": "Your coming meetings",
+		"detailsModal": {
+			"noDescription": "No description for this meeting"
+		},
+		"notFound": "Meeting not found",
+		"errors": {
+			"titleMin": "Title must be at least 1 character long",
+			"titleMax": "Title must be at most 100 characters long",
+			"descriptionMax": "Description must be at most 250 characters long",
+			"endDateAfterStart": "End date must be after start date",
+			"creationFailed": "The meeting could not be created",
+			"notYourProject": "This is not one of your projects"
+		}
+	},
+	"clientNotes": {
+		"errors": {
+			"textMin": "Text must be at least 1 character long",
+			"textMax": "A note text cannot exceed 200 characters",
+			"creationFailed": "The client note could not be created",
+			"notYourClient": "This is not your client"
+		}
+	},
+	"errors": {
+		"unauthenticated": "Unauthenticated",
+		"unauthorized": "Unauthorized"
+	},
+	"files": {
+		"recentFiles": "Recent files",
+		"noFiles": "You don't have any file"
+	},
+	"firstName": "First name",
+	"lastName": "Last name",
+	"job": "Job",
+	"birthdate": "Birthdate",
+	"phone": "Phone",
+	"required": "Required",
+	"photo": "Photo",
+	"status": "Status",
+	"MALE": "Male",
+	"FEMALE": "Female",
+	"auth": {
+		"logout": "Logout",
+		"dontHaveAccountQuestion": "You don't have an account?",
+		"alreadyHaveAccountQuestion": "You already have an account?",
+		"logIn": "Login",
+		"signUp": "Sign up",
+		"password": "Password",
+		"connect": "Connect",
+		"successfulLogin": "Successful login!",
+		"failedLogin": "Mail or password is incorrect",
+		"createdAccount": "Account created with success!",
+		"accountCreationError": "An error occurred during the creation of your account",
+		"notAuthText": "You're not auth",
+		"deleteAccount": "Delete your account"
+	},
+	"information": "Information",
+	"years": "years",
+	"contacts": "Contacts",
+	"title": "Title",
+	"description": "Description",
+	"gain": "Gain",
+	"totalGain": "Total gain",
+	"startDate": "Start date",
+	"endDate": "End date",
+	"cover": "Cover",
+	"EASY": "Easy",
+	"MEDIUM": "Medium",
+	"HARD": "Hard",
+	"EXPERT": "Expert",
+	"LEAD": "Lead",
+	"SIGNED": "Signed",
+	"LOST": "Lost",
+	"ARCHIVED": "Archived",
+	"close": "Close",
+	"date": "Date",
+	"time": "Time",
+	"project": "Project",
+	"client": "Client",
+	"noDescription": "No description",
+	"difficulties": "Difficulties",
+	"mail": "Mail",
+	"fullName": "Full name",
+	"gender": "Gender",
+	"country": "Country",
+	"countries": {
+		"france": "France",
+		"belgium": "Belgium",
+		"switzerland": "Switzerland",
+		"spain": "Spain"
+	},
+	"createdSince": "Created since {date}",
+	"profile": "Profile"
 }
