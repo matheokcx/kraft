@@ -130,7 +130,7 @@ const ClientForm = ({ client }: ClientFormProps) => {
 				<div>
 					<SelectField
 						name="gender"
-						label="Sex*"
+						label="Sex"
 						values={Object.values(GENDER)}
 						icon={<GenderIntersexIcon size={24} />}
 						defaultValue={client?.gender}

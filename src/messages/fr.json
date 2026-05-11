@@ -129,7 +129,8 @@
 		"createdAccount": "Compte créé avec succès !",
 		"accountCreationError": "Une erreur est survenue lors de la création de votre compte",
 		"notAuthText": "Vous n'êtes pas connecté",
-		"deleteAccount": "Supprimer votre compte"
+		"deleteAccount": "Supprimer votre compte",
+		"editProfile": "Modifier votre profil"
 	},
 	"information": "Informations",
 	"years": "ans",

@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 		return limited;
 	}
 
-	const session: any = await getServerSession(authOptions);
+	const session = await getServerSession(authOptions);
 
 	if (!session || !session?.user?.id) {
 		return NextResponse.json({ error: "Vous n'êtes pas connecté" }, { status: 401 });

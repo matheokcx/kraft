@@ -9,8 +9,13 @@ type MeetingInfos = {
 	projectId: number;
 };
 
+type MeetingFilters = {
+	title?: string;
+	projectId?: number;
+};
+
 export class MeetingService {
-	public static async getMeetings(filters: any, userId: number): Promise<Meeting[]> {
+	public static async getMeetings(filters: MeetingFilters, userId: number): Promise<Meeting[]> {
 		return await prismaClient.meeting.findMany({
 			where: {
 				project: {
@@ -19,11 +24,6 @@ export class MeetingService {
 					},
 					...(filters.projectId && { id: Number(filters.projectId) }),
 				},
-				...(filters.startHour && {
-					startHour: {
-						gte: new Date(filters?.startHour ?? ''),
-					},
-				}),
 			},
 			orderBy: {
 				startHour: 'asc',
@@ -51,14 +51,14 @@ export class MeetingService {
 		});
 	}
 
-	public static async addMeeting(body: any): Promise<Meeting> {
+	public static async addMeeting(body: MeetingInfos): Promise<Meeting> {
 		return await prismaClient.meeting.create({
 			data: {
 				title: body.title,
 				projectId: body.projectId,
 				startHour: new Date(body.startDate),
 				endHour: new Date(body.endDate),
-				description: body.description ? body.description : null,
+				description: body.description ?? null,
 			},
 		});
 	}

@@ -22,7 +22,9 @@ const ProfilePage = () => {
 	const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
 	const deleteAccount = (): void => {
-		const response = confirm(`Are you sure you want to delete this account?`);
+		const response = confirm(
+			'Êtes-vous sûr de vouloir supprimer votre compte ? Tout sera perdu à jamais',
+		);
 		if (response) {
 			setIsDeleting(true);
 		}

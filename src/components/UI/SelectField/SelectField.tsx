@@ -28,7 +28,7 @@ const SelectField = ({
 		<div className={styles.selectDiv}>
 			<label htmlFor={name} className={styles.selectLabel}>
 				{icon && icon}
-				{label}
+				{required ? label + '*' : label}
 			</label>
 			<select id={name} name={name} required={required} defaultValue={defaultValue}>
 				{values.map((object: any, index: number) => (

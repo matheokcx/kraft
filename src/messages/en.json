@@ -129,7 +129,8 @@
 		"createdAccount": "Account created with success!",
 		"accountCreationError": "An error occurred during the creation of your account",
 		"notAuthText": "You're not auth",
-		"deleteAccount": "Delete your account"
+		"deleteAccount": "Delete your account",
+		"editProfile": "Edit your profile"
 	},
 	"information": "Information",
 	"years": "years",

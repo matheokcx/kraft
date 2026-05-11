@@ -26,7 +26,7 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
 
 	return (
 		<form action={action} className={styles.profileForm}>
-			<h2>Modifier votre profil</h2>
+			<h2>{t('auth.editProfile')}</h2>
 			<Input type="text" label={t('fullName')} name="name" defaultValue={user.name} />
 			<Input type="email" label={t('mail')} name="email" defaultValue={user.email} />
 			<Input
