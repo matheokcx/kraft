@@ -15,9 +15,16 @@ type ProjectInformations = {
 	cover: File | null;
 };
 
+type ProjectFilters = {
+	title?: string;
+	startDate?: Date;
+	difficulty?: ProjectDifficulty;
+	clientId?: number;
+};
+
 export class ProjectService {
 	public static async getAllUserProjects(
-		filters: any,
+		filters: ProjectFilters,
 		userId: number,
 		onlyProcessingProjects: boolean,
 	): Promise<Project[]> {

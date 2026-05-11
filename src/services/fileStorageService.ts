@@ -22,17 +22,12 @@ export class FileStorageService {
 			const bytes: ArrayBuffer = await file.arrayBuffer();
 			const buffer = Buffer.from(bytes);
 
-			const uploadDirectoryPath: string = path.join(
-				process.cwd(),
-				process.env.FILES_DIRECTORY ?? 'public/files',
-			);
-			const newFilePath: string = path.join(
-				uploadDirectoryPath,
-				`${file.name.split('.')[0]}_${addingDate}.${file.name.split('.')[1]}`,
-			);
+			const uploadDirectoryPath: string = process.env.FILES_DIRECTORY ?? 'public/files';
+			const fileName: string = `${file.name.split('.')[0]}_${addingDate}.${file.name.split('.')[1]}`;
+			const newFilePath: string = path.join(uploadDirectoryPath, fileName);
 
 			await writeFile(newFilePath, buffer);
-			return newFilePath;
+			return '/files/' + fileName;
 		} catch (error: any) {
 			console.error(error.message);
 			return null;
@@ -42,7 +37,6 @@ export class FileStorageService {
 	public static async removeFile(fileName: string): Promise<void> {
 		try {
 			const filePath: string = path.join(
-				process.cwd(),
 				process.env.FILES_DIRECTORY ?? 'public/files',
 				path.basename(fileName),
 			);

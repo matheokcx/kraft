@@ -1,6 +1,6 @@
 import { prismaClient } from '@/lib/prisma';
 import bcrypt from 'bcrypt';
-import { fakerFR as faker } from '@faker-js/faker';
+import { fakerFR as faker, SexType } from '@faker-js/faker';
 import { ClientStatus, ProjectDifficulty } from '@/generated/prisma';
 
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -44,7 +44,7 @@ async function main(): Promise<void> {
 	console.log(`\n-- Ajout des clients (${clientNumber}) et leurs projets --`);
 	for (let i = 0; i < clientNumber; i++) {
 		const sex = faker.person.sexType().toUpperCase() as 'MALE' | 'FEMALE';
-		const firstName: string = faker.person.firstName(sex.toLowerCase() as any);
+		const firstName: string = faker.person.firstName(sex.toLowerCase() as SexType);
 		const lastName: string = faker.person.lastName();
 		const status: ClientStatus = faker.helpers.weightedArrayElement([
 			{ weight: 40, value: 'LEAD' },

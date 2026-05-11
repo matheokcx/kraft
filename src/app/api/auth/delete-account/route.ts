@@ -5,7 +5,7 @@ import { prismaClient } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
-export const DELETE = async (): Promise<NextResponse> => {
+export const DELETE = async () => {
 	const session = await getServerSession(authOptions);
 
 	if (!session?.user?.id) {

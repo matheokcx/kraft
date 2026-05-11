@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { prismaClient } from '@/lib/prisma';
 import { authOptions } from '@/lib/auth';
 import { enforceRateLimit, getClientIp } from '@/lib/rateLimit';
-import { User } from '@/types';
+import { User } from '@/generated/prisma';
 
 export async function GET(request: NextRequest) {
 	const limited = enforceRateLimit(`me:${getClientIp(request)}`, 30, 60_000);
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 		return limited;
 	}
 
-	const session: any = await getServerSession(authOptions);
+	const session = await getServerSession(authOptions);
 
 	if (!session || !session?.user?.id) {
 		return NextResponse.json({ error: "Vous n'êtes pas connecté" }, { status: 401 });

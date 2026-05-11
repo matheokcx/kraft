@@ -1,12 +1,7 @@
 import { ReactNode } from 'react';
 
-const MeetingsLayout = ({ children, modal }: { children: ReactNode; modal?: ReactNode }) => {
-	return (
-		<>
-			{children}
-			{modal}
-		</>
-	);
+const MeetingsLayout = ({ children }: { children: ReactNode }) => {
+	return <>{children}</>;
 };
 
 export default MeetingsLayout;

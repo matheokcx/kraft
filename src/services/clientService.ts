@@ -1,13 +1,14 @@
 import { prismaClient } from '@/lib/prisma';
 import { FileStorageService } from '@/services/fileStorageService';
 import { Client, ClientStatus } from '@/generated/prisma';
-import { Gender } from '@/types';
+import { $Enums } from '@/generated/prisma';
+import GENDER = $Enums.GENDER;
 
 type ClientFilters = {
 	job?: string;
 	status?: ClientStatus;
 	birthDate?: Date;
-	gender?: Gender;
+	gender?: GENDER;
 };
 
 type ClientInfos = {
@@ -17,7 +18,7 @@ type ClientInfos = {
 	status: ClientStatus;
 	links: string[];
 	image: File | null;
-	gender: Gender;
+	gender: GENDER;
 	birthdate: string | null;
 	mail: string | null;
 	phone: string | null;

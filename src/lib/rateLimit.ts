@@ -16,13 +16,14 @@ const rateLimitsMap = new Map<string, RateLimit>();
 export const getClientIp = (
 	request: NextRequest | { headers: Headers | Record<string, string | string[] | undefined> },
 ): string => {
-	const headers: any = request.headers;
+	const headers: Headers | Record<string, string | string[] | undefined> = request.headers;
 	const get = (name: string): string | undefined => {
-		if (typeof headers.get === 'function') {
+		if (headers instanceof Headers) {
 			return headers.get(name) ?? undefined;
 		}
-		const v = headers[name] ?? headers[name.toLowerCase()];
-		return Array.isArray(v) ? v[0] : v;
+
+		const value: string | string[] | undefined = headers[name] ?? headers[name.toLowerCase()];
+		return Array.isArray(value) ? value[0] : value;
 	};
 	const forwarded: string | undefined = get('x-forwarded-for');
 	if (forwarded) {
