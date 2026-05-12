@@ -1,0 +1,28 @@
+.mainDiv {
+	max-height: 90%;
+	display: grid;
+	gap: 20px;
+}
+
+.clientsList {
+	width: 100%;
+	background: var(--background);
+	overflow-y: auto;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+.filters {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 10px;
+}
+
+@media screen and (max-width: 500px) {
+	.clientsList {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
