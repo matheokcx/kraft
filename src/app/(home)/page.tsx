@@ -23,10 +23,9 @@ const HomePage = async () => {
 	}
 
 	const clients: Client[] = await ClientService.getAllUserClients({}, Number(session.user.id));
-	const processingProjects: Project[] = await ProjectService.getAllUserProjects(
+	const projects: Project[] = await ProjectService.getAllUserProjects(
 		{},
 		Number(session.user.id),
-		true,
 	);
 	const recentFiles: File[] = await FileService.getFiles(Number(session.user.id));
 
@@ -63,8 +62,8 @@ const HomePage = async () => {
 					value={clients.length}
 				/>
 				<KpiCard
-					name={t('projects.inProgress', { count: processingProjects.length })}
-					value={processingProjects.length}
+					name={t('projects.projects', { count: projects.length })}
+					value={projects.length}
 				/>
 				<div className={styles.recentFilesDiv}>
 					<label>{t('files.recentFiles')}</label>
@@ -75,6 +74,13 @@ const HomePage = async () => {
 						))}
 					</div>
 				</div>
+				<KpiCard
+					name={t('totalGain', { count: projects.length })}
+					value={`${projects.reduce(
+						(previousValue, currentElement) => previousValue + currentElement.cost,
+						0,
+					)}€`}
+				/>
 			</div>
 		</section>
 	);

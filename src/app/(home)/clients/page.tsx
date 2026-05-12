@@ -1,5 +1,4 @@
 import styles from './clients-page.module.css';
-import ClientCard from '@/components/UI/Cards/Client/ClientCard';
 import Link from 'next/link';
 import { Plus } from '@phosphor-icons/react/ssr';
 import { ClientService } from '@/services/clientService';
@@ -7,6 +6,7 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth/next';
 import { getTranslations } from 'next-intl/server';
 import { Client } from '@/generated/prisma';
+import ClientList from '@/components/Layout/Client/ClientsList/ClientsList';
 
 const ClientsPage = async () => {
 	const session = await getServerSession(authOptions);
@@ -27,13 +27,7 @@ const ClientsPage = async () => {
 					<Link href="/clients/create">{t('add')}</Link>
 				</button>
 			</div>
-
-			<div className={styles.clientsList}>
-				{clients.length === 0 && <p>{t('clients.noClients')}</p>}
-				{clients.map((client: Client, index: number) => (
-					<ClientCard key={index} client={client} />
-				))}
-			</div>
+			<ClientList clientList={clients} />
 		</section>
 	);
 };

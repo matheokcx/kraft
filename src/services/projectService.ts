@@ -26,7 +26,7 @@ export class ProjectService {
 	public static async getAllUserProjects(
 		filters: ProjectFilters,
 		userId: number,
-		onlyProcessingProjects: boolean,
+		onlyProcessingProjects: boolean = false,
 	): Promise<Project[]> {
 		return await prismaClient.project.findMany({
 			where: {
